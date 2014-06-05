@@ -1,0 +1,23 @@
+table {
+	width: 100%;
+}
+
+table td {
+	border: 1px solid black;
+}
+
+div.toast {
+	border: 1px solid black;
+}
+
+div.toast.info {
+	background: green;
+}
+
+div.toast.warning {
+	background: yellow;
+}
+
+div.toast.error {
+	background: red;
+}
