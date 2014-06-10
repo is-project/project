@@ -7,7 +7,8 @@ class bo_group {
 	private $project;
 	private $name;
 	private $description;
-	private $members;
+	private $member;
+	private $permission;
 
 	/* methods */
 
@@ -28,9 +29,15 @@ class bo_group {
 			$this->name = 'Gruppe #'.$group;
 			$this->description = 'DESC Gruppe #'.$group;
 
-			$this->members = array();
+			$this->member = array();
 			for($i = rand(0,7); $i < 7; $i++)
-				$this->members[] = rand(1,100);
+				$this->member[] = rand(1,100);
+
+			#sql_query('SELECT FROM * link_groups_permissions WHERE id = group ....')
+
+			$this->permission = array();
+			for ($i = rand(1,7); $i < 7; $i++)
+				$this->permission[] = rand(1,100);
 		}
 	}
 
@@ -43,6 +50,49 @@ class bo_group {
 		return $r;
 	}
 
+	public function getPermissions() {
+		return $this->permission;
+	}
+
+	public function getMembers() {
+		return $this->member;
+	}
+
+	public function saveGroup() {
+		#sql_query('UPDATE groups WHERE group = $this->group')
+
+		return TRUE;
+	}
+
+	public function setName($_name){
+		$this->name = $_name;
+
+		return TRUE;
+	}
+
+	public function setDescription($_description){
+		$this->description = $_description;
+
+		return TRUE;
+	}
+
+	public function setMembers($_member){
+		$this->member = $_member;
+
+		return TRUE;
+	}
+
+	public function setPermissions($_permission){
+		$this->permission = $_permission;
+
+		return TRUE;
+	}
+
+	public function deletGroup(){
+		#sql_query('DELETE FROM group WHERE group = this->group')
+
+		return TRUE;
+	}
 }
 
 ?>

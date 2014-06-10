@@ -1,4 +1,5 @@
 <?php
+require_once 'inc/init.inc';
 require_once 'inc/bo_collection.class.inc';
 
 print 'hello world<hr>';

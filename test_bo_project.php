@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+
 require_once 'inc/init.inc';
 require_once 'inc/bo_project.class.inc';
 
@@ -13,6 +13,10 @@ print '</pre><hr>';
 
 print '<hr><pre>';
 var_export($project->getRecordStructure());
+print '</pre><hr>';
+
+print '<hr><pre>';
+var_export(json_encode( $project->getRecordStructure() ));
 print '</pre><hr>';
 
 print '<hr>FUSSZEILE';

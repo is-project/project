@@ -1,16 +1,15 @@
 <?php
 
-require_once 'config.php';
 require_once 'inc/init.inc';
 require_once 'inc/vo_manageProjects.class.inc';
 require_once 'inc/bo_user.class.inc';
 require_once 'inc/bo_project.class.inc';
 
 $layout = new vo_manageProjects();
-$user = new bo_user(rand(0,4));
+global $current_user;
 
 print '<hr><pre>';
-var_export($user);
+var_export($current_user);
 print '</pre><hr>';
 
 if(isset($_GET['action'])) {
@@ -28,7 +27,7 @@ if(isset($_GET['action'])) {
 
 }
 
-$projects = $user->getListOfProjects();
+$projects = $current_user->getListOfProjects();
 
 $tmp = array();
 foreach ($projects as $project) {

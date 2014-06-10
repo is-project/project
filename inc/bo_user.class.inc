@@ -8,13 +8,35 @@ class bo_user
 	private $email;
 	private $password;
 	private $description;
-	private $validUntil;
-	private $userGroups;
+	private $valid_until;
+	private $groups;
 
 	/* methods */
 
-	// construct aka init
+	// construct
 	function __construct($user = 0) {
+		if($user != 0) {
+			// initialize user with id $user from database
+			$result = mysql_query("SELECT `user`, `name`, `email`, `description`, `valid_until` FROM `users` WHERE `user` = $user");
+			if(mysql_num_rows($result) == 1) {
+
+				$result = mysql_fetch_object($result);
+
+				$this->user = $result->user;
+				$this->name = $result->name;
+				$this->email = $result->email;
+				$this->password = null;
+				$this->description = $result->description;
+				$this->valid_until = $result->valid_until;
+				
+				$this->groups = array();
+				$groups = mysql_query("SELECT `group` FROM `link_users_groups` WHERE `user` = {$this->user}");
+				while($group = mysql_fetch_object($groups))
+					$this->groups[] = $group->group;
+			} else $user = 0;
+			
+		}
+
 		if($user == 0) {
 			// initialize user as guest with ID $user = 0
 			$this->user = 0;
@@ -22,24 +44,12 @@ class bo_user
 			$this->email = null;
 			$this->password = null;
 			$this->description = null;
-			$this->validUntil = null;
+			$this->valid_until = null;
 			
-			$this->userGroups = array();
+			$this->groups = array();
 			// TODO: add system groups
 			if(1/* user IP in TU ip pool */)
-				$this->userGroups[] = 1; // ID of the group "tu user"
-		} else {
-			// initialize user with id $user from database
-			$this->user = $user;
-			$this->name = 'User#'.$user;
-			$this->email = 'mail.'.$user.'@domain.weltherrschaft.com';
-			$this->password = null;
-			$this->description = 'description user #'.$user;
-			$this->validUntil = null;
-			
-			$this->userGroups = array();
-			for($i = rand(0,7); $i < 7; $i++)
-				$this->userGroups[] = rand(1,100);
+				$this->userGroups[] = 1; // ID of the group "tu user"			
 		}
 	}
 

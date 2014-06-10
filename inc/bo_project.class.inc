@@ -8,6 +8,7 @@ class bo_project
 	private $name;
 	private $description;
 	private $groups;
+	private $record_structure;
 
 	/* methods */
 
@@ -30,6 +31,12 @@ class bo_project
 				$this->name = 'Project #'.$project.' Name';
 				$this->description = 'description of Project number #'.$project;
 				$this->groups = array();
+				$rs = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"column_0","title":"Fruit","type":"varchar","weight":1},{"col_name":"column_1","title":"Amount","type":"int","weight":3},{"col_name":"column_2","title":"Weight","type":"double","weight":2},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":4},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":5},{"col_name":"created","title":"Created","type":"timestamp","weight":6},{"col_name":"created_by","title":"Created By","type":"int","weight":7}]';
+				$this->record_structure = json_decode($rs);
+				usort($this->record_structure, function($a, $b) {
+				    return $a->weight - $b->weight;
+				});
+
 				for($i = rand(0,7); $i < 7; $i++)
 					$this->groups[] = rand(1,100);
 			} else {
@@ -66,20 +73,17 @@ class bo_project
 	}
 
 	public function getRecordStructure() {
-		$result = mysql_query("
-			SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE, COLUMN_TYPE, COLUMN_COMMENT
-			FROM INFORMATION_SCHEMA.COLUMNS
-			WHERE table_name =  'tab1'");
-		if($result) {
-			
-			while($col = mysql_fetch_object($result)) {
-				print '<hr><pre>';
-				var_export($col);
-				print '</pre><hr>';
-			}
-		} else {
-			return ERROR_PROJECT_GET_RECORD_STRUCTURE_SQL_ERROR;
-		}
+
+		return $this->record_structure;
+
+		// $result = mysql_query("
+		// 	SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE, COLUMN_TYPE, COLUMN_COMMENT
+		// 	FROM INFORMATION_SCHEMA.COLUMNS
+		// 	WHERE table_name =  'data_project_1'");
+		// if($result) {
+		// } else {
+		// 	return ERROR_PROJECT_GET_RECORD_STRUCTURE_SQL_ERROR;
+		// }
 	}
 
 
