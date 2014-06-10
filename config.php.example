@@ -1,0 +1,12 @@
+<?php
+
+define("ROOT", '/is/');
+define("THEME", "one");
+define("LOCALE", "de");
+
+define("DB_HOST", "localhost");
+define("DB_NAME", "change-this");
+define("DB_USER", "change-this");
+define("DB_PASS", "change-this");
+
+?>
