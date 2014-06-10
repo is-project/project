@@ -11,7 +11,7 @@ class vo_manageProjects extends vo {
 	private function buildProjectsTree($projects) {
 		$html = '<ul>';
 		foreach ($projects as $key => $value) {
-			$html .= '<li><span title="'.$value['description'].'">'.$value['name'].'</span></li>';
+			$html .= '<li><span title="'.$value['description'].'" project="'.$value['project'].'" parent-project="'.$value['parent_project'].'" edit-access="'.$value['edit_access'].'">'.$value['name'].'</span></li>';
 			if(count($value['children']))
 				$html .= $this->buildProjectsTree($value['children']);
 		}

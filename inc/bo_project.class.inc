@@ -1,10 +1,13 @@
 <?php
 require_once 'errors.inc';
+
+
+
 class bo_project
 {
 	/* properties */
 	private $project;
-	private $parentProject;
+	private $parent_project;
 	private $name;
 	private $description;
 	private $groups;
@@ -13,11 +16,11 @@ class bo_project
 	/* methods */
 
 	// construct
-	function __construct($project = null) {
-		if(is_null($project)) {
+	function __construct($project = 0) {
+		if($project == 0) {
 			// initialize project as new one with ID $project = 0
 			$this->project = 0;
-			$this->parentProject = null;
+			$this->parent_project = null;
 			$this->name = null;
 			$this->description = null;
 			
@@ -25,20 +28,18 @@ class bo_project
 			// TODO: add system groups
 		} else {
 			// initialize project with id $project from database
-			if(1) { // project found in database and user can access
-				$this->project = $project;
-				$this->parentProject = null;
-				$this->name = 'Project #'.$project.' Name';
-				$this->description = 'description of Project number #'.$project;
-				$this->groups = array();
-				$rs = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"column_0","title":"Fruit","type":"varchar","weight":1},{"col_name":"column_1","title":"Amount","type":"int","weight":3},{"col_name":"column_2","title":"Weight","type":"double","weight":2},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":4},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":5},{"col_name":"created","title":"Created","type":"timestamp","weight":6},{"col_name":"created_by","title":"Created By","type":"int","weight":7}]';
-				$this->record_structure = json_decode($rs);
+			$project = mysql_query("SELECT * FROM `projects` WHERE `project` = $project");
+			if( ($project = mysql_fetch_object($project)) ) { // project found in database and user can access
+				$this->project = $project->project;
+				$this->parent_project = $project->parent_project;
+				$this->name = $project->name;
+				$this->description = $project->description;
+				$this->record_structure = json_decode($project->record_structure);
 				usort($this->record_structure, function($a, $b) {
 				    return $a->weight - $b->weight;
 				});
 
-				for($i = rand(0,7); $i < 7; $i++)
-					$this->groups[] = rand(1,100);
+				$this->groups = array();
 			} else {
 				return ERROR_PROJECT_ACCESS_DENIED;
 			}
@@ -46,12 +47,22 @@ class bo_project
 	}
 
 	public function getProjectMetaData() {
-		$r = array(
-			'project' => $this->project,
-			'name' => $this->name,
-			'description' => $this->description
-			);
-		return $r;
+		global $current_user;
+		if($current_user->access('view_project_metadata', $this->project)) {
+			$r = array(
+				'project' => $this->project,
+				'name' => $this->name,
+				'description' => $this->description,
+				'parent_project' => $this->parent_project
+				);
+			return $r;
+		} else {
+			return ERROR_PROJECT_ACCESS_DENIED;
+		}
+	}
+
+	public function getProject() {
+		return $this->project;
 	}
 
 	public function setName($_name) {
@@ -61,6 +72,10 @@ class bo_project
 		} else {
 			return ERROR_INVALID_PROJECT_NAME;
 		}
+	}
+
+	public function getName() {
+		return $this->name;
 	}
 
 	public function setDescription($_description) {

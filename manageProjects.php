@@ -12,10 +12,6 @@ print '<hr><pre>';
 var_export($current_user);
 print '</pre><hr>';
 
-print '<hr><pre>';
-var_export($current_user->getListOfProjects(true));
-print '</pre><hr>';
-
 if(isset($_GET['action'])) {
 
 	switch ($_GET['action']) {
@@ -32,23 +28,15 @@ if(isset($_GET['action'])) {
 }
 
 $projects = $current_user->getListOfProjects(true);
-
-$tmp = _parseProjectsTree($projects);
-// foreach ($projects as $project => $children) {
-// 	$p = new bo_project($project);
-// 	$tmp[$project] = $p->getProjectMetaData();
-// 	$tmp[$project]['children'] = $children;
-// }
-// print '<hr><pre>';
-// var_export($tmp);
-// print '</pre><hr>';
-$layout->showProjectOverview($tmp);
+$layout->showProjectOverview( _parseProjectsTree($projects) );
 
 function _parseProjectsTree($projects) {
+	global $current_user;
 	$tmp = array();
 	foreach ($projects as $project => $children) {
 		$p = new bo_project($project);
 		$tmp[$project] = $p->getProjectMetaData();
+		$tmp[$project]['edit_access'] = $current_user->access('edit_project_metadata', $p->getProject()) ? '1' : '0';
 		$tmp[$project]['children'] = _parseProjectsTree($children);
 	}
 	return $tmp;

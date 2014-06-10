@@ -63,6 +63,10 @@ class bo_user
 
 	}
 
+	public function getUser() {
+		return $this->user;
+	}
+
 	public function setName($_name) {
 		if(1) { // TODO: validate $_name
 			$this->name = $_name;
@@ -70,6 +74,10 @@ class bo_user
 		} else {
 			return ERROR_INVALID_USER_NAME;
 		}
+	}
+
+	public function getName() {
+		return $this->name;
 	}
 	
 	public function setDescription($_description) {
@@ -81,6 +89,10 @@ class bo_user
 		}
 	}
 
+	public function getDescription() {
+		return $this->name;
+	}
+
 	public function setEMail($_email) {
 		if(1) { // TODO: validate $_email
 			$this->email = $_email;
@@ -88,6 +100,10 @@ class bo_user
 		} else {
 			return ERROR_INVALID_USER_EMAIL;
 		}
+	}
+
+	public function getEMail() {
+		return $this->name;
 	}
 
 	public function setPassword($_password) {

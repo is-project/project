@@ -5,7 +5,10 @@ require_once 'inc/bo_project.class.inc';
 
 print 'hello world2<hr>';
 
-$project = new bo_project(rand(0,4));
+global $current_user;
+$x = rand(0,4);
+print "<h1>$x (user: {$current_user->getUser()})</h1>";
+$project = new bo_project($x);
 
 print '<hr><pre>';
 var_export($project);
