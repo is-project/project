@@ -10,6 +10,6 @@ mysql_select_db(DB_NAME, $db) or die('Could not select database.');
 
 // TODO: Session & Login und so
 global $current_user;
-$current_user = new bo_user(1);
+$current_user = new bo_user(rand(0,5));
 
 ?>

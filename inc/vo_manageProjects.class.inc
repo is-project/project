@@ -3,19 +3,28 @@ require_once 'vo.abstract.class.php';
 
 class vo_manageProjects extends vo {
 	
+	
 	function __construct() {
 		parent::__construct();
+	}
+
+	private function buildProjectsTree($projects) {
+		$html = '<ul>';
+		foreach ($projects as $key => $value) {
+			$html .= '<li><span title="'.$value['description'].'">'.$value['name'].'</span></li>';
+			if(count($value['children']))
+				$html .= $this->buildProjectsTree($value['children']);
+		}
+		$html .= '</ul>';
+
+		return $html;
 	}
 
 	public function showProjectOverview($projects) {
 		$this->html = file_get_contents($this->path.'scaffold.tmpl');
 		$this->title = 'Manage Projects';
 
-		$projectListHtml = '<ul>';
-		foreach ($projects as $key => $value) {
-			$projectListHtml .= '<li><span title="'.$value['description'].'">'.$value['name'].'</span></li>';
-		}
-		$projectListHtml .= '</ul>';
+		$projectListHtml = $this->buildProjectsTree($projects);
 
 		$projectForm = file_get_contents($this->path.'manageProjects/addEditProjectForm.tmpl');
 

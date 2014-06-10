@@ -16,6 +16,7 @@ class bo_user
 	// construct
 	function __construct($user = 0) {
 		if($user != 0) {
+
 			// initialize user with id $user from database
 			$result = mysql_query("SELECT `user`, `name`, `email`, `description`, `valid_until` FROM `users` WHERE `user` = $user");
 			if(mysql_num_rows($result) == 1) {
@@ -33,6 +34,7 @@ class bo_user
 				$groups = mysql_query("SELECT `group` FROM `link_users_groups` WHERE `user` = {$this->user}");
 				while($group = mysql_fetch_object($groups))
 					$this->groups[] = $group->group;
+
 			} else $user = 0;
 			
 		}
@@ -47,10 +49,18 @@ class bo_user
 			$this->valid_until = null;
 			
 			$this->groups = array();
-			// TODO: add system groups
-			if(1/* user IP in TU ip pool */)
-				$this->userGroups[] = 1; // ID of the group "tu user"			
 		}
+
+		// TODO: add system groups
+		if(0) // TODO: check if user comes from tu intranet
+			$query = "SELECT `group` FROM `groups` WHERE `system` = 2 OR `system` = 3;";
+		else
+			$query = "SELECT `group` FROM `groups` WHERE `system` = 2;";
+
+		$result = mysql_query($query);
+		while ($group = mysql_fetch_object($result))
+			$this->groups[] = $group->group;
+
 	}
 
 	public function setName($_name) {
@@ -89,14 +99,42 @@ class bo_user
 		}
 	}
 
-	public function getListOfProjects() {
+	public function getListOfProjects($get_as_tree = false) {
 	    $projects = array();
+	    $tree = array();
 
-	    // TODO: add all project IDs to the $projects array, when the user can access them in any way. Example:
-	    $projects[] = 4;
-	    $projects[] = 7;
+	    $result = mysql_query('SELECT `project`, `parent_project` FROM `projects`');
+	    while($project = mysql_fetch_object($result)) {
+	    	if( $this->access('view_project_metadata', $project->project) ) { // TODO: add permissions
+				$projects[$project->project] = $project->parent_project;
+				$tree[$project->project] = array();
+	    	}
+	    }
 
-	    return $projects;
+	    if($get_as_tree) {
+		    $levels = array();
+		    while(count($projects)) {
+		    	$level = array();
+		    	foreach ($projects as $project => $parent_project) {
+		    		if(!in_array($parent_project,array_keys($projects)))
+		    			$level[$project] = $parent_project;
+		    	}
+		    	foreach ($level as $project => $parent_project)
+		    		unset($projects[$project]);
+		    	$levels[] = $level;
+		    }
+
+		    for ($i=count($levels)-1; $i >= 0 ; $i--) { 
+		    	foreach ($levels[$i] as $project => $parent_project) {
+		    		if($parent_project != 0 && isset($tree[$parent_project])) {
+		    			$tree[$parent_project][$project] = $tree[$project];
+		    			unset($tree[$project]);
+		    		}
+		    	}
+		    }
+		}
+
+	    return $get_as_tree ? $tree : array_keys($tree);
 	}
 
 	public function getListOfCollections($project) {
@@ -107,6 +145,19 @@ class bo_user
 	    $collections[] = 7;
 
 	    return $collections;
+	}
+
+	public function access($permission, $project) {
+		$query = "SELECT `group` FROM `link_groups_permissions` WHERE `permission` = (SELECT `permission` FROM `permissions` WHERE `name` = '$permission') AND `group` IN ( SELECT `group` FROM `groups` WHERE `project` = $project )";
+		$groups = mysql_query($query);
+		while ($group = mysql_fetch_object($groups)) {
+			if(in_array($group->group, $this->groups))
+				return TRUE;
+		}
+		
+		$parent_project = mysql_fetch_object(mysql_query("SELECT `parent_project` FROM `projects` WHERE `project` = $project;"));
+		return $parent_project->parent_project ? $this->access($permission, $parent_project->parent_project) : FALSE;
+		
 	}
 
 	public function saveUser() {

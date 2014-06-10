@@ -11,6 +11,10 @@ print '<hr><pre>';
 var_export($user);
 print '</pre><hr>';
 
+print '<hr><pre>';
+var_export($user->getListOfProjects());
+print '</pre><hr>';
+
 print '<hr>FUSSZEILE';
 
 ?>
