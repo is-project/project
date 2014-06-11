@@ -27,7 +27,7 @@ if(isset($_GET['action'])) {
 
 }
 
-$projects = $current_user->getListOfProjects(true);
+$projects = $current_user->getListOfProjects('view_project_metadata', true);
 $layout->showProjectOverview( _parseProjectsTree($projects) );
 
 function _parseProjectsTree($projects) {
@@ -35,7 +35,7 @@ function _parseProjectsTree($projects) {
 	$tmp = array();
 	foreach ($projects as $project => $children) {
 		$p = new bo_project($project);
-		$tmp[$project] = $p->getProjectMetaData();
+		if(($tmp[$project] = $p->getProjectMetaData()) < 0) _die('ERROR#'.$tmp[$project]);
 		$tmp[$project]['edit_access'] = $current_user->access('edit_project_metadata', $p->getProject()) ? '1' : '0';
 		$tmp[$project]['children'] = _parseProjectsTree($children);
 	}

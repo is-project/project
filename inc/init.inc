@@ -12,4 +12,10 @@ mysql_select_db(DB_NAME, $db) or die('Could not select database.');
 global $current_user;
 $current_user = new bo_user(rand(0,5));
 
+function _die($msg) {
+	ob_clean();
+	$html = '<div style="background: red;">'.$msg.'</div>';
+	die($html);
+}
+
 ?>

@@ -115,16 +115,22 @@ class bo_user
 		}
 	}
 
-	public function getListOfProjects($get_as_tree = false) {
+	public function getListOfProjects($permissions, $get_as_tree = false) {
 	    $projects = array();
 	    $tree = array();
 
 	    $result = mysql_query('SELECT `project`, `parent_project` FROM `projects`');
 	    while($project = mysql_fetch_object($result)) {
-	    	if( $this->access('view_project_metadata', $project->project) ) { // TODO: add permissions
+	    	if( $this->access($permissions, $project->project) ) { // TODO: add permissions
 				$projects[$project->project] = $project->parent_project;
 				$tree[$project->project] = array();
+				// echo " « Access to {$project->project} » <br>";
+				// var_export($permissions);
+				// echo '<hr>';
 	    	}
+	  //   	echo " « No access to {$project->project} » ";
+	  //   	var_export($permissions);
+			// echo '<hr>';
 	    }
 
 	    if($get_as_tree) {
@@ -163,8 +169,14 @@ class bo_user
 	    return $collections;
 	}
 
-	public function access($permission, $project) {
-		$query = "SELECT `group` FROM `link_groups_permissions` WHERE `permission` = (SELECT `permission` FROM `permissions` WHERE `name` = '$permission') AND `group` IN ( SELECT `group` FROM `groups` WHERE `project` = $project )";
+	public function access($permissions, $project) {
+		#$query = "SELECT `group` FROM `link_groups_permissions` WHERE `permission` = (SELECT `permission` FROM `permissions` WHERE `name` = '$permission') AND `group` IN ( SELECT `group` FROM `groups` WHERE `project` = $project )";
+		#SELECT `group` FROM `link_groups_permissions` WHERE `permission` IN(SELECT `permission` FROM `permissions` WHERE `name` IN('view_project_metadata', 'edit_project_metadata') ) AND `group` IN ( SELECT `group` FROM `groups` WHERE `project` = 1 ) GROUP BY `group`
+		if(is_array($permissions))
+			$permissions = implode('\', \'', $permissions);
+		$query = "SELECT `group` FROM `link_groups_permissions` WHERE `permission` IN(SELECT `permission` FROM `permissions` WHERE `name` IN('$permissions')) AND `group` IN ( SELECT `group` FROM `groups` WHERE `project` = $project ) GROUP BY `group`;";
+		// var_export($query);
+		// print '<hr>';
 		$groups = mysql_query($query);
 		while ($group = mysql_fetch_object($groups)) {
 			if(in_array($group->group, $this->groups))
@@ -172,7 +184,7 @@ class bo_user
 		}
 		
 		$parent_project = mysql_fetch_object(mysql_query("SELECT `parent_project` FROM `projects` WHERE `project` = $project;"));
-		return $parent_project->parent_project ? $this->access($permission, $parent_project->parent_project) : FALSE;
+		return $parent_project->parent_project ? $this->access($permissions, $parent_project->parent_project) : FALSE;
 		
 	}
 

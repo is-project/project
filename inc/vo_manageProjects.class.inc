@@ -9,9 +9,12 @@ class vo_manageProjects extends vo {
 	}
 
 	private function buildProjectsTree($projects) {
-		$html = '<ul>';
+		$html = '<ul class="projects">';
+		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%');
 		foreach ($projects as $key => $value) {
-			$html .= '<li><span title="'.$value['description'].'" project="'.$value['project'].'" parent-project="'.$value['parent_project'].'" edit-access="'.$value['edit_access'].'">'.$value['name'].'</span></li>';
+			$replace = array($value['project'], $value['name'], $value['description'], $value['parent_project'], $value['edit_access']);
+			$entry = file_get_contents($this->path.'manageProjects/project_entry.tmpl');
+			$html .= str_replace($search, $replace, $entry);
 			if(count($value['children']))
 				$html .= $this->buildProjectsTree($value['children']);
 		}
@@ -23,10 +26,11 @@ class vo_manageProjects extends vo {
 	public function showProjectOverview($projects) {
 		$this->html = file_get_contents($this->path.'scaffold.tmpl');
 		$this->title = 'Manage Projects';
+		$this->addJS('janek.js');
 
 		$projectListHtml = $this->buildProjectsTree($projects);
 
-		$projectForm = file_get_contents($this->path.'manageProjects/addEditProjectForm.tmpl');
+		$projectForm = file_get_contents($this->path.'manageProjects/add_edit_project_form.tmpl');
 
 		$content = '
 			<table>
