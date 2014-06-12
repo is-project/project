@@ -5,8 +5,8 @@ require_once 'inc/vo_manageProjects.class.inc';
 require_once 'inc/bo_user.class.inc';
 require_once 'inc/bo_project.class.inc';
 
-$layout = new vo_manageProjects();
 global $current_user;
+$layout = new vo_manageProjects();
 
 print '<hr><pre>';
 var_export($current_user);
