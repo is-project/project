@@ -10,10 +10,15 @@ mysql_select_db(DB_NAME, $db) or die('Could not select database.');
 
 // TODO: Session & Login und so
 global $current_user;
-$current_user = new bo_user(rand(0,5)*0+2);
+$current_user = new bo_user(rand(0,5)*0+1);
 
-function _die($msg) {
+function _die($msg, $error = false) {
 	ob_clean();
+
+	if($error !== FALSE) {
+		// TODO write Error in log DB table or file or whatever
+	}
+
 	$html = '<div style="background: red;">'.$msg.'</div>';
 	die($html);
 }

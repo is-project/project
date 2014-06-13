@@ -1,13 +1,13 @@
 <h3>##Project##</h3>
-<form id="add-edit-project-form" method="post" action="?action=submitAddProjectForm">
+<form id="add-edit-project-form" method="post" action="">
+	<input type="hidden" name="action" value="submitAddEditProjectForm" />
+	<label>##Project ID##:</label> <input readonly type="text" id="project" name="project" /> <br />
 
-	<label>##Project ID##:</label> <input disabled type="text" id="project" name="project" /> <br />
+	<label>##Parent Project##:</label><input readonly type="text" id="parent-project" name="parent-project" /><input readonly type="text" id="parent-project-name" name="parent-project-name" /> <br />
 
-	<label>##Parent Project##:</label><input disabled type="text" id="parent-project" name="parent-project" /><input disabled type="text" id="parent-project-name" name="parent-project-name" /> <br />
+	<label>##Project Name##:</label> <input readonly type="text" id="project-name" name="project-name"/> <br />
 
-	<label>##Project Name##:</label> <input disabled type="text" id="project-name" name="project-name"/> <br />
-
-	<label>##Project Description##:</label> <textarea disabled id="project-description" name="project-description"></textarea> <br />
+	<label>##Project Description##:</label> <textarea readonly id="project-description" name="project-description"></textarea> <br />
 
 	<input disabled type="submit" value="##Submit##" />
 

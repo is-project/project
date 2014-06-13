@@ -63,7 +63,7 @@ class vo {
 
     public function addJs($js, $settings = null) {
     	if($js == 'settings') {
-    		$this->addedJsSettings[] = $settings;
+    		$this->addedJsSettings = array_merge($this->addedJsSettings, $settings);
     	} else $this->addedJs[] = $js;
 	}
 

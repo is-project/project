@@ -1,28 +1,56 @@
 $(document).ready(function() {
 
+	if(settings['form-errors'] != undefined) {
+		for(i in settings['form-errors']) {
+			$('form#add-edit-project-form #' + i).addClass('error');
+		}
+	}
+
+	if(settings['form-status'] != undefined) {
+		if(settings['form-status'] == 'edit') {
+			$('form#add-edit-project-form input#parent-project').attr('readonly', true);
+			$('form#add-edit-project-form input#parent-project-name').attr('readonly', true);
+			$('form#add-edit-project-form input#project-name').attr('readonly', false);
+			$('form#add-edit-project-form textarea#project-description').attr('readonly', false);
+			$('form#add-edit-project-form input[type=submit]').attr('disabled', false);
+		} else if(settings['form-status'] == 'add') {
+			$('form#add-edit-project-form input#parent-project').attr('readonly', true);
+			$('form#add-edit-project-form input#parent-project-name').attr('readonly', true);
+			$('form#add-edit-project-form input#project-name').attr('readonly', false);
+			$('form#add-edit-project-form textarea#project-description').attr('readonly', false);
+			$('form#add-edit-project-form input[type=submit]').attr('disabled', false);
+		}
+	}
+
+	if(settings['form-values'] != undefined) {
+		for(i in settings['form-values']) {
+			$('form#add-edit-project-form #' + i).val(settings['form-values'][i]);
+		}
+	}
+
 	$('table.projects td.project-settings a.details.access-1').click(function() {
-		$('form#add-edit-project-form input#parent-project').attr('disabled', true);
-		$('form#add-edit-project-form input#parent-project-name').attr('disabled', true);
-		$('form#add-edit-project-form input#project-name').attr('disabled', true);
-		$('form#add-edit-project-form textarea#project-description').attr('disabled', true);
+		$('form#add-edit-project-form input#parent-project').attr('readonly', true);
+		$('form#add-edit-project-form input#parent-project-name').attr('readonly', true);
+		$('form#add-edit-project-form input#project-name').attr('readonly', true);
+		$('form#add-edit-project-form textarea#project-description').attr('readonly', true);
 		$('form#add-edit-project-form input[type=submit]').attr('disabled', true);
-		fillForm($(this).closest('tr'));	
+		fillForm($(this).closest('tr'));
 	});
 
 	$('table.projects td.project-settings a.edit.access-1').click(function() {
-		$('form#add-edit-project-form input#parent-project').attr('disabled', true);
-		$('form#add-edit-project-form input#parent-project-name').attr('disabled', true);
-		$('form#add-edit-project-form input#project-name').attr('disabled', false);
-		$('form#add-edit-project-form textarea#project-description').attr('disabled', false);
+		$('form#add-edit-project-form input#parent-project').attr('readonly', true);
+		$('form#add-edit-project-form input#parent-project-name').attr('readonly', true);
+		$('form#add-edit-project-form input#project-name').attr('readonly', false);
+		$('form#add-edit-project-form textarea#project-description').attr('readonly', false);
 		$('form#add-edit-project-form input[type=submit]').attr('disabled', false);
 		fillForm($(this).closest('tr'));
 	});
 
 	$('table.projects td.project-settings a.subproject.access-1').click(function() {
-		$('form#add-edit-project-form input#parent-project').attr('disabled', true);
-		$('form#add-edit-project-form input#parent-project-name').attr('disabled', true);
-		$('form#add-edit-project-form input#project-name').attr('disabled', false);
-		$('form#add-edit-project-form textarea#project-description').attr('disabled', false);
+		$('form#add-edit-project-form input#parent-project').attr('readonly', true);
+		$('form#add-edit-project-form input#parent-project-name').attr('readonly', true);
+		$('form#add-edit-project-form input#project-name').attr('readonly', false);
+		$('form#add-edit-project-form textarea#project-description').attr('readonly', false);
 		$('form#add-edit-project-form input[type=submit]').attr('disabled', false);
 
 		var tr = $(this).closest('tr');

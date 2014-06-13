@@ -12,3 +12,14 @@ table.projects td.project-settings a.access-0 {
 	color: silver;
 	cursor: default;
 }
+
+form#add-edit-project-form input[readonly],
+form#add-edit-project-form textarea[readonly] {
+	background-color: rgb(235, 235, 228);
+	color: rgb(84, 84, 84);
+}
+
+form#add-edit-project-form input.error,
+form#add-edit-project-form textarea.error {
+	border: 2px solid red;
+}
