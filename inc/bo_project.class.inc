@@ -53,7 +53,7 @@ class bo_project
 				'project' => $this->project,
 				'name' => $this->name,
 				'description' => $this->description,
-				'parent_project' => $this->parent_project
+				'parent_project' => $this->getParentProject()
 				);
 			return $r;
 		} else {
@@ -85,6 +85,14 @@ class bo_project
 		} else {
 			return ERROR_INVALID_PROJECT_DESCRIPTION;
 		}
+	}
+
+	public function getParentProject() {
+		global $current_user;
+		if($current_user->access('view_project_metadata',$this->parent_project))
+			return $this->parent_project;
+		else
+			return 0;
 	}
 
 	public function getRecordStructure() {

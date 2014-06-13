@@ -8,7 +8,7 @@ require_once 'inc/bo_project.class.inc';
 global $current_user;
 $layout = new vo_manageProjects();
 
-print '<hr> <pre>';
+print '<hr><pre>';
 var_export($current_user);
 print '</pre><hr>';
 
@@ -17,7 +17,9 @@ if(isset($_GET['action'])) {
 	switch ($_GET['action']) {
 		case 'submitAddProjectForm':
 			// TODO: addProject
-			$layout->toast('Project was added successfully');
+			$layout->toast('Project '.$_POST['project-name'].' was added successfully');
+			$name = $_POST['project-name'];
+			// mysql_query("INSERT INTO `projects` (`parent_project`, `name`, `description`, `record_structure`) VALUES (2, '$name', 'desc', '[[]]')");
 			break;
 		
 		default:
@@ -37,6 +39,7 @@ function _parseProjectsTree($projects) {
 		$p = new bo_project($project);
 		if(($tmp[$project] = $p->getProjectMetaData()) < 0) _die('ERROR#'.$tmp[$project]);
 		$tmp[$project]['edit_access'] = $current_user->access('edit_project_metadata', $p->getProject()) ? '1' : '0';
+		$tmp[$project]['create_access'] = $current_user->access('create_child_project', $p->getProject()) ? '1' : '0';
 		$tmp[$project]['children'] = _parseProjectsTree($children);
 	}
 	return $tmp;

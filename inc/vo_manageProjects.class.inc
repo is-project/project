@@ -8,17 +8,27 @@ class vo_manageProjects extends vo {
 		parent::__construct();
 	}
 
-	private function buildProjectsTree($projects) {
-		$html = '<ul class="projects">';
-		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%');
+	private function buildProjectsTree($projects, $level = 0) {
+		
+		$html = $level ? '' : '<table class="projects">';
+		$entry = file_get_contents($this->path.'manageProjects/project_entry.tmpl');
+		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%', '%create-access%');
+
+		preg_match_all('~%level-indent-x([0-9]+)%~', $entry, $matches);
+
+		$search = array_merge($search, $matches[0]);		
+		foreach ($matches[1] as $key => $value) {
+			$matches[1][$key] = $level * $value;
+		}
+
 		foreach ($projects as $key => $value) {
-			$replace = array($value['project'], $value['name'], $value['description'], $value['parent_project'], $value['edit_access']);
-			$entry = file_get_contents($this->path.'manageProjects/project_entry.tmpl');
+			$replace = array($value['project'], $value['name'], $value['description'], $value['parent_project'], $value['edit_access'], $value['create_access']);
+			$replace = array_merge($replace, $matches[1]);
 			$html .= str_replace($search, $replace, $entry);
 			if(count($value['children']))
-				$html .= $this->buildProjectsTree($value['children']);
+				$html .= $this->buildProjectsTree($value['children'], $level+1);
 		}
-		$html .= '</ul>';
+		$html .= $level ? '' : '</table>';
 
 		return $html;
 	}
@@ -26,7 +36,8 @@ class vo_manageProjects extends vo {
 	public function showProjectOverview($projects) {
 		$this->html = file_get_contents($this->path.'scaffold.tmpl');
 		$this->title = 'Manage Projects';
-		$this->addJS('janek.js');
+		$this->addJS('manage_projects.js');
+		$this->addCSS('manage_projects.css');
 
 		$projectListHtml = $this->buildProjectsTree($projects);
 

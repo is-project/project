@@ -1,1 +1,14 @@
-<li class="project"><span title="%project-description%" project="%project%" parent-project="%parent-project%" edit-access="%edit-access%">%project-name%</span></li>
+<!-- 
+	%project-name%				text
+	%edit-access%				'0' or '1' (edit metadata)
+	%create-access%				'0' or '1' (create sub-project)
+	%parent-project%			ID, int
+	%project%					ID, int
+	%project-description%		text
+	%level-indent-xN%			int N multiplied by the nesting level in the tree (0*N for root projects, 1*N for sub projects, 2*N for subsub projects , ...)
+-->
+
+<tr class="project" project="%project%" parent-project="%parent-project%" edit-access="%edit-access%">
+	<td class="project-name" style="padding-left: %level-indent-x20%px; text-indent: %level-indent-x5%px"><span title="%project-description%">%project-name%</span></td>
+	<td class="project-settings"><a href="javascript:void(0);" class="details access-1">##Details##</a> | <a href="javascript:void(0);" class="edit access-%edit-access%">##Edit##</a> | <a href="javascript:void(0);" class="subproject access-%create-access%">##Create sub-project##</a></td>
+</tr>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style type="text/css" media="all">
+        
+        * {
+            -webkit-print-color-adjust:exact;
+        }
+
+        table {
+            background-color: #ffffff;
+            border-spacing: 0px;
+            border-collapse: collapse;
+        }
+
+        th {
+            border: 1px solid #8cacbb;
+            background-color: #dee7ec !important;
+            padding: 3px;
+        }
+
+        td {
+            border: 1px solid #8cacbb;
+            padding: 3px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 id="toc-datenbank-is-project">Datenbank is-project</h1>
+
+    <h2 id="toc-daten-fur-tabelle-projects">Daten für Tabelle projects</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>project</th>
+
+                <th>parent_project</th>
+
+                <th>name</th>
+
+                <th>description</th>
+
+                <th>record_structure</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>0</td>
+
+                <td>TUBAF</td>
+
+                <td>Root Project</td>
+
+                <td>[...]</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+
+                <td>1</td>
+
+                <td>Physik</td>
+
+                <td>Projekt für den Fachbereich Physik</td>
+
+                <td>[...]</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+
+                <td>1</td>
+
+                <td>Chemie</td>
+
+                <td>Projekt für den Fachbereich Chemie</td>
+
+                <td>[...]</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>2</td>
+
+                <td>Pyromaterialien</td>
+
+                <td>Untersuchngen zu Pyromaterialien im Fachbereich Physik</td>
+
+                <td>[...]</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="toc-daten-fur-tabelle-users">Daten für Tabelle users</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>user</th>
+
+                <th>name</th>
+
+                <th>email</th>
+
+                <th>password</th>
+
+                <th>description</th>
+
+                <th>valid_until</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>Max Müller</td>
+
+                <td><a
+                href="mailto:max.mueller&#64;solution-set.net">max.mueller&#64;<!-- -->solution-set.net</a></td>
+
+                <td>1</td>
+
+                <td>NULL</td>
+
+                <td>NULL</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+
+                <td>Sabine Zöllner</td>
+
+                <td><a
+                href="mailto:sabine.zoellner&#64;solution-set.net">sabine.zoellner&#64;<!-- -->solution-set.net</a></td>
+
+                <td>1</td>
+
+                <td>NULL</td>
+
+                <td>NULL</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+
+                <td>Frank Fass</td>
+
+                <td><a
+                href="mailto:frank.fass&#64;solution-set.net">frank.fass&#64;<!-- -->solution-set.net</a></td>
+
+                <td>1</td>
+
+                <td>NULL</td>
+
+                <td>NULL</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>Sarah Hunsk</td>
+
+                <td><a
+                href="mailto:sarah.hunsk&#64;solution-set.net">sarah.hunsk&#64;<!-- -->solution-set.net</a></td>
+
+                <td>1</td>
+
+                <td>NULL</td>
+
+                <td>NULL</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+
+                <td>Martin Bär</td>
+
+                <td><a
+                href="mailto:martin.baer&#64;solution-set.net">martin.baer&#64;<!-- -->solution-set.net</a></td>
+
+                <td>1</td>
+
+                <td>NULL</td>
+
+                <td>NULL</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="toc-daten-fur-tabelle-permissions">Daten für Tabelle permissions</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>permission</th>
+
+                <th>name</th>
+
+                <th>description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>view_project_me&shy;tadata</td>
+
+                <td>View the projects meta data (name, description, parent project).</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+
+                <td>edit_project_me&shy;tadata</td>
+
+                <td>Edit the projects meta data (name, description, parent project).</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+
+                <td>create_child_pro&shy;ject</td>
+
+                <td>Create a new child/sub project</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="toc-daten-fur-tabelle-groups">Daten für Tabelle groups</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>group</th>
+
+                <th>project</th>
+
+                <th>name</th>
+
+                <th>system</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>1</td>
+
+                <td>Project Leader</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+
+                <td>1</td>
+
+                <td>Guest</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+
+                <td>1</td>
+
+                <td>Guest (TU intranet)</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>2</td>
+
+                <td>Project Leader</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+
+                <td>2</td>
+
+                <td>Guest</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+
+                <td>2</td>
+
+                <td>Guest (TU intranet)</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+
+                <td>3</td>
+
+                <td>Project Leader</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+
+                <td>3</td>
+
+                <td>Guest</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+
+                <td>3</td>
+
+                <td>Guest (TU intranet)</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+
+                <td>4</td>
+
+                <td>Project Leader</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+
+                <td>4</td>
+
+                <td>Guest</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+
+                <td>4</td>
+
+                <td>Guest (TU intranet)</td>
+
+                <td>3</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="toc-daten-fur-tabelle-link-groups-permissions">Daten für Tabelle
+    link_groups_per&shy;missions</h2>
+
+    <table style="float: left; margin-right: 30px;">
+        <thead>
+            <tr>
+                <th>group</th>
+
+                <th>permission</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>1</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>1</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>group</th>
+
+                <th>permission</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>10</td>
+
+                <td>2</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="toc-daten-fur-tabelle-link-users-groups">Daten für Tabelle
+    link_users_groups</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>user</th>
+
+                <th>group</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+
+                <td>1</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+
+                <td>4</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+
+                <td>7</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+
+                <td>10</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

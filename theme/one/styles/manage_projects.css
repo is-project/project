@@ -1,0 +1,14 @@
+table.projects td.project-settings a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+table.projects td.project-settings a.access-1:hover {
+	color: orange;
+}
+
+table.projects td.project-settings a.access-0 {
+	color: silver;
+	cursor: default;
+}

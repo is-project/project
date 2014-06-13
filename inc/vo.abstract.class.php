@@ -52,6 +52,11 @@ class vo {
 		}
 		$this->html = str_replace($search, $replace, $this->html);
 
+		// delete all html comments
+		preg_match_all('~<!--(.*?)-->~s', $this->html, $matches);
+		foreach ($matches[0] as $match)
+			$this->html = str_replace($match, '', $this->html);
+
 		$this->translate();
 		print $this->html;
 	}

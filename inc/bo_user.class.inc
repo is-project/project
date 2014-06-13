@@ -184,7 +184,8 @@ class bo_user
 		}
 		
 		$parent_project = mysql_fetch_object(mysql_query("SELECT `parent_project` FROM `projects` WHERE `project` = $project;"));
-		return $parent_project->parent_project ? $this->access($permissions, $parent_project->parent_project) : FALSE;
+		// var_export($parent_project);
+		return $parent_project ? $this->access($permissions, $parent_project->parent_project) : FALSE;
 		
 	}
 
