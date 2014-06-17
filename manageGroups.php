@@ -8,4 +8,5 @@ require_once 'inc/bo_project.class.inc';
 
 global $current_user;
 
+
 ?>
