@@ -3,16 +3,18 @@ require_once 'vo.abstract.class.php';
 
 class vo_manageProjects extends vo {
 	
-	
 	function __construct() {
 		parent::__construct();
+		$this->setAreaContent('content', file_get_contents($this->path.'manageProjects/content.tmpl') );
+
+		$this->setAreaContent('login', 'Login Blah' );
 	}
 
 	private function buildProjectsTree($projects, $level = 0) {
 		
 		$html = $level ? '' : '<table class="projects">';
 		$entry = file_get_contents($this->path.'manageProjects/project_entry.tmpl');
-		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%', '%create-access%');
+		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%', '%create-access%', '%delete-access%');
 
 		preg_match_all('~%level-indent-x([0-9]+)%~', $entry, $matches);
 
@@ -22,7 +24,7 @@ class vo_manageProjects extends vo {
 		}
 
 		foreach ($projects as $key => $value) {
-			$replace = array($value['project'], $value['name'], $value['description'], $value['parent_project'], $value['edit_access'], $value['create_access']);
+			$replace = array($value['project'], $value['name'], $value['description'], $value['parent_project'], $value['edit_access'], $value['create_access'], $value['delete_access']);
 			$replace = array_merge($replace, $matches[1]);
 			$html .= str_replace($search, $replace, $entry);
 			if(count($value['children']))
@@ -51,8 +53,23 @@ class vo_manageProjects extends vo {
 				</tr>
 			</table>';
 
-		$this->setAreaContent('content', $content);
-		$this->_print();
+		$this->setAreaContent('lisOfProjects', $content);
+	}
+
+	public function showProjectDeleteForm($project, $children) {
+
+		$content = file_get_contents($this->path.'manageProjects/delete_project_form.tmpl');
+
+		$tmp = array();
+		foreach ($children as $child)
+			$tmp[] = $child['name'];
+
+		$search = array('%project-name%', '%project-description%', '%project-children%');
+		$replace = array($project['name'], $project['description'], implode(', ', $tmp));
+
+		$content = str_replace($search, $replace, $content);
+
+		$this->setAreaContent('deleteProject', $content);
 	}
 }
 

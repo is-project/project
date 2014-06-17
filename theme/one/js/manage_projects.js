@@ -63,12 +63,18 @@ $(document).ready(function() {
 		$('form#add-edit-project-form textarea#project-description').val( '' );
 	});
 
+	$('table.projects td.project-settings a.delete.access-1').click(function() {
+		var tr = $(this).closest('tr');
+		var project = tr.attr('project');
+		window.location.href = '?action=deleteProject&project='+project;
+	});
+
 });
 
 function fillForm(tr) {
 	var project = tr.attr('project');
 	var parent_project = tr.attr('parent-project');
-	var parent_project_name = (parent_project != 0) ? $('table.projects tr.project[project='+parent_project+'] td.project-name span').text() : ' < ROOT > ';
+	var parent_project_name = (parent_project > 0) ? $('table.projects tr.project[project='+parent_project+'] td.project-name span').text() : ' < ROOT > ';
 	var project_name = tr.find('td.project-name span').text();
 	var project_description = tr.find('td.project-name span').attr('title');
 

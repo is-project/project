@@ -15,7 +15,29 @@ class vo {
 		$this->path = 'theme/'.THEME.'/';
 	}
 
-	protected function _print() {
+	private function translate() {
+		if(file_exists ( 'locale/'.LOCALE.'.lang.inc' )) require_once 'locale/'.LOCALE.'.lang.inc';
+		else $translation = array();
+
+		$pattern = '~##(.*)##~sU';
+		preg_match_all($pattern, $this->html, $matches);
+
+		$search = array();
+		$replace = array();
+		foreach ($matches[0] as $key => $value) {
+			$search[] = $value;
+			if(isset($translation[ $matches[1][$key] ]))
+				$replace[] = $translation[ $matches[1][$key] ];
+			else
+				$replace[] = $matches[1][$key];
+
+		}
+
+		$this->html = str_replace($search, $replace, $this->html);
+
+	}
+
+	public function _print() {
 		// replace title
 		$this->html = str_replace('%title%', $this->title, $this->html);
 		// replace path
@@ -51,11 +73,11 @@ class vo {
 			$replace[] = $content;
 		}
 		$this->html = str_replace($search, $replace, $this->html);
+		// delete all unused areas
+		$this->html = preg_replace('~%area-(.+?)%~', '', $this->html);
 
 		// delete all html comments
-		preg_match_all('~<!--(.*?)-->~s', $this->html, $matches);
-		foreach ($matches[0] as $match)
-			$this->html = str_replace($match, '', $this->html);
+		$this->html = preg_replace('~<!--(.*?)-->~s', '', $this->html);
 
 		$this->translate();
 		print $this->html;
@@ -69,28 +91,6 @@ class vo {
 
 	public function addCss($css) {
     	$this->addedCss[] = $css;
-	}
-
-	private function translate() {
-		if(file_exists ( 'locale/'.LOCALE.'.lang.inc' )) require_once 'locale/'.LOCALE.'.lang.inc';
-		else $translation = array();
-
-		$pattern = '~##(.*)##~sU';
-		preg_match_all($pattern, $this->html, $matches);
-
-		$search = array();
-		$replace = array();
-		foreach ($matches[0] as $key => $value) {
-			$search[] = $value;
-			if(isset($translation[ $matches[1][$key] ]))
-				$replace[] = $translation[ $matches[1][$key] ];
-			else
-				$replace[] = $matches[1][$key];
-
-		}
-
-		$this->html = str_replace($search, $replace, $this->html);
-
 	}
 
 	public function setAreaContent($area, $content) {

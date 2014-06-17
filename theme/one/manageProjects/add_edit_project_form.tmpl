@@ -1,11 +1,11 @@
 <h3>##Project##</h3>
-<form id="add-edit-project-form" method="post" action="">
-	<input type="hidden" name="action" value="submitAddEditProjectForm" />
+<form id="add-edit-project-form" method="post" action="?action=submitAddEditProjectForm">
+	<!-- <input type="hidden" name="action" value="submitAddEditProjectForm" /> -->
 	<label>##Project ID##:</label> <input readonly type="text" id="project" name="project" /> <br />
 
 	<label>##Parent Project##:</label><input readonly type="text" id="parent-project" name="parent-project" /><input readonly type="text" id="parent-project-name" name="parent-project-name" /> <br />
 
-	<label>##Project Name##:</label> <input readonly type="text" id="project-name" name="project-name"/> <br />
+	<label>##Project Name##:</label> <input readonly type="text" id="project-name" name="project-name" maxlength="45" /> <br />
 
 	<label>##Project Description##:</label> <textarea readonly id="project-description" name="project-description"></textarea> <br />
 

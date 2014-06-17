@@ -13,88 +13,27 @@ print '<hr><pre>';
 var_export($current_user);
 print '</pre><hr>';
 
-if(isset($_POST['action'])) {
+if(isset($_GET['action'])) {
 
-	switch ($_POST['action']) {
+	switch ($_GET['action']) {
 		case 'submitAddEditProjectForm':
-			// TODO: addProject
-			if(valid_int($_POST['project'])) { // edit
-				
-				$errors = array();
-				// validate user permissions to edit
-				if( !$current_user->access('edit_project_metadata', $_POST['project']) )
-					$errors['project'] = '##Access denied for project ###'.$_POST['project'];
+				submitAddEditProjectForm($layout);
+			break;
 
-				// validate project name
-				if( !strlen($_POST['project-name']) )
-					$errors['project-name'] = '##Project Name cannot be empty.##';
-				
-				if(count($errors)) {
-					foreach ($errors as $field => $error) {
-						$layout->toast($error, 'error');
-					}
-					$layout->addJS('settings', array('form-errors' => $errors));
-					$layout->addJS('settings', array('form-status' => 'edit'));
-					$layout->addJS('settings', array('form-values' => array(
-						'project' => $_POST['project'],
-						'project-name' => $_POST['project-name'],
-						'parent-project' => $_POST['parent-project'],
-						'parent-project-name' => $_POST['parent-project-name'],
-						'project-description' => $_POST['project-description']
-						)));
+		case 'deleteProject':
+				$project = new bo_project($_GET['project']);
+				if($project->getProject() <= 0 || !$current_user->access('delete_child_project', $project->getParentProject())) {
+					$layout->toast('##Access Denied##', 'error');
 				} else {
-					$project = $_POST['project'];
-					$name = mysql_real_escape_string( $_POST['project-name'] );
-					$description = mysql_real_escape_string( $_POST['project-description'] );
-
-					mysql_query("UPDATE `projects` SET `name` = '$name', `description` = '$description' WHERE `project` = $project LIMIT 1;") or _die('janek', mysql_error());
-					
-					$layout->toast('##Project was edited successfully.##');
-					
-				}
-
-			} else { // add
-				$errors = array();
-
-				// validate user permissions to add sub-project
-				if(!valid_int($_POST['parent-project']))
-					$errors['parent-project'] = '##Parent project has to a valid integer.##';
-				elseif( !$current_user->access('edit_project_metadata', $_POST['parent-project']) )
-					$errors['parent-project'] = '##Access denied. You cannot create a sub-project for project ###'.$_POST['parent-project'];
-
-				// validate project name
-				if( !strlen($_POST['project-name']) )
-					$errors['project-name'] = '##Project Name cannot be empty.##';
-				
-				if(count($errors)) {
-					foreach ($errors as $field => $error) {
-						$layout->toast($error, 'error');
+					$project_list = $project->getListOfChildProjects(true);
+					$projects = array();
+					foreach ($project_list as $_p) {
+						$tmp = new bo_project($_p);
+						$projects[] = $tmp->getProjectMetaData();
 					}
-					$layout->addJS('settings', array('form-errors' => $errors));
-					$layout->addJS('settings', array('form-status' => 'add'));
-					$layout->addJS('settings', array('form-values' => array(
-						'project' => $_POST['project'],
-						'project-name' => $_POST['project-name'],
-						'parent-project' => $_POST['parent-project'],
-						'parent-project-name' => $_POST['parent-project-name'],
-						'project-description' => $_POST['project-description']
-						)));
-				} else {
-					$parent_project = $_POST['parent-project'];
-					$name = mysql_real_escape_string( $_POST['project-name'] );
-					$description = mysql_real_escape_string( $_POST['project-description'] );
-					$default_record_structure = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":1},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":2},{"col_name":"created","title":"Created","type":"timestamp","weight":3},{"col_name":"created_by","title":"Created By","type":"int","weight":4}]';
 
-					mysql_query("INSERT INTO `projects` (`parent_project`, `name`, `description`, `record_structure`) VALUES ($parent_project, '$name', '$description', '$default_record_structure')") or _die('janek', mysql_error());
-					
-					$layout->toast('##Project was added successfully.##');
-					
+					$layout->showProjectDeleteForm($project->getProjectMetaData(), $projects);
 				}
-			}
-			
-			// $layout->toast('Project '.$_POST['project'].' no int');
-			// $name = $_POST['project-name'];
-			// mysql_query("INSERT INTO `projects` (`parent_project`, `name`, `description`, `record_structure`) VALUES (2, '$name', 'desc', '[[]]')");
 			break;
 		
 		default:
@@ -106,6 +45,7 @@ if(isset($_POST['action'])) {
 
 $projects = $current_user->getListOfProjects('view_project_metadata', true);
 $layout->showProjectOverview( _parseProjectsTree($projects) );
+$layout->_print();
 
 function _parseProjectsTree($projects) {
 	global $current_user;
@@ -115,9 +55,123 @@ function _parseProjectsTree($projects) {
 		if(($tmp[$project] = $p->getProjectMetaData()) < 0) _die('ERROR#'.$tmp[$project]);
 		$tmp[$project]['edit_access'] = $current_user->access('edit_project_metadata', $p->getProject()) ? '1' : '0';
 		$tmp[$project]['create_access'] = $current_user->access('create_child_project', $p->getProject()) ? '1' : '0';
+		$tmp[$project]['delete_access'] = ($p->getParentProject() == 0) ? '0' : ($current_user->access('delete_child_project', $p->getParentProject()) ? '1' : '0');
 		$tmp[$project]['children'] = _parseProjectsTree($children);
 	}
 	return $tmp;
+}
+
+function submitAddEditProjectForm($layout) {
+	global $current_user;
+	if(!isset($_POST['project'], $_POST['parent-project'], $_POST['project-name'], $_POST['project-description'])) {
+		$layout->toast('##Form Error##', 'error');
+		return -1;
+	}
+	if(valid_int($_POST['project'])) { // edit
+
+		$project = new bo_project($_POST['project']);
+
+		$errors = array();
+		// validate user permissions to edit
+		if($project->getProject() == 0 || !$current_user->access('edit_project_metadata', $project->getProject()) ) {
+
+			$errors['project'] = '##Access denied for project ###'.$_POST['project'];
+
+		} else {
+
+			// validate project name
+			switch( $project->setName($_POST['project-name']) ) {
+				case ERROR_INVALID_PROJECT_NAME_EMPTY: 
+					$errors['project-name'] = '##Project Name cannot be empty.##';
+					break;
+				case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
+					$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
+					break;
+				case ERROR_PROJECT_ACCESS_DENIED: 
+					$errors['project-name'] = '##Access Denied.##';
+					break;
+			}
+
+			// validate project description
+			switch( $project->setDescription($_POST['project-description']) ) {
+				case ERROR_PROJECT_ACCESS_DENIED: 
+					$errors['project-description'] = '##Access Denied.##';
+					break;
+			}
+		}
+
+		if(count($errors)) {
+			foreach ($errors as $field => $error) {
+				$layout->toast($error, 'error');
+			}
+			$layout->addJS('settings', array('form-errors' => $errors));
+			$layout->addJS('settings', array('form-status' => 'edit'));
+			$layout->addJS('settings', array('form-values' => array(
+				'project' => $_POST['project'],
+				'project-name' => $_POST['project-name'],
+				'parent-project' => $_POST['parent-project'],
+				'parent-project-name' => $_POST['parent-project-name'],
+				'project-description' => $_POST['project-description']
+				)));
+		} else {
+			$project->saveProject();
+			$layout->toast('##Project was edited successfully.##');
+		}
+
+	} else { // add
+		$errors = array();
+
+		$project = new bo_project();
+
+		// validate parent project
+		switch( $project->setParentProject($_POST['parent-project']) ) {
+			case ERROR_NO_VALID_INT:
+				$errors['parent-project'] = '##Parent-project is not a valid integer.##';
+				break;
+			case ERROR_PROJECT_EDIT_PARENT:
+			case ERROR_PROJECT_ACCESS_DENIED: 
+				$errors['parent-project'] = '##Access Denied.##';
+				break;
+		}
+
+		// validate project name
+		switch( $project->setName($_POST['project-name']) ) {
+			case ERROR_INVALID_PROJECT_NAME_EMPTY: 
+				$errors['project-name'] = '##Project Name cannot be empty.##';
+				break;
+			case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
+				$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
+				break;
+			case ERROR_PROJECT_ACCESS_DENIED: 
+				$errors['project-name'] = '##Access Denied.##';
+				break;
+		}
+
+		// validate project description
+		switch( $project->setDescription($_POST['project-description']) ) {
+			case ERROR_PROJECT_ACCESS_DENIED: 
+				$errors['project-description'] = '##Access Denied.##';
+				break;
+		}
+
+		if(count($errors)) {
+			foreach ($errors as $field => $error) {
+				$layout->toast($error, 'error');
+			}
+			$layout->addJS('settings', array('form-errors' => $errors));
+			$layout->addJS('settings', array('form-status' => 'add'));
+			$layout->addJS('settings', array('form-values' => array(
+				'project' => $_POST['project'],
+				'project-name' => $_POST['project-name'],
+				'parent-project' => $_POST['parent-project'],
+				'parent-project-name' => $_POST['parent-project-name'],
+				'project-description' => $_POST['project-description']
+				)));
+		} else {
+			$project->saveProject();
+			$layout->toast('##Project was added successfully.##');
+		}
+	}
 }
 
 ?>

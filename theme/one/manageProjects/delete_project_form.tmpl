@@ -1,0 +1,23 @@
+<!-- 
+	%project%					ID, int
+	%project-name%				text
+	%project-description%		text
+	%project-children%			comma seperated list of child-project names
+-->
+
+<h3>##Delete project##</h3>
+<form id="delete-project-form" method="post" action="?action=submitDeleteProjectForm">
+	<!-- <label>##Project ID##:</label> <input readonly type="text" id="project" name="project" /> <br />
+
+	<label>##Parent Project##:</label><input readonly type="text" id="parent-project" name="parent-project" /><input readonly type="text" id="parent-project-name" name="parent-project-name" /> <br />
+
+	<label>##Project Name##:</label> <input readonly type="text" id="project-name" name="project-name" maxlength="45" /> <br />
+
+	<label>##Project Description##:</label> <textarea readonly id="project-description" name="project-description"></textarea> <br />
+
+	<input d isabled type="submit" value="##Submit##" /> -->
+	Are you sure you want to delete the project "%project-name%"? Consider that this action will also delete the following sub-projects: %project-children%<br>
+	<input d isabled type="submit" value="##Submit##" />
+
+</form>
+<hr>
