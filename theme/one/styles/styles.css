@@ -21,3 +21,125 @@ div.toast.warning {
 div.toast.error {
 	background: red;
 }
+
+
+
+
+
+
+/*Stuff for the designtemplate*/
+
+
+div#title {
+	background-color:#E8110F;
+	overflow: visible;
+	position: relative;
+	background-color: #4D4D4D;
+	width: 100%;
+}
+
+div#logo-image {
+	background: #ffffff url(http://tu-freiberg.de/sites/default/themes/tubaf2/images/logo-de.png) center center no-repeat;  /*TODO: copy image to local file system*/
+	background-size: 80%;
+	padding-bottom: 6.3%;
+	width: 20%;
+	/*float: left;*/
+}
+
+div#header-banner {
+	padding: 5px 0 5px 12px;
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+div.clear-block:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	float: left;
+}
+
+div#navbar {
+	overflow: visible;
+	position: relative;
+	background-color: #4D4D4D;
+	width: 100%;
+}
+
+/* TOP NAVIGATION BAR 
+/////////////////////////////*/
+
+ul#topnav {	
+		width:480px;
+		list-style:none;
+		height:40px;
+		float: left;
+		margin:0 auto; /* center nav in this demo */
+}
+
+ul#topnav li {
+		display:inline;
+}
+
+ul#topnav li a {
+		height:40px;
+		float:left;
+		text-indent:-9999px;
+		text-decoration:none;
+}
+
+ul#topnav li#topnav-1 a {
+		width:106px;
+		background:url(nav.png) no-repeat 0 0;
+}
+
+ul#topnav  li#topnav-1 a:hover {
+		background-position:0 -40px;
+}
+
+ul#topnav  li#topnav-1 a.current {
+		background-position:0 -80px;
+}
+
+ul#topnav li#topnav-2 a {
+		width:116px;
+		background:url(nav.png) no-repeat -106px 0;
+}
+
+ul#topnav  li#topnav-2 a:hover {
+		background-position:-106px -40px;
+}
+
+ul#topnav  li#topnav-2 a.current {
+		background-position:-106px -80px;
+}
+
+ul#topnav li#topnav-3 a {
+		width:122px;
+		background:url(nav.png) no-repeat -222px 0;
+}
+
+ul#topnav  li#topnav-3 a:hover {
+		background-position:-222px -40px;
+}
+
+ul#topnav  li#topnav-3 a.current {
+		background-position:-222px -80px;
+}
+
+ul#topnav li#topnav-4 a {
+		width:136px;
+		background:url(nav.png) no-repeat -344px 0;
+}
+
+ul#topnav  li#topnav-4 a:hover {
+		background-position:-344px -40px;
+}
+
+ul#topnav  li#topnav-4 a.current {
+		background-position:-344px -80px;
+}
