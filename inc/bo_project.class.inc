@@ -174,7 +174,7 @@ class bo_project
 			$description = isset($this->description) ? "'".mysql_real_escape_string( $this->description )."'" : 'NULL';
 
 			// add project
-			mysql_query("INSERT INTO `projects` (`parent_project`, `name`, `description`, `record_structure`) VALUES ({$this->parent_project}, '$name', $description, '{$this->record_structure}')") or _die('Error while saving the project.', mysql_error());
+			mysql_query("INSERT INTO `projects` (`parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES ({$this->parent_project}, {$current_user->getUser()}, '$name', $description, '{$this->record_structure}')") or _die('Error while saving the project.', mysql_error());
 			$this->project = mysql_insert_id();
 
 			// add group "project leader"
@@ -187,12 +187,10 @@ class bo_project
 			while($permission = mysql_fetch_object($permissions))
 				$query[] = "($group, {$permission->permission})";
 			$query = "INSERT INTO `link_groups_permissions` (`group`, `permission`) VALUES ".implode(', ', $query);
-			print $query;
 			mysql_query($query);
 
 			// add creator ass project leader
 			$query = "INSERT INTO `link_users_groups` (`user`, `group`) VALUES ({$current_user->getUser()}, $group)";
-			print $query;
 			mysql_query($query);
 
 			// add group "guest" & "Guest (TU intranet)"
@@ -207,7 +205,17 @@ class bo_project
 	}
 
 	public function deleteProject() {
+		global $current_user;
+		if(!$current_user->access('delete_child_project', $this->getParentProject())) return ERROR_PROJECT_ACCESS_DENIED;
+		$projects = $this->getListOfChildProjects();
+		foreach ($projects as $project) {
+			$project = new bo_project($project);
+			$project->deleteProject();
+		}
 
+
+
+		print "project #{$this->name} deleted <br>";
 	}
 }
 ?>

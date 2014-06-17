@@ -10,7 +10,7 @@ mysql_select_db(DB_NAME, $db) or die('Could not select database.');
 
 // TODO: Session & Login und so
 global $current_user;
-$current_user = new bo_user(rand(0,5)*0+2);
+$current_user = new bo_user(rand(0,5));
 
 function _die($msg, $error = false) {
 	ob_clean();

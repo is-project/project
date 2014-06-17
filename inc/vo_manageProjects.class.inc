@@ -5,9 +5,10 @@ class vo_manageProjects extends vo {
 	
 	function __construct() {
 		parent::__construct();
+		global $current_user;
 		$this->setAreaContent('content', file_get_contents($this->path.'manageProjects/content.tmpl') );
 
-		$this->setAreaContent('login', 'Login Blah' );
+		$this->setAreaContent('login', 'Hallo &laquo; '.$current_user->getname().' &raquo;' );
 	}
 
 	private function buildProjectsTree($projects, $level = 0) {
@@ -64,8 +65,8 @@ class vo_manageProjects extends vo {
 		foreach ($children as $child)
 			$tmp[] = $child['name'];
 
-		$search = array('%project-name%', '%project-description%', '%project-children%');
-		$replace = array($project['name'], $project['description'], implode(', ', $tmp));
+		$search = array('%project%', '%project-name%', '%project-description%', '%project-children%');
+		$replace = array($project['project'], $project['name'], $project['description'], implode(', ', $tmp));
 
 		$content = str_replace($search, $replace, $content);
 

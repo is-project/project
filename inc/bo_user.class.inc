@@ -167,7 +167,7 @@ class bo_user
 	public function access($permissions, $project) {
 		// print $permissions . ', ' . $project . '<br>';
 		if(!valid_int($project)) return FALSE;
-		if($project == 0) return FALSE;
+		if($project == 0) return TRUE;
 
 		if(is_array($permissions))
 			$permissions = implode('\', \'', $permissions);
