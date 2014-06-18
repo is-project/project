@@ -1,0 +1,218 @@
+table {
+	width: 100%;
+}
+
+table td {
+	border: 1px solid black;
+}
+
+div.toast {
+	padding: 0px;
+	border-radius: 3px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	position: relative;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+div.toast.info {
+	border: 1px solid #97c1da;
+	color: #264c72;
+	
+	background: rgb(201,233,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(201,233,255,1) 0%, rgba(181,227,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(201,233,255,1)), color-stop(100%,rgba(181,227,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(201,233,255,1) 0%,rgba(181,227,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(201,233,255,1) 0%,rgba(181,227,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(201,233,255,1) 0%,rgba(181,227,255,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(201,233,255,1) 0%,rgba(181,227,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9e9ff', endColorstr='#b5e3ff',GradientType=0 ); /* IE6-9 */
+
+
+	background-repeat: repeat-x;
+}
+
+div.toast.info:hover {
+	border-color: #5f9fc6;
+}
+
+div.toast.warning {
+	border: 1px solid #dca874;
+	color: #613A00;
+	
+	background: rgb(254,252,234); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(254,252,234,1) 0%, rgba(239,227,151,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,252,234,1)), color-stop(100%,rgba(239,227,151,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(239,227,151,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(239,227,151,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(239,227,151,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(254,252,234,1) 0%,rgba(239,227,151,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#efe397',GradientType=0 ); /* IE6-9 */
+
+
+
+	background-repeat: repeat-x;
+}
+
+div.toast.warning:hover {
+	border-color: #cd8237;
+}
+
+div.toast.error {
+	border: 1px solid #da9797;
+	color: #911;
+	
+	background: rgb(255,190,183); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,190,183,1) 0%, rgba(255,163,155,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,190,183,1)), color-stop(100%,rgba(255,163,155,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,190,183,1) 0%,rgba(255,163,155,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,190,183,1) 0%,rgba(255,163,155,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,190,183,1) 0%,rgba(255,163,155,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,190,183,1) 0%,rgba(255,163,155,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbeb7', endColorstr='#ffa39b',GradientType=0 ); /* IE6-9 */
+
+	background-repeat: repeat-x;
+}
+
+div.toast.error:hover {
+	border-color: #c65f5f;
+}
+
+#project-nav {
+	position: fixed;
+}
+
+#project-nav a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+#project-nav a.active,
+#project-nav a:hover {
+	color: orange;
+}
+
+#project-nav a.disabled,
+#project-nav a.disabled:hover {
+	color: silver;
+	cursor: default;
+}
+
+
+
+/*Stuff for the designtemplate*/
+
+
+div#title {
+	background-color:#E8110F;
+	overflow: visible;
+	position: relative;
+	background-color: #4D4D4D;
+	width: 100%;
+}
+
+div#logo-image {
+	background: #ffffff url(http://tu-freiberg.de/sites/default/themes/tubaf2/images/logo-de.png) center center no-repeat;  /*TODO: copy image to local file system*/
+	background-size: 80%;
+	padding-bottom: 6.3%;
+	width: 20%;
+	/*float: left;*/
+}
+
+div#header-banner {
+	padding: 5px 0 5px 12px;
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+div.clear-block:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	float: left;
+}
+
+div#navbar {
+	overflow: visible;
+	position: relative;
+	background-color: #4D4D4D;
+	width: 100%;
+}
+
+/* TOP NAVIGATION BAR 
+/////////////////////////////*/
+
+ul#topnav {	
+		width:480px;
+		list-style:none;
+		height:40px;
+		float: left;
+		margin:0 auto; /* center nav in this demo */
+}
+
+ul#topnav li {
+		display:inline;
+}
+
+ul#topnav li a {
+		height:40px;
+		float:left;
+		text-indent:-9999px;
+		text-decoration:none;
+}
+
+ul#topnav li#topnav-1 a {
+		width:106px;
+		background:url(nav.png) no-repeat 0 0;
+}
+
+ul#topnav  li#topnav-1 a:hover {
+		background-position:0 -40px;
+}
+
+ul#topnav  li#topnav-1 a.current {
+		background-position:0 -80px;
+}
+
+ul#topnav li#topnav-2 a {
+		width:116px;
+		background:url(nav.png) no-repeat -106px 0;
+}
+
+ul#topnav  li#topnav-2 a:hover {
+		background-position:-106px -40px;
+}
+
+ul#topnav  li#topnav-2 a.current {
+		background-position:-106px -80px;
+}
+
+ul#topnav li#topnav-3 a {
+		width:122px;
+		background:url(nav.png) no-repeat -222px 0;
+}
+
+ul#topnav  li#topnav-3 a:hover {
+		background-position:-222px -40px;
+}
+
+ul#topnav  li#topnav-3 a.current {
+		background-position:-222px -80px;
+}
+
+ul#topnav li#topnav-4 a {
+		width:136px;
+		background:url(nav.png) no-repeat -344px 0;
+}
+
+ul#topnav  li#topnav-4 a:hover {
+		background-position:-344px -40px;
+}
+
+ul#topnav  li#topnav-4 a.current {
+		background-position:-344px -80px;
+}
