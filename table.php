@@ -102,7 +102,7 @@
                             <td>{$row->user}</td>
                             <td>{$row->name}</td>
                             <td>{$row->email}</td>
-                            <td>{$row->password}</td>
+                            <td>123 (for test users)</td>
                             <td>{$row->description}</td>
                             <td>{$row->valid_until}</td>
                         </tr>

@@ -7,8 +7,6 @@ class vo_manageProjects extends vo {
 		parent::__construct();
 		global $current_user;
 		$this->setAreaContent('content', file_get_contents($this->path.'manageProjects/content.tmpl') );
-
-		$this->setAreaContent('login', 'Hallo &laquo; '.$current_user->getname().' &raquo;' );
 	}
 
 	private function buildProjectsTree($projects, $level = 0) {

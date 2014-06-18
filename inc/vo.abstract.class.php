@@ -13,6 +13,30 @@ class vo {
 
 	function __construct() {
 		$this->path = 'theme/'.THEME.'/';
+
+		global $current_user;
+		if($current_user->getUser() > 0) {
+			$logout_form = file_get_contents($this->path.'logout_form.tmpl');
+			
+			$search = array('%user-name%');
+			$replace = array($current_user->getName());
+			$logout_form = str_replace($search, $replace, $logout_form);
+
+			$this->setAreaContent('login', $logout_form );
+		} else {
+			$this->addJs('libs/sha512.js');
+			$this->addJs('login.js');
+			$login_form = file_get_contents($this->path.'login_form.tmpl');
+			$this->setAreaContent('login', $login_form );
+		}
+
+		global $global_toasts;
+		if(isset($global_toasts))
+			foreach ($global_toasts as $class => $global_toast) {
+				foreach ($global_toast as $msg) {
+					$this->toast($msg, $class);
+				}
+			}
 	}
 
 	private function translate() {

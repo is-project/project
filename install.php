@@ -193,15 +193,15 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	##
 
 	mysql_query("INSERT INTO `users` (`user`, `name`, `email`, `password`, `description`, `valid_until`) VALUES
-	(1, 'admin', 'admin@solution-set.net', '1', NULL, NULL);");
+	(1, 'admin', 'admin@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL);");
 
 	if($test_data)
 		mysql_query("INSERT INTO `users` (`user`, `name`, `email`, `password`, `description`, `valid_until`) VALUES
-		(2, 'Max Müller', 'max.mueller@solution-set.net', '1', NULL, NULL),
-		(3, 'Sabine Zöllner', 'sabine.zoellner@solution-set.net', '1', NULL, NULL),
-		(4, 'Frank Fass', 'frank.fass@solution-set.net', '1', NULL, NULL),
-		(5, 'Sarah Hunsk', 'sarah.hunsk@solution-set.net', '1', NULL, NULL),
-		(6, 'Martin Bär', 'martin.baer@solution-set.net', '1', NULL, NULL);");
+		(2, 'Max Müller', 'max.mueller@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL),
+		(3, 'Sabine Zöllner', 'sabine.zoellner@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL),
+		(4, 'Frank Fass', 'frank.fass@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL),
+		(5, 'Sarah Hunsk', 'sarah.hunsk@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL),
+		(6, 'Martin Bär', 'martin.baer@solution-set.net', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', NULL, NULL);");
 
 
 	#######################################
