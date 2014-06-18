@@ -9,52 +9,19 @@ require_once 'inc/bo_project.class.inc';
 global $current_user;
 $layout = new vo_manageProjects();
 
-// print '<hr><pre>';
-// var_export($current_user);
-// print '</pre><hr>';
-
 if(isset($_GET['action'])) {
 
-	switch ($_GET['action']) {
+	switch($_GET['action']) {
 		case 'submitAddEditProjectForm':
-				submitAddEditProjectForm($layout);
+			submitAddEditProjectForm($layout);
 			break;
 
 		case 'deleteProject':
-				$project = new bo_project($_GET['project']);
-				if($project->getProject() <= 0 || !$current_user->access('delete_child_project', $project->getParentProject())) {
-					$layout->toast('##Access Denied##', 'error');
-				} else {
-					$project_list = $project->getListOfChildProjects(true);
-					$projects = array();
-					foreach ($project_list as $_p) {
-						$tmp = new bo_project($_p);
-						$projects[] = $tmp->getProjectMetaData();
-					}
-
-					$layout->showProjectDeleteForm($project->getProjectMetaData(), $projects);
-				}
+			deleteProject($layout);
 			break;
 
 		case 'submitDeleteProjectForm':
-			$project = new bo_project($_POST['project']);
-			if($project->getProject() <= 0) $layout->toast('##Access Denied##', 'error');
-			else {
-				switch ($project->deleteProject()) {
-					case ERROR_PROJECT_ACCESS_DENIED:
-						$layout->toast('##Access Denied##', 'error');
-						break;
-					
-					default:
-						$layout->toast('##Project was deleted successfully.##');
-						break;
-				}
-			}
-			// if($project->getProject() <= 0 || !$current_user->access('delete_child_project', $project->getParentProject())) {
-			// 	$layout->toast('##Access Denied##', 'error');
-			// } else {
-			// 	$project->deleteProject();
-			// }
+			submitDeleteProjectForm($layout);
 			break;
 		
 		default:
@@ -93,10 +60,9 @@ function submitAddEditProjectForm($layout) {
 		$project = new bo_project($_POST['project']);
 
 		$errors = array();
-		// validate user permissions to edit
-		if($project->getProject() == 0 || !$current_user->access('edit_project_metadata', $project->getProject()) ) {
+		if($project->getProject() <= 0) {
 
-			$errors['project'] = '##Access denied for project ###'.$_POST['project'];
+			$errors['project'] = '##Access denied ##';
 
 		} else {
 
@@ -191,6 +157,39 @@ function submitAddEditProjectForm($layout) {
 		} else {
 			$project->saveProject();
 			$layout->toast('##Project was added successfully.##');
+		}
+	}
+}
+
+function deleteProject($layout) {
+	global $current_user;
+	$project = new bo_project($_GET['project']);
+	if($project->getProject() <= 0 || !$current_user->access('delete_child_project', $project->getParentProject())) {
+		$layout->toast('##Access Denied##', 'error');
+	} else {
+		$project_list = $project->getListOfChildProjects(true);
+		$projects = array();
+		foreach ($project_list as $_p) {
+			$tmp = new bo_project($_p);
+			$projects[] = $tmp->getProjectMetaData();
+		}
+
+		$layout->showProjectDeleteForm($project->getProjectMetaData(), $projects);
+	}
+}
+
+function submitDeleteProjectForm($layout) {
+	$project = new bo_project($_POST['project']);
+	if($project->getProject() <= 0) $layout->toast('##Access Denied##', 'error');
+	else {
+		switch ($project->deleteProject()) {
+			case ERROR_PROJECT_ACCESS_DENIED:
+				$layout->toast('##Access Denied##', 'error');
+				break;
+			
+			default:
+				$layout->toast('##Project was deleted successfully.##');
+				break;
 		}
 	}
 }

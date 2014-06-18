@@ -54,7 +54,7 @@ class vo_manageProjects extends vo {
 				</tr>
 			</table>';
 
-		$this->setAreaContent('lisOfProjects', $content);
+		$this->setAreaContent('listOfProjects', $content);
 	}
 
 	public function showProjectDeleteForm($project, $children) {

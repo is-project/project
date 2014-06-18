@@ -213,9 +213,15 @@ class bo_project
 			$project->deleteProject();
 		}
 
+		$groups = array();
+		$result = mysql_query("SELECT `group` FROM `groups` WHERE `project` = {$this->project};");
+		while($group = mysql_fetch_object($result))
+			$groups[] = $group->group;
 
-
-		print "project #{$this->name} deleted <br>";
+		mysql_query("DELETE FROM `link_users_groups` WHERE `group` IN(".(implode(", ", $groups)).");");
+		mysql_query("DELETE FROM `link_groups_permissions` WHERE `group` IN(".(implode(", ", $groups)).");");
+		mysql_query("DELETE FROM `groups` WHERE `project` = {$this->project};");
+		mysql_query("DELETE FROM `projects` WHERE `project` = {$this->project};");
 	}
 }
 ?>
