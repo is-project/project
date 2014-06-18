@@ -77,8 +77,26 @@ div.toast.error:hover {
 	border-color: #c65f5f;
 }
 
+#project-nav {
+	position: fixed;
+}
 
+#project-nav a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
 
+#project-nav a.active,
+#project-nav a:hover {
+	color: orange;
+}
+
+#project-nav a.disabled,
+#project-nav a.disabled:hover {
+	color: silver;
+	cursor: default;
+}
 
 
 

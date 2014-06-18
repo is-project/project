@@ -6,13 +6,13 @@ class vo_manageProjects extends vo {
 	function __construct() {
 		parent::__construct();
 		global $current_user;
-		$this->setAreaContent('content', file_get_contents($this->path.'manageProjects/content.tmpl') );
+		$this->setAreaContent('content', file_get_contents($this->path.'/manageProjects/content.tmpl') );
 	}
 
 	private function buildProjectsTree($projects, $level = 0) {
 		
 		$html = $level ? '' : '<table class="projects">';
-		$entry = file_get_contents($this->path.'manageProjects/project_entry.tmpl');
+		$entry = file_get_contents($this->path.'/manageProjects/project_entry.tmpl');
 		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%', '%create-access%', '%delete-access%');
 
 		preg_match_all('~%level-indent-x([0-9]+)%~', $entry, $matches);
@@ -34,15 +34,15 @@ class vo_manageProjects extends vo {
 		return $html;
 	}
 
-	public function showProjectOverview($projects) {
-		$this->html = file_get_contents($this->path.'scaffold.tmpl');
+	public function showProjectsOverview($projects) {
+		// $this->html = file_get_contents($this->path.'/scaffold.tmpl');
 		$this->title = 'Manage Projects';
 		$this->addJS('manage_projects.js');
 		$this->addCSS('manage_projects.css');
 
 		$projectListHtml = $this->buildProjectsTree($projects);
 
-		$projectForm = file_get_contents($this->path.'manageProjects/add_edit_project_form.tmpl');
+		$projectForm = file_get_contents($this->path.'/manageProjects/add_edit_project_form.tmpl');
 
 		$content = '
 			<table>
@@ -57,7 +57,7 @@ class vo_manageProjects extends vo {
 
 	public function showProjectDeleteForm($project, $children) {
 
-		$content = file_get_contents($this->path.'manageProjects/delete_project_form.tmpl');
+		$content = file_get_contents($this->path.'/manageProjects/delete_project_form.tmpl');
 
 		$tmp = array();
 		foreach ($children as $child)
@@ -69,6 +69,17 @@ class vo_manageProjects extends vo {
 		$content = str_replace($search, $replace, $content);
 
 		$this->setAreaContent('deleteProject', $content);
+	}
+
+	public function showProjectOverview() {
+		// $this->html = file_get_contents($this->path.'/scaffold.tmpl');
+		$this->title = 'Manage Projects';
+		$this->addJS('manage_projects.js');
+		$this->addCSS('manage_projects.css');
+
+		$projectForm = file_get_contents($this->path.'/manageProjects/add_edit_project_form.tmpl');
+
+		$this->setAreaContent('content', $projectForm);
 	}
 }
 

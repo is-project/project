@@ -7,7 +7,10 @@ require_once 'inc/bo_user.class.inc';
 require_once 'inc/bo_project.class.inc';
 
 global $current_user;
+global $current_project;
+
 $layout = new vo_manageProjects();
+
 
 if(isset($_GET['action'])) {
 
@@ -31,9 +34,39 @@ if(isset($_GET['action'])) {
 
 }
 
-$projects = $current_user->getListOfProjects('view_project_metadata', true);
-$layout->showProjectOverview( _parseProjectsTree($projects) );
-$layout->_print();
+if(isset($current_project)) {
+
+	$layout->setAreaContent('menu_project', 'active');
+	
+	$metaData = $current_project->getProjectMetaData();
+
+	if( $current_user->access('edit_project_meta_data', $current_project->getProject()) )
+		$layout->addJS('settings', array('form-status' => 'edit'));
+	$layout->addJS('settings', array('form-values' => array(
+		'project' => $metaData['project'],
+		'project-name' => $metaData['name'],
+		'parent-project' => $metaData['parent_project'],
+		'parent-project-name' => 'pp name',
+		'project-description' => $metaData['description']
+		)));
+
+	$layout->showProjectOverview( );
+	$layout->_print();
+
+} else {	
+
+	$layout->setAreaContent('menu_overview', 'active');
+	$layout->setAreaContent('menu_project', 'disabled');
+	$layout->setAreaContent('menu_user', 'disabled');
+	$layout->setAreaContent('menu_records', 'disabled');
+	$layout->setAreaContent('menu_collections', 'disabled');
+	$layout->setAreaContent('menu_register', 'disabled');
+
+	$projects = $current_user->getListOfProjects('view_project_metadata', true);
+	$layout->showProjectsOverview( _parseProjectsTree($projects) );
+	$layout->_print();
+
+}
 
 function _parseProjectsTree($projects) {
 	global $current_user;
@@ -103,6 +136,9 @@ function submitAddEditProjectForm($layout) {
 		} else {
 			$project->saveProject();
 			$layout->toast('##Project was edited successfully.##');
+			global $current_project;
+			if( isset($current_project) && $current_project->getProject() == $project->getProject() )
+				$current_project = new bo_project( $current_project->getProject() );
 		}
 
 	} else { // add

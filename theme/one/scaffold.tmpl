@@ -4,7 +4,8 @@
 	%js-add%					insert point for added JS files
 	%toast%						insert point for user messages
 	%area-X%					insert point for area X
-	%path%                      path of project
+	%path%                      path of the active theme (without trailing slash)
+	%area-project_nav%			insert point for the navigation bar (only shown when the user chose a project)
 -->
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,8 @@
 </head>
 <body>
 	%toast%
-	<table>
+	%area-project_nav%
+	<table style="padding-left: 150px;">
 		<tr>
 			<td>%area-content%</td>
 			<td>%area-login%</td>

@@ -4,6 +4,7 @@ if(!file_exists ('config.php')) {
 }
 require_once 'config.php';
 require_once 'inc/bo_user.class.inc';
+require_once 'inc/bo_project.class.inc';
 
 $db = mysql_connect(DB_HOST, DB_USER, DB_PASS) or die("Could not connect to mysql server.");
 mysql_select_db(DB_NAME, $db) or die('Could not select database.');
@@ -12,17 +13,23 @@ mysql_select_db(DB_NAME, $db) or die('Could not select database.');
 global $current_user;
 secSessionStart();
 
-if( isset($_POST['login']) && $_POST['login'] == 'login' )
-	login();
+if( isset($_GET['login']) ) login();
+if( isset($_GET['logout']) ) logout();
+if( isset($_GET['project']) ) {
+	$_SESSION['current_project'] = $_GET['project'];
+}
 
-if( isset($_POST['logout']) && $_POST['logout'] == 'logout' )
-	logout();
+if(checkLogin()) $current_user = new bo_user($_SESSION['user']);
+else $current_user = new bo_user();
 
-if(checkLogin())
-	$current_user = new bo_user($_SESSION['user']);
-else
-	$current_user = new bo_user();
-
+if( isset($_SESSION['current_project'])) {
+	global $current_project;
+	$current_project = new bo_project($_SESSION['current_project']);
+	if($current_project->getProject() <= 0) unset($current_project);
+}
+// print '<hr><pre>';
+// var_export($_SESSION);
+// print '</pre><hr>';
 
 function _die($msg, $error = false) {
 	ob_clean();
