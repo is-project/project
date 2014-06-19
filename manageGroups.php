@@ -36,7 +36,7 @@ if(isset($_GET['action'])) {
 
 function submitAddEditGroupForm($layout) {
 	global $current_user;
-	if(!isset($_POST['group'], $_POST['project'], $_POST['name'])) {
+	if(!isset($_POST['group'], $_POST['project'], $_POST['group-name'])) {
 		$layout->toast('##Form Error##', 'error');
 		return -1;
 	}
@@ -47,20 +47,20 @@ function submitAddEditGroupForm($layout) {
 		$errors = array();
 		if($group->getGroup() <= 0) {
 
-			$errors['project'] = '##Access denied ##';
+			$errors['group'] = '##Access denied ##';
 
 		} else {
 
-			// validate project name
-			switch( $project->setName($_POST['project-name']) ) {
-				case ERROR_INVALID_PROJECT_NAME_EMPTY: 
-					$errors['project-name'] = '##Project Name cannot be empty.##';
+			// validate group name
+			switch( $group->setName($_POST['group-name']) ) {
+				case ERROR_INVALID_GROUP_NAME_EMPTY: 
+					$errors['group-name'] = '##Project Name cannot be empty.##';
 					break;
-				case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
-					$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
+				case ERROR_INVALID_GROUP_NAME_TO_LONG: 
+					$errors['group-name'] = '##Project Name cannot be longer than 45 characters.##';
 					break;
-				case ERROR_PROJECT_ACCESS_DENIED: 
-					$errors['project-name'] = '##Access Denied.##';
+				case ERROR_GROUP_ACCESS_DENIED: 
+					$errors['group-name'] = '##Access Denied.##';
 					break;
 			}
 
