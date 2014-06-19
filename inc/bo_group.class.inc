@@ -50,6 +50,13 @@ class bo_group {
 		return $r;
 	}
 
+	public function getGroup() {
+		global $current_user;
+		if(!$current_user->access('view_project_metadata', $this->project)) return ERROR_PROJECT_ACCESS_DENIED;
+		
+		return $this->group;
+	}
+
 	public function getPermissions() {
 		return $this->permission;
 	}
