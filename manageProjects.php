@@ -40,7 +40,7 @@ if(isset($current_project)) {
 	
 	$metaData = $current_project->getProjectMetaData();
 
-	if( $current_user->access('edit_project_meta_data', $current_project->getProject()) )
+	if( $current_user->access('edit_project_metadata', $current_project->getProject()) )
 		$layout->addJS('settings', array('form-status' => 'edit'));
 	$layout->addJS('settings', array('form-values' => array(
 		'project' => $metaData['project'],

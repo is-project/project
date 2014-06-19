@@ -1,0 +1,10 @@
+Manage records
+**************
+Possibility to add a new record to the given record structure and delete or edit any record which is already added. All actions can only be perfomed by users with the specific permission. These are managed and provided by the group system.
+
+Manage registers
+****************
+Registers are meant as a kind of listing system. Users are able to add a new register and define a structure for this record similar to a table with only plain text values. Users may also edit this register structure and delete a register. Each project can contain multiple registers. Once a register was added, users can add, edit or delete entries to this record. All these actions (add register, edit register, delete register, add entry, edit entry, delete entry) can only be perfomed by users with the specific permission. These are managed and provided by the group system.
+
+Manage collections
+******************
