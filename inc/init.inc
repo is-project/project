@@ -93,18 +93,17 @@ function login() {
 		 		// set session loginString containing the hashed PW and the user Browser to prevent session hijacking
 		 		$_SESSION['login_string'] = hash('sha512', $pw.$user_browser);
 				// header ("LOCATION: home.php");
-				global $global_toasts;
-				$global_toasts['info'][] = 'Welcome &laquo; '.$result['name'].' &raquo;';
+				$_SESSION['toasts']['info'][] = 'Welcome &laquo; '.$result['name'].' &raquo;';
 				return true;				
 		 	} else {
 		 		// password wrong, write attemp in DB
 		 		#mysql_query('INSERT INTO login_attempts (user) VALUES (\''.$result['user'].'\')');
-		 		global $global_toasts;
-		 		$global_toasts['error'][] = '##Login Error. Wrong E-Mail / password?##';
+		 		$_SESSION['toasts']['error'][] = '##Login Error. Wrong E-Mail / password?##';
 		 		return false;
 		 	}
 		}
 		// email not found
+		$_SESSION['toasts']['error'][] = '##Login Error. Wrong E-Mail / password?##';
 		return false;
 			
 	} else {
@@ -141,8 +140,9 @@ function checkLogin() {
 function logout() {
 	session_unset();
 	session_destroy();
-	global $global_toasts;
-	$global_toasts['info'][] = '##You were logged out.##';
+
+	secSessionStart();
+	$_SESSION['toasts']['info'][] = '##You were logged out.##';
 	// header ("LOCATION: manageProjects.php");
 }
 ?>

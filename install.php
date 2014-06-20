@@ -71,7 +71,8 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(1, 1),
 	(1, 2),
 	(1, 3),
-	(1, 4);");
+	(1, 4),
+	(1, 5);");
 
 	if($test_data)
 		mysql_query("INSERT INTO `link_groups_permissions` (`group`, `permission`) VALUES
@@ -79,15 +80,18 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 		(4, 2),
 		(4, 3),
 		(4, 4),
+		(4, 5),
 		(7, 1),
 		(7, 2),
 		(7, 3),
 		(7, 4),
+		(7, 5),
 		(8, 1),
 		(10, 1),
 		(10, 2),
 		(10, 3),
-		(10, 4);");
+		(10, 4),
+		(10, 5);");
 
 	#######################################
 
@@ -137,7 +141,8 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(1, 'view_project_metadata', 'View the projects meta data (name, description, parent project).'),
 	(2, 'edit_project_metadata', 'Edit the projects meta data (name, description, parent project).'),
 	(3, 'create_child_project', 'Create a new child/sub project'),
-	(4, 'delete_child_project', 'Delete a child/sub project');");
+	(4, 'delete_child_project', 'Delete a child/sub project'),
+	(5, 'edit_record_structure', 'Edit the record structure for all records containing to this project.');");
 
 	#######################################
 

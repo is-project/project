@@ -34,9 +34,9 @@ if(isset($_GET['action'])) {
 
 }
 
-if(isset($current_project)) {
+if(isset($current_project) && $current_project->getProject() > 0) {
 
-	$layout->setAreaContent('menu_project', 'active');
+	$layout->setActiveMenuTrail('project-details');
 	
 	$metaData = $current_project->getProjectMetaData();
 
@@ -55,12 +55,7 @@ if(isset($current_project)) {
 
 } else {	
 
-	$layout->setAreaContent('menu_overview', 'active');
-	$layout->setAreaContent('menu_project', 'disabled');
-	$layout->setAreaContent('menu_user', 'disabled');
-	$layout->setAreaContent('menu_records', 'disabled');
-	$layout->setAreaContent('menu_collections', 'disabled');
-	$layout->setAreaContent('menu_register', 'disabled');
+	$layout->setActiveMenuTrail('project-overview');	
 
 	$projects = $current_user->getListOfProjects('view_project_metadata', true);
 	$layout->showProjectsOverview( _parseProjectsTree($projects) );

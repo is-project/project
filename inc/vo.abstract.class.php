@@ -10,11 +10,16 @@ class vo {
 	private $addedJs = array(); // array of all JS files which will be added
 	private $addedCss = array(); // array of all CSS files which will be added
 	private $addedJsSettings = array(); // array of all JS settings to pass
+	private $activeMenuTrail;
 
 	function __construct() {
+		global $current_user;
+		global $current_project;
+
+		// set theme path
 		$this->path = 'theme/'.THEME;
 
-		global $current_user;
+		// show login or logout form
 		if($current_user->getUser() > 0) {
 			$logout_form = file_get_contents($this->path.'/logout_form.tmpl');
 			
@@ -30,19 +35,41 @@ class vo {
 			$this->setAreaContent('login', $login_form );
 		}
 
-		// global $current_project;
-		// if(isset($current_project)) {
-			$project_nav = file_get_contents($this->path.'/project_nav.tmpl');
-			$this->setAreaContent('project_nav', $project_nav );
-		// }
+		// build project menu
+		$project_nav = file_get_contents($this->path.'/project_nav.tmpl');
+		$link = file_get_contents($this->path.'/project_nav_entry.tmpl');
 
-		global $global_toasts;
-		if(isset($global_toasts))
-			foreach ($global_toasts as $class => $global_toast) {
+		#<a href="%href%" class="%active%">##%title%##</a><br>
+		$search = array('%href%', '%active%', '%title%');
+
+		$replace = array('?project=-1', '%active-project-overview%', 'Project Overview');
+		$projectOverview = str_replace($search, $replace, $link);
+		$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+
+		if(isset($current_project) && $current_project->getProject() > 0) {
+			$replace = array('manageProjects.php', '%active-project-details%', 'Project Details');
+			$projectOverview = str_replace($search, $replace, $link);
+			$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+			
+			if( $current_user->access('edit_record_structure', $current_project->getProject()) ) {
+				$replace = array('manageRecordStructure.php', '%active-project-record-structure%', 'Record Structure');
+				$projectOverview = str_replace($search, $replace, $link);
+				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+			}
+		}
+
+		$project_nav = str_replace('%links%', '', $project_nav);
+		$this->setAreaContent('project_nav', $project_nav );
+
+		// process global toasts
+		if(isset($_SESSION['toasts'])) {
+			foreach ($_SESSION['toasts'] as $class => $global_toast) {
 				foreach ($global_toast as $msg) {
 					$this->toast($msg, $class);
 				}
 			}
+			unset($_SESSION['toasts']);
+		}
 	}
 
 	private function translate() {
@@ -113,8 +140,13 @@ class vo {
 		// delete all unused areas
 		$this->html = preg_replace('~%area-(.+?)%~', '', $this->html);
 
+		// set active menu trail
+		if(isset($this->activeMenuTrail)) $this->html = str_replace("%active-{$this->activeMenuTrail}%", 'active', $this->html);
+		$this->html = preg_replace('~%active-(.+?)%~', '', $this->html);
+
 		// delete all html comments
-		$this->html = preg_replace('~<!--(.*?)-->~s', '', $this->html);
+		$count = 1;
+		while ($count > 0) $this->html = preg_replace('~<!--((?!<!--).)*?-->~s', '', $this->html, -1, $count);
 
 		$this->translate();
 		print $this->html;
@@ -136,6 +168,17 @@ class vo {
 
 	public function toast($message, $type = 'info') {
 		$this->toasts[$type][] = $message;
+	}
+
+	public function setActiveMenuTrail($_trail) {
+		$this->activeMenuTrail = $_trail;
+	}
+
+	public function _goto($target) {
+
+		$_SESSION['toasts'] = $this->toasts;
+		header("LOCATION: $target");
+		exit();
 	}
 }
 
