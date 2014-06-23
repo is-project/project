@@ -494,3 +494,12 @@ ul.context-menu-list li {
     opacity: 1;
   }
 }
+
+.handsontable td .moveBtn {
+  cursor: pointer;
+}
+
+.handsontable td .moveBtn.disabled {
+  cursor: default;
+  opacity: 0.3;
+}

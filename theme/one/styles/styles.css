@@ -216,3 +216,7 @@ ul#topnav  li#topnav-4 a:hover {
 ul#topnav  li#topnav-4 a.current {
 		background-position:-344px -80px;
 }
+
+#example {
+    width:100%;
+}

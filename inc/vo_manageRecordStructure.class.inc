@@ -15,7 +15,7 @@ class vo_manageRecordStructure extends vo {
 		$this->addJS('manage_record_structure.js');
 		$this->addCSS('jquery.handsontable.full.css');
 
-		$content = '<div id="example" class="handsontable"></div>';
+		$content = '<div id="example"></div>';
 
 		#<script src="http://handsontable.com/dist/jquery.handsontable.full.js"></script>
 		#<link rel="stylesheet" media="screen" href="http://handsontable.com/dist/jquery.handsontable.full.css">
