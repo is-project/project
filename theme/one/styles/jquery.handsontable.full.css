@@ -66,13 +66,13 @@
   border: none;
   border-right: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
-  height: 22px;
+  height: 32px;
   empty-cells: show;
   line-height: 21px;
-  padding: 0 4px 0 4px;
+  padding: 4px;
   /* top, bottom padding different than 0 is handled poorly by FF with HTML5 doctype */
   background-color: #FFF;
-  vertical-align: top;
+  vertical-align: middle;
   overflow: hidden;
   outline-width: 0;
   white-space: pre-line;
@@ -137,7 +137,7 @@
 
 .handsontable thead th .relative {
   position: relative;
-  padding: 2px 4px;
+  padding: 5px;
 }
 
 /* plugins */
@@ -502,4 +502,9 @@ ul.context-menu-list li {
 .handsontable td .moveBtn.disabled {
   cursor: default;
   opacity: 0.3;
+}
+
+.handsontable tr:hover td {
+  /*background: #40a2e8;*/
+  box-shadow: inset 0px 40px 0px rgba(0,0,255,0.04);
 }
