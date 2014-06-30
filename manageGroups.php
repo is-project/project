@@ -2,12 +2,15 @@
 
 require_once 'inc/init.inc';
 require_once 'inc/validations.inc';
-require_once 'inc/vo_manageProjects.class.inc';
+require_once 'inc/vo_manageGroups.class.inc';
 require_once 'inc/bo_user.class.inc';
 require_once 'inc/bo_project.class.inc';
+require_once 'inc/bo_group.class.inc'
+
 
 global $current_user;
 global $current_project;
+global $current_group;
 
 $layout = new vo_manageGroups();
 
@@ -20,7 +23,7 @@ if(isset($_GET['action'])) {
 			break;
 
 		case 'deleteGroup':
-			deleteProject($layout);
+			deleteGroup($layout);
 			break;
 
 		// case 'submitEditGroupForm':
@@ -34,9 +37,25 @@ if(isset($_GET['action'])) {
 
 }
 
+if(isset($current_group) && $current_group->getGroup() > 0){
+
+	$layout->setActiveMenuTrail('group-details');
+
+	$metaData = current_group->getGroupMetaData();
+
+	if($current_user->acces('edit_group_metadata', $current_group->getGroup()))
+		$layout->addJS('settings', array('form-status' => 'edit'));
+	$layout->addJS('settings', array('form-values' => array(
+		'group' => $metaData['group'],
+		'name' => $metaData['name'],
+		'project' => $metaData['project'],
+		'description' => $metaData['description']
+		)))
+}
+
 function submitAddEditGroupForm($layout) {
 	global $current_user;
-	if(!isset($_POST['group'], $_POST['project'], $_POST['group-name'])) {
+	if(!isset($_POST['group'], $_POST['project'], $_POST['name'])) {
 		$layout->toast('##Form Error##', 'error');
 		return -1;
 	}
@@ -54,23 +73,17 @@ function submitAddEditGroupForm($layout) {
 			// validate group name
 			switch( $group->setName($_POST['group-name']) ) {
 				case ERROR_INVALID_GROUP_NAME_EMPTY: 
-					$errors['group-name'] = '##Project Name cannot be empty.##';
+					$errors['name'] = '##Group Name cannot be empty.##';
 					break;
 				case ERROR_INVALID_GROUP_NAME_TO_LONG: 
-					$errors['group-name'] = '##Project Name cannot be longer than 45 characters.##';
+					$errors['name'] = '##Group Name cannot be longer than 45 characters.##';
 					break;
 				case ERROR_GROUP_ACCESS_DENIED: 
-					$errors['group-name'] = '##Access Denied.##';
+					$errors['name'] = '##Access Denied.##';
 					break;
-			}
-
-			// validate project description
-			switch( $project->setDescription($_POST['project-description']) ) {
-				case ERROR_PROJECT_ACCESS_DENIED: 
-					$errors['project-description'] = '##Access Denied.##';
-					break;
-			}
+			}	
 		}
+	
 
 		if(count($errors)) {
 			foreach ($errors as $field => $error) {
@@ -79,53 +92,42 @@ function submitAddEditGroupForm($layout) {
 			$layout->addJS('settings', array('form-errors' => $errors));
 			$layout->addJS('settings', array('form-status' => 'edit'));
 			$layout->addJS('settings', array('form-values' => array(
-				'project' => $_POST['project'],
-				'project-name' => $_POST['project-name'],
-				'parent-project' => $_POST['parent-project'],
-				'parent-project-name' => $_POST['parent-project-name'],
-				'project-description' => $_POST['project-description']
+				'group' => $_POST['group'],
+				'name' => $_POST['name']
+				'project' => $_POST['project']
+				'description' => $_POST['description']
 				)));
 		} else {
-			$project->saveProject();
-			$layout->toast('##Project was edited successfully.##');
-			global $current_project;
-			if( isset($current_project) && $current_project->getProject() == $project->getProject() )
-				$current_project = new bo_project( $current_project->getProject() );
+			$group->saveGroup();
+			$layout->toast('##Group was edited successfully.##');
+			global $current_group;
+			if( isset($current_group) && $current_group->getGroup() == $group->getGroup() )
+				$current_group = new bo_group( $current_group->getGroup() );
 		}
 
 	} else { // add
 		$errors = array();
 
-		$project = new bo_project();
+		$project = new bo_group();
 
-		// validate parent project
-		switch( $project->setParentProject($_POST['parent-project']) ) {
-			case ERROR_NO_VALID_INT:
-				$errors['parent-project'] = '##Parent-project is not a valid integer.##';
+
+		// validate group name
+		switch( $group->setName($_POST['name']) ) {
+			case ERROR_INVALID_GROUP_NAME_EMPTY: 
+				$errors['name'] = '##Group Name cannot be empty.##';
 				break;
-			case ERROR_PROJECT_EDIT_PARENT:
-			case ERROR_PROJECT_ACCESS_DENIED: 
-				$errors['parent-project'] = '##Access Denied.##';
+			case ERROR_INVALID_GROUP_NAME_TO_LONG: 
+				$errors['name'] = '##Group Name cannot be longer than 45 characters.##';
+				break;
+			case ERROR_GROUP_ACCESS_DENIED: 
+				$errors['name'] = '##Access Denied.##';
 				break;
 		}
 
-		// validate project name
-		switch( $project->setName($_POST['project-name']) ) {
-			case ERROR_INVALID_PROJECT_NAME_EMPTY: 
-				$errors['project-name'] = '##Project Name cannot be empty.##';
-				break;
-			case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
-				$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
-				break;
+		// validate group description
+		switch( $group->setDescription($_POST['description']) ) {
 			case ERROR_PROJECT_ACCESS_DENIED: 
-				$errors['project-name'] = '##Access Denied.##';
-				break;
-		}
-
-		// validate project description
-		switch( $project->setDescription($_POST['project-description']) ) {
-			case ERROR_PROJECT_ACCESS_DENIED: 
-				$errors['project-description'] = '##Access Denied.##';
+				$errors['description'] = '##Access Denied.##';
 				break;
 		}
 
@@ -137,14 +139,13 @@ function submitAddEditGroupForm($layout) {
 			$layout->addJS('settings', array('form-status' => 'add'));
 			$layout->addJS('settings', array('form-values' => array(
 				'project' => $_POST['project'],
-				'project-name' => $_POST['project-name'],
-				'parent-project' => $_POST['parent-project'],
-				'parent-project-name' => $_POST['parent-project-name'],
-				'project-description' => $_POST['project-description']
+				'name' => $_POST['name'],
+				'group' => $_POST['group'],
+				'description' => $_POST['description']
 				)));
 		} else {
-			$project->saveProject();
-			$layout->toast('##Project was added successfully.##');
+			$group->saveGroup();
+			$layout->toast('##Group was added successfully.##');
 		}
 	}
 }
