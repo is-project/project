@@ -7,6 +7,7 @@ class vo_manageGroups extends vo {
 		parent::__construct();
 		global $current_user;
 		$this->setAreaContent('content', file_get_contents($this->path.'/manageGroups/content.tmpl') );
-}
+	}
 
+	
 ?>
