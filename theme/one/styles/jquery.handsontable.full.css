@@ -504,7 +504,15 @@ ul.context-menu-list li {
   opacity: 0.3;
 }
 
-.handsontable tr:hover td {
+.handsontable tr:hover td:not(.current) {
   /*background: #40a2e8;*/
   box-shadow: inset 0px 40px 0px rgba(0,0,255,0.04);
+}
+
+.handsontable tr.changed th {
+  background: #F5FF75;
+}
+
+.handsontable tr.saved th {
+  background: #87FF75;
 }

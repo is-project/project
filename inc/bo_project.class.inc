@@ -48,7 +48,8 @@ class bo_project
 			$this->parent_project = null;
 			$this->name = null;
 			$this->description = null;
-			$this->record_structure = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":1},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":2},{"col_name":"created","title":"Created","type":"timestamp","weight":3},{"col_name":"created_by","title":"Created By","type":"int","weight":4}]';
+			// $this->record_structure = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":1},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":2},{"col_name":"created","title":"Created","type":"timestamp","weight":3},{"col_name":"created_by","title":"Created By","type":"int","weight":4}]';
+			$this->record_structure = '[]';
 			
 			$this->groups = array();
 
@@ -196,6 +197,16 @@ class bo_project
 
 			// add group "guest" & "Guest (TU intranet)"
 			mysql_query("INSERT INTO `groups` (`project`, `name`, `system`) VALUES ({$this->project}, 'Guest', 2), ({$this->project}, 'Guest (TU intranet)', 3)");
+
+			// create data table
+			mysql_query("	CREATE TABLE IF NOT EXISTS `data_project_{$this->project}` (
+							  `entry` int(11) NOT NULL AUTO_INCREMENT,
+							  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+							  `created_by` int(11) NOT NULL,
+							  `deleted` timestamp NULL DEFAULT NULL,
+							  `deleted_by` int(11) DEFAULT NULL,
+  							PRIMARY KEY (`entry`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;");
 
 		} else { // existing project, sql UPDATE
 			$name = mysql_real_escape_string( $this->name );

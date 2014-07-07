@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  
+
   $('#example').handsontable({
-    data: data,
+    data: settings.data.length ? settings.data : undefined,
     minSpareRows: 1,
     columns: [
       {
@@ -39,58 +39,61 @@ $(document).ready(function () {
     colHeaders: true, 
     colHeaders : ['display', 'type', 'length', 'decimal places', 'default value', 'order'],
     rowHeaders: true, 
-    // contextMenu: ["row_above", "row_below", "hsep1", "remove_row", "hsep3", "undo", "redo"],
+    contextMenu: ["row_above", "row_below", "hsep1", "remove_row", "hsep3", "undo", "redo"],
     stretchH: 'all',
     afterChange:  function(changes, source) {
                     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                    MathJax.Hub.Queue(function() {
+                      var tmp = $('#example').handsontable('getSelected');
+                      if(tmp != undefined) {
+                        $('#example').handsontable('deselectCell');
+                        $('#example').handsontable('selectCell', tmp[0], tmp[1]);
+                      }
+                    });
+                    $('input#record-structure').val( JSON.stringify($('#example').handsontable('getData')) );
                   },
     afterRender: function(isForeced) {
                     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
                   },
-    cells: function (row, col, prop) {
-        var cellProperties = {};
-
-        var readOnly = false;
-        var name = $('#example').handsontable('getData')[row][0];
-        var systemNames = ['record', 'deleted', 'deleted_by', 'created', 'created_by'];
-        if( $.inArray(name, systemNames) !== -1 )
-          readOnly = true;
-
-        cellProperties.isActive = true;
-        if( col == 2 &&  $('#example').handsontable('getData')[row][2] !== 'text' ) {
-          readOnly = true;
-          cellProperties.isActive = false;
-        }
-
-        if( col == 3 &&  $('#example').handsontable('getData')[row][2] !== 'double' ) {
-          readOnly = true;
-          cellProperties.isActive = false;
-        }
-
-        cellProperties.readOnly = readOnly;
-
-        return cellProperties;
-      }
+    cells: cellProcess
 
   });
 
   MathJax.Hub.Register.StartupHook("End",function () {
     $('#example').handsontable('selectCell',0,0);
     $('#example').handsontable('deselectCell');
-  });  
+  });
+
+  $('input#record-structure').val( JSON.stringify($('#example').handsontable('getData')) );
 
 });
 
-var data = [
-    ["record", "Record", "int", undefined, undefined, "auto_increment"],
-    ["deleted", "Deleted", "timestamp", undefined, undefined, "NULL"],
-    ["deleted_by", "Deleted By", "int", undefined, undefined, "NULL"],
-    ["created", "Created", "timestamp", undefined, undefined, "NOW()"],
-    ["created_by", "Created By", "int", undefined, undefined, "NULL"],
-    ["param1", "$ p ~~\\mbox{in}~~ \\frac{\\mu C}{m^2K} $", "double"],
-    ["param1", "$ T ~~\\mbox{in}~~ \\frac{\\mu C}{m^2K} $", "text"],
-    ["param1", "$ d ~~\\mbox{in}~~ \\frac{\\mu C}{m^2K} $", "int"],
-  ];
+var data = JSON.parse(JSON.stringify(settings.data));
+
+function cellProcess(row, col, prop) {
+  var cellProperties = {};
+
+  var readOnly = false;
+  var name = $('#example').handsontable('getData')[row][0];
+  var systemNames = ['record', 'deleted', 'deleted_by', 'created', 'created_by'];
+  if( $.inArray(name, systemNames) !== -1 )
+  readOnly = true;
+
+  cellProperties.isActive = true;
+  if( col == 2 &&  $('#example').handsontable('getData')[row][2] !== 'text' ) {
+    readOnly = true;
+    cellProperties.isActive = false;
+  }
+
+  if( col == 3 &&  $('#example').handsontable('getData')[row][2] !== 'double' ) {
+    readOnly = true;
+    cellProperties.isActive = false;
+  }
+
+  cellProperties.readOnly = readOnly;
+
+  return cellProperties;
+}
 
 function decimalPlacesRenderer(instance, td, row, col, prop, value, cellProperties) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -100,6 +103,13 @@ function decimalPlacesRenderer(instance, td, row, col, prop, value, cellProperti
     $(td).html("");
   }
 
+  if(!instance.isEmptyRow(row)) {
+    if( settings.data[row] != undefined && settings.data[row].equals( data[row] ) ) {
+      $(td).closest('tr').removeClass('changed').addClass('saved');
+    } else {
+      $(td).closest('tr').removeClass('saved').addClass('changed');
+    }
+  }
 }
 
 function lengthRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -139,10 +149,10 @@ var sortRenderer = function (instance, td, row, col, prop, value, cellProperties
       $row.insertAfter($row.next());
     }
 
-    var dataRowDown = data[rowDown];
-    var dataRowUp = data[rowUp]; 
-    data[rowUp] = dataRowDown;
-    data[rowDown] = dataRowUp;
+    var dataRowDown = settings.data[rowDown];
+    var dataRowUp = settings.data[rowUp]; 
+    settings.data[rowUp] = dataRowDown;
+    settings.data[rowDown] = dataRowUp;
 
     for (var i=0; i<cols.length; i++) {
       var rowUpValid = instance.getCellMeta(rowUp, i).valid;
@@ -167,5 +177,31 @@ var sortRenderer = function (instance, td, row, col, prop, value, cellProperties
     window.event.cancelBubble = true;
   });
 
+  $('input#record-structure').val( JSON.stringify($('#example').handsontable('getData')) );
+
   return td;
 };
+
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}

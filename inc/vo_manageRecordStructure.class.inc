@@ -9,11 +9,15 @@ class vo_manageRecordStructure extends vo {
 		$this->setAreaContent('content', file_get_contents($this->path.'/manageRecordStructure/content.tmpl') );
 	}
 	
-	public function showManageRecordStructureForm() {
+	public function showManageRecordStructureForm($data) {
 
-		$this->addJS('libs/jquery.handsontable.full.js');
 		$this->addJS('manage_record_structure.js');
+		$this->addCSS('manage_record_structure.css');
+		$this->addJS('libs/jquery.handsontable.full.js');
 		$this->addCSS('jquery.handsontable.full.css');
+
+		$this->addJS('settings', array('data' => $data));
+
 
 		$content = '<div id="example"></div>';
 
