@@ -1,0 +1,33 @@
+<!-- 
+	%title%						site title
+	%css-add%					insert point for added CSS files
+	%js-add%					insert point for added JS files
+	%toast%						insert point for user messages
+	%area-X%					insert point for area X
+	%path%                      path of the active theme (without trailing slash)
+	%area-project_nav%			insert point for the navigation bar (only shown when the user chose a project)
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>%title%</title>
+	<link rel="stylesheet" href="%path%/styles/styles.css">
+	%css-add%
+</head>
+<body>
+	%toast%
+	%area-project_nav%
+	<table style="padding-left: 150px;">
+		<tr>
+			<td>%area-content%</td>
+			<td>%area-login%</td>
+		</tr>
+	</table>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery.min.js"><\/script>')</script>
+	%js-add%
+
+</body>
+</html>
