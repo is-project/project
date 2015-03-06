@@ -37,7 +37,7 @@ $(document).ready(function () {
       }
     ],
     colHeaders: true, 
-    colHeaders : ['display', 'type', 'length', 'decimal places', 'default value', 'order'],
+    colHeaders : ['name', 'type', 'length', 'displayed decimal places', 'default value', 'order'],
     rowHeaders: true, 
     contextMenu: ["row_above", "row_below", "hsep1", "remove_row", "hsep3", "undo", "redo"],
     stretchH: 'all',

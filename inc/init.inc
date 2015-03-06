@@ -15,7 +15,7 @@ secSessionStart();
 
 if( isset($_GET['login']) ) login();
 if( isset($_GET['logout']) ) logout();
-if( isset($_GET['project']) ) {
+if( isset($_GET['project']) && !isset($_GET['action']) ) {
 	$_SESSION['current_project'] = $_GET['project'];
 }
 

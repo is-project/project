@@ -59,6 +59,7 @@ function submitEditRecordStructureForm($layout) {
 	$data = json_decode( $_POST['record-structure'] );
 	$new_rs = array();
 	foreach ($data as $weight => $col) {
+		if(is_null($col[0])) $col[0] = count($new_rs);
 		$new_rs[ $col[0] ] = array(
 				'col_name' => $col[0],
 				'title' => $col[1],
@@ -76,7 +77,6 @@ function submitEditRecordStructureForm($layout) {
 	print '<hr><pre>';
 	var_export( $old_rs );
 	print '</pre><hr>';
-
 
 
 	foreach ($old_rs as $weight => $col) {
@@ -122,11 +122,17 @@ function submitEditRecordStructureForm($layout) {
 				print 'decimal_places ---<br>';
 			}
 
+			unset($new_rs[$col->col_name]);
+
 		} else {
 			print 'existiert nicht mehr';
 		}
 
 		print '<hr>';
+	}
+
+	foreach ($new_rs as $key => $value) {
+		print 'new_rs[\''.$key.'\'] ist neu.<br>';
 	}
 
 }

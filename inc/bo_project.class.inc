@@ -234,6 +234,7 @@ class bo_project
 		mysql_query("DELETE FROM `link_groups_permissions` WHERE `group` IN(".(implode(", ", $groups)).");");
 		mysql_query("DELETE FROM `groups` WHERE `project` = {$this->project};");
 		mysql_query("DELETE FROM `projects` WHERE `project` = {$this->project};");
+		mysql_query("DROP TABLE data_project_{$this->project};");
 	}
 }
 ?>
