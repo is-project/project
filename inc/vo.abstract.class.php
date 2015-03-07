@@ -56,6 +56,12 @@ class vo {
 				$projectOverview = str_replace($search, $replace, $link);
 				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 			}
+
+			#if( $current_user->access('EDIT_GROUPSSSS',$current_project->getProject()) ) {
+				$replace = array('manageGroups.php', '%active-project-groups%', 'Groups');
+				$projectOverview = str_replace($search, $replace, $link);
+				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+			#}
 		}
 
 		$project_nav = str_replace('%links%', '', $project_nav);

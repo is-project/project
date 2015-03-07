@@ -5,7 +5,7 @@ require_once 'inc/validations.inc';
 require_once 'inc/vo_manageGroups.class.inc';
 require_once 'inc/bo_user.class.inc';
 require_once 'inc/bo_project.class.inc';
-require_once 'inc/bo_group.class.inc'
+require_once 'inc/bo_group.class.inc';
 
 
 global $current_user;
@@ -14,6 +14,9 @@ global $current_group;
 
 $layout = new vo_manageGroups();
 
+if(!isset($current_project) || $current_project->getProject() <= 0) $layout->_goto('manageProjects.php');
+
+$layout->setActiveMenuTrail('project-groups');
 
 if(isset($_GET['action'])) {
 
@@ -27,7 +30,7 @@ if(isset($_GET['action'])) {
 			break;
 
 		// case 'submitEditGroupForm':
-		// 	submitDeleteProjectForm($layout);
+		// 	submitDeleteGroupForm($layout);
 		// 	break;
 		
 		default:
@@ -37,21 +40,38 @@ if(isset($_GET['action'])) {
 
 }
 
-if(isset($current_group) && $current_group->getGroup() > 0){
+
+
+if(isset($current_group) && $current_group->getGroup() > 0) {
 
 	$layout->setActiveMenuTrail('group-details');
+	
+	$metaData = $current_group->getGroupMetaData();
 
-	$metaData = current_group->getGroupMetaData();
-
-	if($current_user->acces('edit_group_metadata', $current_group->getGroup()))
+	if( $current_user->access('edit_group_metadata', $current_group->getGroup()) )
 		$layout->addJS('settings', array('form-status' => 'edit'));
 	$layout->addJS('settings', array('form-values' => array(
 		'group' => $metaData['group'],
-		'name' => $metaData['name'],
-		'project' => $metaData['project'],
-		'description' => $metaData['description']
-		)))
+		'project-name' => $metaData['name'],
+		'parent-project' => $metaData['parent_project'],
+		'parent-project-name' => 'pp name',
+		'project-description' => $metaData['description']
+		)));
+
+	$layout->showManageGroupsForm();
+	$layout->_print();
+
+} else {	
+
+	$layout->setActiveMenuTrail('group-overview');	
+
+	$groups = $current_project->getListOfGroups('view_group_metadata', true);
+	$layout->showGroupsOverview( _parseGroupsView($groups) );
+	$layout->_print();
+
 }
+
+
 
 function submitAddEditGroupForm($layout) {
 	global $current_user;
@@ -93,8 +113,8 @@ function submitAddEditGroupForm($layout) {
 			$layout->addJS('settings', array('form-status' => 'edit'));
 			$layout->addJS('settings', array('form-values' => array(
 				'group' => $_POST['group'],
-				'name' => $_POST['name']
-				'project' => $_POST['project']
+				'name' => $_POST['name'],
+				'project' => $_POST['project'],
 				'description' => $_POST['description']
 				)));
 		} else {

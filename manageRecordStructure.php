@@ -12,6 +12,7 @@ global $current_project;
 $layout = new vo_manageRecordStructure();
 
 if(!isset($current_project) || $current_project->getProject() <= 0) $layout->_goto('manageProjects.php');
+if( !$current_user->access('edit_record_structure', $current_project->getProject()) ) die("Permission Denied");
 
 $layout->setActiveMenuTrail('project-record-structure');
 
@@ -70,69 +71,26 @@ function submitEditRecordStructureForm($layout) {
 			);
 	}
 
-	print '<hr><pre>';
-	var_export( $new_rs );
-	print '</pre><hr>';
+	switch($current_project->setRecordStructure( $new_rs )) {
+		case ERROR_PROJECT_EDIT_RECORD_STRUCTURE: 
+			$layout->toast('##Error while editing Record Structure.##', 'error');
+			$layout->addJS('settings', array('data2' => $new_rs));
 
-	print '<hr><pre>';
-	var_export( $old_rs );
-	print '</pre><hr>';
-
-
-	foreach ($old_rs as $weight => $col) {
-		print 'Untersuche ' . $col->col_name . '<br>';
-		if( isset($new_rs[$col->col_name]) ) {
-			print 'existiert noch<br>';
-			
-			if($new_rs[$col->col_name]['title'] == $col->title) {
-				print 'Titel ---<br>';
-			} else {
-				print 'Titel +++<br>';
+			$data = array();
+			foreach ($new_rs as $col) {
+				$data[] = array(
+						$col['col_name'],
+						$col['title'],
+						$col['type'],
+						isset($col['length']) ? $col['length'] : NULL,
+						isset($col['decimal_places']) ? $col['decimal_places'] : NULL,
+					);
 			}
-
-			if($new_rs[$col->col_name]['type'] == $col->type) {
-				print 'type ---<br>';
-			} else {
-				print 'type +++<br>';
-			}
-
-			if($new_rs[$col->col_name]['weight'] == $col->weight) {
-				print 'weight ---<br>';
-			} else {
-				print 'weight +++<br>';
-			}
-
-			if(
-				isset($new_rs[$col->col_name]['length']) && !isset($col->length) ||
-				!isset($new_rs[$col->col_name]['length']) && isset($col->length) ||
-				isset($new_rs[$col->col_name]['length'], $col->length) && $new_rs[$col->col_name]['length'] != $col->length
-			) {
-				print 'length +++<br>';
-			} else {
-				print 'length ---<br>';
-			}
-
-			if(
-				isset($new_rs[$col->col_name]['decimal_places']) && !isset($col->decimal_places) ||
-				!isset($new_rs[$col->col_name]['decimal_places']) && isset($col->decimal_places) ||
-				isset($new_rs[$col->col_name]['decimal_places'], $col->decimal_places) && $new_rs[$col->col_name]['decimal_places'] != $col->decimal_places
-			) {
-				print 'decimal_places +++<br>';
-			} else {
-				print 'decimal_places ---<br>';
-			}
-
-			unset($new_rs[$col->col_name]);
-
-		} else {
-			print 'existiert nicht mehr';
-		}
-
-		print '<hr>';
-	}
-
-	foreach ($new_rs as $key => $value) {
-		print 'new_rs[\''.$key.'\'] ist neu.<br>';
+			$layout->addJS('settings', array('data2' => $data));
+			break;
+		default:
+			$project->saveProject();
+			$layout->toast('##Record Structure was edited successfully.##');
 	}
 
 }

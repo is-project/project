@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
   $('#example').handsontable({
-    data: settings.data.length ? settings.data : undefined,
+    data: settings.data2 != undefined && settings.data2.length ? settings.data2 : (settings.data.length ? settings.data : undefined),
     minSpareRows: 1,
     columns: [
       {

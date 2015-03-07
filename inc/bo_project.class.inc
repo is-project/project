@@ -134,6 +134,95 @@ class bo_project
 		// }
 	}
 
+	public function setRecordStructure($new_rs) {
+
+		$old_rs = $this->record_structure;
+
+		print '<hr><pre>';
+		var_export( $new_rs );
+		print '</pre><hr>';
+
+		print '<hr><pre>';
+		var_export( $old_rs );
+		print '</pre><hr>';
+
+		if( !is_array($new_rs) ) return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
+		// var_export($new_rs); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
+		foreach ($new_rs as $weight => $col) {
+			if(array_keys($col) != array ('col_name', 'title', 'type', 'length', 'decimal_places', 'weight') ) return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
+
+			print 'Validate col_name<br>';
+			if(!is_string($col['col_name']) && !valid_int($col['col_name'])) {print '<hr>';var_export($col); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;}
+
+			print 'Validate title<br>';
+			if(!is_string($col['title']) || $col['title'] == '') {print '<hr>';var_export($col); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;}
+
+		}
+
+		print 'DEBUG #1 <br>';
+
+		// foreach ($old_rs as $weight => $col) {
+		// 	print 'Untersuche ' . $col->col_name . '<br>';
+		// 	if( isset($new_rs[$col->col_name]) ) {
+		// 		print 'existiert noch<br>';
+				
+		// 		if($new_rs[$col->col_name]['title'] == $col->title) {
+		// 			print 'Titel ---<br>';
+		// 		} else {
+		// 			print 'Titel +++<br>';
+		// 		}
+
+		// 		if($new_rs[$col->col_name]['type'] == $col->type) {
+		// 			print 'type ---<br>';
+		// 		} else {
+		// 			print 'type +++<br>';
+		// 		}
+
+		// 		if($new_rs[$col->col_name]['weight'] == $col->weight) {
+		// 			print 'weight ---<br>';
+		// 		} else {
+		// 			print 'weight +++<br>';
+		// 		}
+
+		// 		if(
+		// 			isset($new_rs[$col->col_name]['length']) && !isset($col->length) ||
+		// 			!isset($new_rs[$col->col_name]['length']) && isset($col->length) ||
+		// 			isset($new_rs[$col->col_name]['length'], $col->length) && $new_rs[$col->col_name]['length'] != $col->length
+		// 		) {
+		// 			print 'length +++<br>';
+		// 		} else {
+		// 			print 'length ---<br>';
+		// 		}
+
+		// 		if(
+		// 			isset($new_rs[$col->col_name]['decimal_places']) && !isset($col->decimal_places) ||
+		// 			!isset($new_rs[$col->col_name]['decimal_places']) && isset($col->decimal_places) ||
+		// 			isset($new_rs[$col->col_name]['decimal_places'], $col->decimal_places) && $new_rs[$col->col_name]['decimal_places'] != $col->decimal_places
+		// 		) {
+		// 			print 'decimal_places +++<br>';
+		// 		} else {
+		// 			print 'decimal_places ---<br>';
+		// 		}
+
+		// 		unset($new_rs[$col->col_name]);
+
+		// 	} else {
+		// 		print 'existiert nicht mehr';
+		// 	}
+
+		// 	print '<hr>';
+		// }
+
+		// foreach ($new_rs as $key => $value) {
+		// 	print 'new_rs[\''.$key.'\'] ist neu.<br>';
+		// }
+
+		return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
+
+	}
+
+
+
 	public function getListOfChildProjects($all = false) {
 		global $current_user;
 		if(!$current_user->access('view_project_metadata',$this->project)) return ERROR_PROJECT_ACCESS_DENIED;
