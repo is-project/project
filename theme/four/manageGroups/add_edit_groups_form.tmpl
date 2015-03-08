@@ -1,0 +1,16 @@
+<div id="add_edit_groups_form_dialog" title="Edit Group">
+	<p class="validateTips">All form fields are required.</p>
+ 
+	<form id="add_edit_groups_form" action="?action=submitAddEditGroupForm" method="post">
+		<label for="group">Name: </label>
+		<input type="text" name="group-name" id="group-name" value="">
+		<br>
+		
+
+		<input type="hidden" name="group" id="group" value="" >
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

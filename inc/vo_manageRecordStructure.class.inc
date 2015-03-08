@@ -13,17 +13,61 @@ class vo_manageRecordStructure extends vo {
 
 		$this->addJS('manage_record_structure.js');
 		$this->addCSS('manage_record_structure.css');
-		$this->addJS('libs/jquery.handsontable.full.js');
-		$this->addCSS('jquery.handsontable.full.css');
 
-		$this->addJS('settings', array('data' => $data));
+		#$this->addJS('settings', array('data' => $data));
 
+		$content = '';
 
-		$content = '<div id="example"></div>';
+		// print '<pre>';
+		// var_export($data);
+		// print '</pre>';
 
-		#<script src="http://handsontable.com/dist/jquery.handsontable.full.js"></script>
-		#<link rel="stylesheet" media="screen" href="http://handsontable.com/dist/jquery.handsontable.full.css">
-		#<link rel="stylesheet" media="screen" href="http://handsontable.com/demo/css/samples.css?20140401">
+		// add / edit form
+
+		$content .= file_get_contents($this->path.'/manageRecordStructure/add_edit_record_structure_form.tmpl');
+
+		$rows = array();
+		foreach ($data as $row) {
+			$rows[$row[0]] = array($row[1],$row[2],$row[3],$row[4]);
+		}
+
+		$tb_content = array(
+			'settings' => array(
+				'order' => 'header', // none, header, sort
+				'header' => array(
+								array(
+									'title' => 'Title',
+									'width' => '100px',
+									'wordWrap' => TRUE),
+								array(
+									'title' => 'Type'),
+								array(
+									'title' => 'Length',
+									'width' => '50px'),
+								array(
+									'title' => 'Decimal Places',
+									'width' => '500px',
+									'wordWrap' => TRUE)
+							),
+				'buttons' => array(
+								array(
+									'href' => 'javascript:void(0);',
+									'title' => 'Add record structure coloumn',
+									'id' => 'addRecordStructureButton'),
+								array(
+									'href' => 'javascript:void(0);',
+									'title' => 'Edit record structure coloumn',
+									'id' => 'editRecordStructureButton'),
+								array(
+									'href' => 'javascript:void(0);',
+									'title' => 'Delete record structure coloumn',
+									'id' => 'deleteRecordStructureButton'),
+							),
+			),
+			'content' => $rows
+			);
+
+		$content .= $this->buildTable($tb_content);
 
 		$this->setAreaContent('record-structure-form', $content);
 	}

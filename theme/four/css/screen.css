@@ -1,0 +1,74 @@
+/** Project: IT-Webapplication
+ *  Description: 
+ *
+ *  @creator       Thinkin-Tags v0.5.3
+ *  @framework     YAML v4.1.2
+ *  @file          screen.css
+ */
+
+@media screen {
+
+	.ym-wrapper {
+		margin: 0 auto;
+		max-width: 80em;
+	}
+
+	.ym-wbox {
+	}
+
+	.ym-wrapper-min {
+	}
+
+	.ym-gbox-left {
+	}
+
+	.ym-gbox-right {
+	}
+
+	.ym-gbox {
+	}
+
+}
+
+@media only screen and (max-width: 768px) {
+
+	.linearize-level-1,
+	.linearize-level-1 > [class*="ym-g"],
+	.linearize-level-1 > [class*="ym-col"] {
+		display: block;
+		float: none;
+		margin: 0;
+		padding: 0;
+		width: auto !important;
+	}
+
+	.linearize-level-1 > [class*="ym-g"] > [class*="ym-gbox"],
+	.linearize-level-1 > [class*="ym-col"] > [class*="ym-cbox"] {
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+	}
+
+}
+
+@media only screen and (max-width: 480px) {
+
+	.linearize-level-2,
+	.linearize-level-2 > [class*="ym-g"],
+	.linearize-level-2 > [class*="ym-col"] {
+		display: block;
+		float: none;
+		margin: 0;
+		padding: 0;
+		width: auto !important;
+	}
+
+	.linearize-level-2 > [class*="ym-g"] > [class*="ym-gbox"],
+	.linearize-level-2 > [class*="ym-col"] > [class*="ym-cbox"] {
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+	}
+
+}
+

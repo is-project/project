@@ -1,0 +1,31 @@
+<div id="add_edit_record_structure_form_dialog" title="Create new record coloumn" style="display:none;">
+	<p class="error"></p>
+ 
+	<form id="add_edit_record_structure_form" action="?action=submitAddEditRecordStructureForm" method="post">
+		<label for="title">Title: </label>
+		<input type="text" name="title" id="title" value="">
+		<br>
+		
+		<label for="type">Type: </label>
+		<select name="type" id="type">
+		  <option value="int">int</option>
+		  <option value="double">double</option>
+		  <option value="timestamp">timestamp</option>
+		  <option value="boolean">boolean</option>
+		  <option value="text">text</option>
+		</select>
+		<br>
+
+		<label for="length">Length: </label>
+		<input type="text" name="length" id="length" value="" readonly="readonly">
+		<br>
+
+		<label for="dec_places">Decimal Places: </label>
+		<input type="text" name="dec_places" id="dec_places" value="" readonly="readonly">
+		<br>
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

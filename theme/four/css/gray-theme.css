@@ -1,0 +1,689 @@
+/** Project: IT-Webapplication
+ *  Description: 
+ *
+ *  @creator       Thinkin-Tags v0.5.3
+ *  @framework     YAML v4.1.2
+ *  @file          gray-theme.css
+ */
+
+@media screen {
+
+	.ym-form {
+		background: #f4f4f4;
+		border: 2px #fff solid;
+		-webkit-box-shadow: 0 0 4px #dddddd;
+		box-shadow: 0 0 4px #dddddd;
+		margin: 0 0 1.5em 0;
+	}
+
+	.ym-form fieldset {
+		background: transparent;
+		margin: 0.75em 0 0.75em 0;
+		padding: 0 0.5em;
+		position: static;
+	}
+
+	.ym-form legend {
+		background: transparent;
+		color: #000;
+		font-size: 1.2em;
+		font-weight: bold;
+		line-height: 1.25em;
+		padding: 0 0.5em;
+	}
+
+	.ym-form label,
+	.ym-form .ym-label {
+		color: #666;
+		line-height: 1.5;
+		padding-top: 0.25em;
+	}
+
+	.ym-form .ym-fbox {
+		margin: 1em 0 0.5em 0;
+		padding: 0 1em;
+	}
+
+	.ym-form .ym-fbox-footer {
+		background: #ececec;
+		border-top: 1px #e0e0e0 solid;
+		margin: 0;
+		padding: 1.5em 1em;
+	}
+
+	.ym-form .ym-fbox + .ym-fbox {
+		margin: 0.5em 0;
+	}
+
+	.ym-form .ym-fbox:last-child {
+		margin-bottom: 1em;
+	}
+
+	.ym-form .ym-fbox + .ym-fbox-footer {
+		margin: 1em 0 0 0;
+	}
+
+	.ym-form .ym-fbox :last-child,
+	.ym-form .ym-fbox-footer :last-child {
+		margin-bottom: 0;
+	}
+
+	.ym-form .ym-fbox-heading {
+		color: #000;
+		font-size: 100%;
+		margin: 1em;
+	}
+
+	.ym-form .ym-fbox-check:focus + label {
+		color: #000;
+	}
+
+	.ym-form .ym-gbox-left {
+		padding: 0 4px 0 0;
+	}
+
+	.ym-form .ym-gbox-right {
+		padding: 0 0 0 4px;
+	}
+
+	.ym-form .ym-gbox {
+		padding: 0 2px 0 2px;
+	}
+
+	.ym-form input,
+	.ym-form textarea,
+	.ym-form select {
+		border: 1px solid #ddd;
+		-webkit-box-shadow: inset 0 0 4px #eeeeee;
+		box-shadow: inset 0 0 4px #eeeeee;
+		font-family: Arial, Helvetica, sans-serif;
+		line-height: 1em;
+	}
+
+	.ym-form input,
+	.ym-form textarea {
+		padding: 4px 0.3em;
+	}
+
+	.ym-form select {
+		padding: 3px 2px 3px 1px;
+	}
+
+	.ym-form input:focus,
+	.ym-form select:focus,
+	.ym-form textarea:focus,
+	.ym-form input:hover,
+	.ym-form select:hover,
+	.ym-form textarea:hover,
+	.ym-form input:active,
+	.ym-form select:active,
+	.ym-form textarea:active {
+		background: #fff;
+		border: 1px #888 solid;
+	}
+
+	.ym-form optgroup {
+		font-family: Arial, Helvetica, sans-serif;
+		font-style: normal;
+		font-weight: bold;
+	}
+
+	.ym-form .ym-fbox-check input,
+	.ym-form input[type="image"],
+	.ym-form input[type="radio"],
+	.ym-form input[type="checkbox"] {
+		background: transparent !important;
+		border: 0 none !important;
+	}
+
+	.ym-form .ym-message {
+		color: #666;
+		margin-bottom: 0.5em;
+	}
+
+	.ym-form .ym-required {
+		color: #800;
+		font-weight: bold;
+	}
+
+	.ym-form input:valid,
+	.ym-form textarea:valid {
+		background-color: #fff;
+	}
+
+	.ym-form input:invalid,
+	.ym-form textarea:invalid {
+		background-color: #fdd;
+	}
+
+	.ym-form .ym-error label {
+		color: #800;
+		font-weight: normal;
+	}
+
+	.ym-form .ym-error input,
+	.ym-form .ym-error select,
+	.ym-form .ym-error textarea {
+		border: 1px #800 solid;
+	}
+
+	.ym-form .ym-error input:hover,
+	.ym-form .ym-error input:focus,
+	.ym-form .ym-error select:hover,
+	.ym-form .ym-error select:focus,
+	.ym-form .ym-error textarea:hover,
+	.ym-form .ym-error textarea:focus {
+		border: 1px #800 solid !important;
+	}
+
+	.ym-form .ym-error .ym-message {
+		color: #800;
+		font-weight: bold;
+		margin-top: 0;
+	}
+
+	.ym-button,
+	.ym-form button,
+	.ym-form input[type="button"],
+	.ym-form input[type="reset"],
+	.ym-form input[type="submit"] {
+		background-color: #eeeeee;
+		background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+		background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+		background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+		background-image: linear-gradient(to bottom, #eeeeee,#cccccc);
+		border: 1px solid #777;
+		border-radius: .2em;
+		-webkit-box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.8) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.8) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		color: #333 !important;
+		cursor: pointer;
+		display: inline-block;
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFEEEEEE', endColorstr='#FFCCCCCC');
+		font: normal 1em/2em Arial, Helvetica;
+		margin: 0 0.75em 0 0;
+		overflow: visible;
+		padding: 0 1.5em;
+		text-decoration: none !important;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+		white-space: nowrap;
+		zoom: 1;
+	}
+
+	.ym-button:hover,
+	.ym-form button:hover,
+	.ym-form input[type="button"]:hover,
+	.ym-form input[type="reset"]:hover,
+	.ym-form input[type="submit"]:hover {
+		background-color: #fafafa;
+		background-image: -webkit-linear-gradient(top, #fafafa, #dddddd);
+		background-image: -moz-linear-gradient(top, #fafafa, #dddddd);
+		background-image: -ms-linear-gradient(top, #fafafa, #dddddd);
+		background-image: linear-gradient(to bottom, #fafafa,#dddddd);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFFAFAFA', endColorstr='#FFDDDDDD');
+		zoom: 1;
+	}
+
+	.ym-button:active,
+	.ym-form button:active,
+	.ym-form input[type="button"]:active,
+	.ym-form input[type="reset"]:active,
+	.ym-form input[type="submit"]:active {
+		background-color: #cccccc;
+		background-image: -webkit-linear-gradient(top, #cccccc, #bbbbbb);
+		background-image: -moz-linear-gradient(top, #cccccc, #bbbbbb);
+		background-image: -ms-linear-gradient(top, #cccccc, #bbbbbb);
+		background-image: linear-gradient(to bottom, #cccccc,#bbbbbb);
+		-webkit-box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFCCCCCC', endColorstr='#FFBBBBBB');
+		position: relative;
+		top: 1px;
+		zoom: 1;
+	}
+
+	.ym-button:focus,
+	.ym-form button:focus,
+	.ym-form input[type="button"]:focus,
+	.ym-form input[type="reset"]:focus,
+	.ym-form input[type="submit"]:focus {
+		background: #fafafa;
+		outline: 0;
+	}
+
+	.ym-button {
+	}
+
+	.ym-button.ym-xlarge {
+		font-size: 1.5em;
+	}
+
+	.ym-button.ym-large {
+		font-size: 1.2857em;
+	}
+
+	.ym-button.ym-small {
+		font-size: 0.8571em;
+	}
+
+	.ym-button.ym-xsmall {
+		font-size: 0.7143em;
+	}
+
+	.ym-button.ym-primary,
+	.ym-form button.ym-primary,
+	.ym-form input[type="button"].ym-primary,
+	.ym-form input[type="reset"].ym-primary,
+	.ym-form input[type="submit"].ym-primary {
+		background-color: #8888ee;
+		background-image: -webkit-linear-gradient(top, #8888ee, #6666cc);
+		background-image: -moz-linear-gradient(top, #8888ee, #6666cc);
+		background-image: -ms-linear-gradient(top, #8888ee, #6666cc);
+		background-image: linear-gradient(to bottom, #8888ee,#6666cc);
+		border: 1px solid #007;
+		-webkit-box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		color: #fff !important;
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF8888EE', endColorstr='#FF6666CC');
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+		zoom: 1;
+	}
+
+	.ym-button.ym-primary:hover,
+	.ym-form button.ym-primary:hover,
+	.ym-form input[type="button"].ym-primary:hover,
+	.ym-form input[type="reset"].ym-primary:hover,
+	.ym-form input[type="submit"].ym-primary:hover {
+		background-color: #8888ff;
+		background-image: -webkit-linear-gradient(top, #8888ff, #6666dd);
+		background-image: -moz-linear-gradient(top, #8888ff, #6666dd);
+		background-image: -ms-linear-gradient(top, #8888ff, #6666dd);
+		background-image: linear-gradient(to bottom, #8888ff,#6666dd);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF8888FF', endColorstr='#FF6666DD');
+		zoom: 1;
+	}
+
+	.ym-button.ym-primary:active,
+	.ym-form button.ym-primary:active,
+	.ym-form input[type="button"].ym-primary:active,
+	.ym-form input[type="reset"].ym-primary:active,
+	.ym-form input[type="submit"].ym-primary:active {
+		background-color: #8888cc;
+		background-image: -webkit-linear-gradient(top, #8888cc, #6666aa);
+		background-image: -moz-linear-gradient(top, #8888cc, #6666aa);
+		background-image: -ms-linear-gradient(top, #8888cc, #6666aa);
+		background-image: linear-gradient(to bottom, #8888cc,#6666aa);
+		-webkit-box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF8888CC', endColorstr='#FF6666AA');
+		zoom: 1;
+	}
+
+	.ym-button.ym-primary:focus,
+	.ym-form button.ym-primary:focus,
+	.ym-form input[type="button"].ym-primary:focus,
+	.ym-form input[type="reset"].ym-primary:focus,
+	.ym-form input[type="submit"].ym-primary:focus {
+		background: #88f;
+		outline: 0;
+	}
+
+	.ym-button.ym-success,
+	.ym-form button.ym-success,
+	.ym-form input[type="button"].ym-success,
+	.ym-form input[type="reset"].ym-success,
+	.ym-form input[type="submit"].ym-success {
+		background-color: #66bb66;
+		background-image: -webkit-linear-gradient(top, #66bb66, #449944);
+		background-image: -moz-linear-gradient(top, #66bb66, #449944);
+		background-image: -ms-linear-gradient(top, #66bb66, #449944);
+		background-image: linear-gradient(to bottom, #66bb66,#449944);
+		border: 1px solid #070;
+		-webkit-box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		color: #fff !important;
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF66BB66', endColorstr='#FF449944');
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+		zoom: 1;
+	}
+
+	.ym-button.ym-success:hover,
+	.ym-form button.ym-success:hover,
+	.ym-form input[type="button"].ym-success:hover,
+	.ym-form input[type="reset"].ym-success:hover,
+	.ym-form input[type="submit"].ym-success:hover {
+		background-color: #66cc66;
+		background-image: -webkit-linear-gradient(top, #66cc66, #55aa55);
+		background-image: -moz-linear-gradient(top, #66cc66, #55aa55);
+		background-image: -ms-linear-gradient(top, #66cc66, #55aa55);
+		background-image: linear-gradient(to bottom, #66cc66,#55aa55);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF66CC66', endColorstr='#FF55AA55');
+		zoom: 1;
+	}
+
+	.ym-button.ym-success:active,
+	.ym-form button.ym-success:active,
+	.ym-form input[type="button"].ym-success:active,
+	.ym-form input[type="reset"].ym-success:active,
+	.ym-form input[type="submit"].ym-success:active {
+		background-color: #66aa66;
+		background-image: -webkit-linear-gradient(top, #66aa66, #448844);
+		background-image: -moz-linear-gradient(top, #66aa66, #448844);
+		background-image: -ms-linear-gradient(top, #66aa66, #448844);
+		background-image: linear-gradient(to bottom, #66aa66,#448844);
+		-webkit-box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FF66AA66', endColorstr='#FF448844');
+		zoom: 1;
+	}
+
+	.ym-button.ym-success:focus,
+	.ym-form button.ym-success:focus,
+	.ym-form input[type="button"].ym-success:focus,
+	.ym-form input[type="reset"].ym-success:focus,
+	.ym-form input[type="submit"].ym-success:focus {
+		background: #6c6;
+		outline: 0;
+	}
+
+	.ym-button.ym-warning,
+	.ym-form button.ym-warning,
+	.ym-form input[type="button"].ym-warning,
+	.ym-form input[type="reset"].ym-warning,
+	.ym-form input[type="submit"].ym-warning {
+		background-color: #ddaa44;
+		background-image: -webkit-linear-gradient(top, #ddaa44, #bb7722);
+		background-image: -moz-linear-gradient(top, #ddaa44, #bb7722);
+		background-image: -ms-linear-gradient(top, #ddaa44, #bb7722);
+		background-image: linear-gradient(to bottom, #ddaa44,#bb7722);
+		border: 1px solid #970;
+		-webkit-box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		color: #fff !important;
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFDDAA44', endColorstr='#FFBB7722');
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+		zoom: 1;
+	}
+
+	.ym-button.ym-warning:hover,
+	.ym-form button.ym-warning:hover,
+	.ym-form input[type="button"].ym-warning:hover,
+	.ym-form input[type="reset"].ym-warning:hover,
+	.ym-form input[type="submit"].ym-warning:hover {
+		background-color: #eebb55;
+		background-image: -webkit-linear-gradient(top, #eebb55, #cc8833);
+		background-image: -moz-linear-gradient(top, #eebb55, #cc8833);
+		background-image: -ms-linear-gradient(top, #eebb55, #cc8833);
+		background-image: linear-gradient(to bottom, #eebb55,#cc8833);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFEEBB55', endColorstr='#FFCC8833');
+		zoom: 1;
+	}
+
+	.ym-button.ym-warning:active,
+	.ym-form button.ym-warning:active,
+	.ym-form input[type="button"].ym-warning:active,
+	.ym-form input[type="reset"].ym-warning:active,
+	.ym-form input[type="submit"].ym-warning:active {
+		background-color: #cc9944;
+		background-image: -webkit-linear-gradient(top, #cc9944, #aa6622);
+		background-image: -moz-linear-gradient(top, #cc9944, #aa6622);
+		background-image: -ms-linear-gradient(top, #cc9944, #aa6622);
+		background-image: linear-gradient(to bottom, #cc9944,#aa6622);
+		-webkit-box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFCC9944', endColorstr='#FFAA6622');
+		zoom: 1;
+	}
+
+	.ym-button.ym-warning:focus,
+	.ym-form button.ym-warning:focus,
+	.ym-form input[type="button"].ym-warning:focus,
+	.ym-form input[type="reset"].ym-warning:focus,
+	.ym-form input[type="submit"].ym-warning:focus {
+		background: #da4;
+		outline: 0;
+	}
+
+	.ym-button.ym-danger,
+	.ym-form button.ym-danger,
+	.ym-form input[type="button"].ym-danger,
+	.ym-form input[type="reset"].ym-danger,
+	.ym-form input[type="submit"].ym-danger {
+		background-color: #bb6666;
+		background-image: -webkit-linear-gradient(top, #bb6666, #994444);
+		background-image: -moz-linear-gradient(top, #bb6666, #994444);
+		background-image: -ms-linear-gradient(top, #bb6666, #994444);
+		background-image: linear-gradient(to bottom, #bb6666,#994444);
+		border: 1px solid #700;
+		-webkit-box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(0, 0, 0, 0.15);
+		color: #fff !important;
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFBB6666', endColorstr='#FF994444');
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
+		zoom: 1;
+	}
+
+	.ym-button.ym-danger:hover,
+	.ym-form button.ym-danger:hover,
+	.ym-form input[type="button"].ym-danger:hover,
+	.ym-form input[type="reset"].ym-danger:hover,
+	.ym-form input[type="submit"].ym-danger:hover {
+		background-color: #cc6666;
+		background-image: -webkit-linear-gradient(top, #cc6666, #aa5555);
+		background-image: -moz-linear-gradient(top, #cc6666, #aa5555);
+		background-image: -ms-linear-gradient(top, #cc6666, #aa5555);
+		background-image: linear-gradient(to bottom, #cc6666,#aa5555);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFCC6666', endColorstr='#FFAA5555');
+		zoom: 1;
+	}
+
+	.ym-button.ym-danger:active,
+	.ym-form button.ym-danger:active,
+	.ym-form input[type="button"].ym-danger:active,
+	.ym-form input[type="reset"].ym-danger:active,
+	.ym-form input[type="submit"].ym-danger:active {
+		background-color: #aa5555;
+		background-image: -webkit-linear-gradient(top, #aa5555, #884444);
+		background-image: -moz-linear-gradient(top, #aa5555, #884444);
+		background-image: -ms-linear-gradient(top, #aa5555, #884444);
+		background-image: linear-gradient(to bottom, #aa5555,#884444);
+		-webkit-box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.2);
+		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr='#FFAA5555', endColorstr='#FF884444');
+		zoom: 1;
+	}
+
+	.ym-button.ym-danger:focus,
+	.ym-form button.ym-danger:focus,
+	.ym-form input[type="button"].ym-danger:focus,
+	.ym-form input[type="reset"].ym-danger:focus,
+	.ym-form input[type="submit"].ym-danger:focus {
+		background: #c66;
+		outline: 0;
+	}
+
+	.ym-form button:before,
+	.ym-button:before {
+		background: rgba(0, 0, 0, 0.1);
+		border-radius: .15em 0 0 .15em;
+		-webkit-box-shadow: 1px 0 0 rgba(0, 0, 0, 0.5), 2px 0 0 rgba(255, 255, 255, 0.5);
+		box-shadow: 1px 0 0 rgba(0, 0, 0, 0.5), 2px 0 0 rgba(255, 255, 255, 0.5);
+		float: left;
+		font-size: 1.5em;
+		margin: 0 1em 0 -1em;
+		padding: 0 .2em;
+		pointer-events: none;
+		text-align: center;
+		width: 1em;
+	}
+
+	.ym-add:before {
+		content: "\271A";
+	}
+
+	.ym-delete:before {
+		content: "\2718";
+	}
+
+	.ym-close:before {
+		content: "\2715";
+	}
+
+	.ym-edit:before {
+		content: "\270E";
+	}
+
+	.ym-email:before {
+		content: "\2709";
+	}
+
+	.ym-like:before {
+		content: "\2764";
+	}
+
+	.ym-next:before {
+		content: "\279C";
+	}
+
+	.ym-play:before {
+		content: "\25B6";
+	}
+
+	.ym-reply:before {
+		content: "\27A5";
+	}
+
+	.ym-save:before {
+		content: "\2714";
+	}
+
+	.ym-sign:before {
+		content: "\270D";
+	}
+
+	.ym-spark:before {
+		content: "\2737";
+	}
+
+	.ym-support:before {
+		content: "\2706";
+	}
+
+	.ym-star:before {
+		content: "\2605";
+	}
+
+	.ym-form button::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
+
+	.ym-form input[type=button]::-moz-focus-inner,
+	.ym-form input[type=reset]::-moz-focus-inner,
+	.ym-form input[type=submit]::-moz-focus-inner {
+		padding: .4em;
+	}
+
+	.ym-form button[disabled],
+	.ym-form button[disabled]:hover,
+	.ym-form input[type=button][disabled],
+	.ym-form input[type=button][disabled]:hover,
+	.ym-form input[type=reset][disabled],
+	.ym-form input[type=reset][disabled]:hover,
+	.ym-form input[type=submit][disabled],
+	.ym-form input[type=submit][disabled]:hover,
+	.ym-button.ym-disabled,
+	.ym-button.ym-disabled:hover {
+		background: #eee;
+		border-color: #aaa;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		color: #aaa !important;
+		cursor: default;
+		position: static;
+		text-shadow: none;
+	}
+
+	* html .ym-button,
+	* html .ym-form button {
+		background-color: #ccc;
+		border: 1px solid #777;
+		color: #333 !important;
+		cursor: pointer;
+		display: inline-block;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+		font: normal 1em/2em Arial, Helvetica;
+		margin: 1.5em 0.75em 0 0;
+		overflow: visible;
+		padding: 0 1.5em;
+		text-decoration: none !important;
+		white-space: nowrap;
+	}
+
+	* html .ym-form button:focus,
+	* html .ym-button:focus {
+		background: #fafafa;
+		outline: 0;
+	}
+
+	* html .ym-form button:hover,
+	* html .ym-button:hover {
+		background-color: #ddd;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa', EndColorStr='#dddddd');
+	}
+
+	* html .ym-form button:active,
+	* html .ym-button:active {
+		background-color: #bbb;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#cccccc', EndColorStr='#bbbbbb');
+		position: relative;
+		top: 1px;
+	}
+
+	* html .ym-button.ym-disabled,
+	* html .ym-button.ym-disabled:hover {
+		background: #eee;
+		border-color: #aaa;
+		color: #aaa !important;
+		cursor: default;
+		position: static;
+		text-shadow: none;
+	}
+
+	* html .ym-button {
+	}
+
+	* html .ym-button.ym-primary {
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#8888ee', EndColorStr='#6666cc');
+	}
+
+	* html .ym-button.ym-success {
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#66bb66', EndColorStr='#449944');
+	}
+
+	* html .ym-button.ym-warning {
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddaa44', EndColorStr='#BB7722');
+	}
+
+	* html .ym-button.ym-danger {
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#bb6666', EndColorStr='#994444');
+	}
+
+	* html .ym-button.ym-xlarge {
+		font-size: 1.5em;
+	}
+
+	* html .ym-button.ym-large {
+		font-size: 1.2857em;
+	}
+
+	* html .ym-button.ym-small {
+		font-size: 0.8571em;
+	}
+
+	* html .ym-button.ym-xsmall {
+		font-size: 0.7143em;
+	}
+
+}
+

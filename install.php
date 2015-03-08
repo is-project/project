@@ -72,7 +72,8 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(1, 2),
 	(1, 3),
 	(1, 4),
-	(1, 5);");
+	(1, 5),
+	(1, 6);");
 
 	if($test_data)
 		mysql_query("INSERT INTO `link_groups_permissions` (`group`, `permission`) VALUES
@@ -81,17 +82,20 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 		(4, 3),
 		(4, 4),
 		(4, 5),
+		(4, 6),
 		(7, 1),
 		(7, 2),
 		(7, 3),
 		(7, 4),
 		(7, 5),
+		(7, 6),
 		(8, 1),
 		(10, 1),
 		(10, 2),
 		(10, 3),
 		(10, 4),
-		(10, 5);");
+		(10, 5),
+		(10, 6);");
 
 	#######################################
 
@@ -142,7 +146,8 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(2, 'edit_project_metadata', 'Edit the projects meta data (name, description, parent project).'),
 	(3, 'create_child_project', 'Create a new child/sub project'),
 	(4, 'delete_child_project', 'Delete a child/sub project'),
-	(5, 'edit_record_structure', 'Edit the record structure for all records containing to this project.');");
+	(5, 'edit_record_structure', 'Edit the record structure for all records containing to this project.'),
+	(6, 'manage_groups', 'Permission to view / edit / create / delete groups in a project. This includes also the user management for all groups in the given project.');");
 
 	#######################################
 
@@ -167,15 +172,50 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	##
 
 	mysql_query("INSERT INTO `projects` (`project`, `parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES
-	(1, 0, 0, 'TUBAF', 'Root Project', '[{\"col_name\":\"record\",\"title\":\"Record\",\"type\":\"int\",\"weight\":0},{\"col_name\":\"deleted\",\"title\":\"Deleted\",\"type\":\"timestamp\",\"weight\":1},{\"col_name\":\"deleted_by\",\"title\":\"Deleted By\",\"type\":\"int\",\"weight\":2},{\"col_name\":\"created\",\"title\":\"Created\",\"type\":\"timestamp\",\"weight\":3},{\"col_name\":\"created_by\",\"title\":\"Created By\",\"type\":\"int\",\"weight\":4}]');");
+	(1, 0, 0, 'TUBAF', 'Root Project', '[]');");
 	
 	if($test_data)
-		mysql_query("INSERT INTO `projects` (`project`, `parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES
-		(2, 1, 1, 'Physik', 'Projekt für den Fachbereich Physik', '[{\"col_name\":\"record\",\"title\":\"Record\",\"type\":\"int\",\"weight\":0},{\"col_name\":\"deleted\",\"title\":\"Deleted\",\"type\":\"timestamp\",\"weight\":1},{\"col_name\":\"deleted_by\",\"title\":\"Deleted By\",\"type\":\"int\",\"weight\":2},{\"col_name\":\"created\",\"title\":\"Created\",\"type\":\"timestamp\",\"weight\":3},{\"col_name\":\"created_by\",\"title\":\"Created By\",\"type\":\"int\",\"weight\":4}]'),
-		(3, 1, 1, 'Chemie', 'Projekt für den Fachbereich Chemie', '[{\"col_name\":\"record\",\"title\":\"Record\",\"type\":\"int\",\"weight\":0},{\"col_name\":\"deleted\",\"title\":\"Deleted\",\"type\":\"timestamp\",\"weight\":1},{\"col_name\":\"deleted_by\",\"title\":\"Deleted By\",\"type\":\"int\",\"weight\":2},{\"col_name\":\"created\",\"title\":\"Created\",\"type\":\"timestamp\",\"weight\":3},{\"col_name\":\"created_by\",\"title\":\"Created By\",\"type\":\"int\",\"weight\":4}]'),
-		(4, 2, 2, 'Pyromaterialien', 'Untersuchngen zu Pyromaterialien im Fachbereich Physik', '[{\"col_name\":\"record\",\"title\":\"Record\",\"type\":\"int\",\"weight\":0},{\"col_name\":\"deleted\",\"title\":\"Deleted\",\"type\":\"timestamp\",\"weight\":1},{\"col_name\":\"deleted_by\",\"title\":\"Deleted By\",\"type\":\"int\",\"weight\":2},{\"col_name\":\"created\",\"title\":\"Created\",\"type\":\"timestamp\",\"weight\":3},{\"col_name\":\"created_by\",\"title\":\"Created By\",\"type\":\"int\",\"weight\":4}]');");
+		mysql_query('INSERT INTO `projects` (`project`, `parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES
+		(2, 1, 1, \'Physik\', \'Projekt für den Fachbereich Physik\', \'[]\'),
+		(3, 1, 1, \'Chemie\', \'Projekt für den Fachbereich Chemie\', \'[]\'),
+		(4, 2, 2, \'Pyromaterialien\', \'Untersuchngen zu Pyromaterialien im Fachbereich Physik\', \'[{"col_name":"param1","title":"Material","type":"text","weight":0,"length":50},{"col_name":"param2","title":"$ T2 ~~\\\\\\\\mbox{in}~~ \\\\\\\\frac{\\\\\\\\mu C}{m^2K} $","type":"double","weight":1,"decimal_places":3},{"col_name":"param3","title":"Ordnungszahl","type":"int","weight":2}]\');');
 
 	#######################################
+
+	##
+	## Table structure for table `data_project_n`
+	##
+	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_1` (
+		`entry` int(11) NOT NULL,
+		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  `created_by` int(11) NOT NULL,
+		  `deleted` timestamp NULL DEFAULT NULL,
+		  `deleted_by` int(11) DEFAULT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+
+	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_2` (
+		`entry` int(11) NOT NULL,
+		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  `created_by` int(11) NOT NULL,
+		  `deleted` timestamp NULL DEFAULT NULL,
+		  `deleted_by` int(11) DEFAULT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+
+	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_3` (
+		`entry` int(11) NOT NULL,
+		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  `created_by` int(11) NOT NULL,
+		  `deleted` timestamp NULL DEFAULT NULL,
+		  `deleted_by` int(11) DEFAULT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+
+	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_4` (
+		`entry` int(11) NOT NULL,
+		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  `created_by` int(11) NOT NULL,
+		  `deleted` timestamp NULL DEFAULT NULL,
+		  `deleted_by` int(11) DEFAULT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 
 	##
 	## Table structure for table `users`

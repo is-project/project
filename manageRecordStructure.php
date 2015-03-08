@@ -19,8 +19,8 @@ $layout->setActiveMenuTrail('project-record-structure');
 if(isset($_GET['action'])) {
 
 	switch($_GET['action']) {
-		case 'submitEditRecordStructureForm':
-			submitEditRecordStructureForm($layout);
+		case 'submitAddEditRecordStructureForm':
+			submitAddEditRecordStructureForm($layout);
 			break;
 		
 		default:
@@ -46,53 +46,55 @@ $layout->showManageRecordStructureForm($data);
 $layout->_print();
 
 
-function submitEditRecordStructureForm($layout) {
+function submitAddEditRecordStructureForm($layout) {
 	global $current_user;
 	global $current_project;
 
-	if(!isset($_POST['record-structure'])) {
+	if(!isset($_POST['title'], $_POST['type'], $_POST['length'], $_POST['dec_places'])) {
 		$layout->toast('##Form Error##', 'error');
 		return -1;
 	}
 
-	$old_rs = $current_project->getRecordStructure();
+	$errors = $current_project->addRecordStructureColoumn($_POST);
 
-	$data = json_decode( $_POST['record-structure'] );
-	$new_rs = array();
-	foreach ($data as $weight => $col) {
-		if(is_null($col[0])) $col[0] = count($new_rs);
-		$new_rs[ $col[0] ] = array(
-				'col_name' => $col[0],
-				'title' => $col[1],
-				'type' => $col[2],
-				'length' => $col[3],
-				'decimal_places' => $col[4],
-				'weight' => $weight,
-			);
+	if(count($errors)) {
+		$err_str = array();
+		if(in_array(ERROR_RECORD_STRUCTURE_TITLE_NO_STRING, $errors))
+			$err_str[] = '##Title must be a string.##';
+		if(in_array(ERROR_RECORD_STRUCTURE_TITLE_EMPTY, $errors))
+			$err_str[] = '##Title cannot be empty.##';
+		if(in_array(ERROR_RECORD_STRUCTURE_TYPE_INVALID, $errors))
+			$err_str[] = '##Invalid type selection.##';
+		if(in_array(ERROR_RECORD_STRUCTURE_LENGTH_INVALID, $errors))
+			$err_str[] = '##Length must be an integer.##';
+		if(in_array(ERROR_RECORD_STRUCTURE_DECPLACES_INVALID, $errors))
+			$err_str[] = '##Decimal Places must be an integer.##';
+
+		$layout->addJS('settings', array('form-errors' => $err_str));
+		$layout->addJS('settings', array('form-status' => 'add'));
+		$layout->addJS('settings', array('form-values' => array(
+			'title' => $_POST['title'],
+			'type' => $_POST['type'],
+			'length' => $_POST['length'],
+			'dec_places' => $_POST['dec_places']
+			)));
+
+	} else {
+		$current_project->saveProject();
+		$layout->toast('##Record structure coloumn was added successfully.##');
 	}
-
-	switch($current_project->setRecordStructure( $new_rs )) {
-		case ERROR_PROJECT_EDIT_RECORD_STRUCTURE: 
-			$layout->toast('##Error while editing Record Structure.##', 'error');
-			$layout->addJS('settings', array('data2' => $new_rs));
-
-			$data = array();
-			foreach ($new_rs as $col) {
-				$data[] = array(
-						$col['col_name'],
-						$col['title'],
-						$col['type'],
-						isset($col['length']) ? $col['length'] : NULL,
-						isset($col['decimal_places']) ? $col['decimal_places'] : NULL,
-					);
-			}
-			$layout->addJS('settings', array('data2' => $data));
-			break;
-		default:
-			$project->saveProject();
-			$layout->toast('##Record Structure was edited successfully.##');
-	}
-
+	
+	// switch( $project->setName($_POST['project-name']) ) {
+	// 	case ERROR_INVALID_PROJECT_NAME_EMPTY: 
+	// 		$errors['project-name'] = '##Project Name cannot be empty.##';
+	// 		break;
+	// 	case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
+	// 		$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
+	// 		break;
+	// 	case ERROR_PROJECT_ACCESS_DENIED: 
+	// 		$errors['project-name'] = '##Access Denied.##';
+	// 		break;
+	// }
 }
 
 ?>

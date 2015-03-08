@@ -34,7 +34,10 @@ class bo_project
 				});
 
 				$this->groups = array();
-				// TODO: add project groups
+				$_group = mysql_query("SELECT `group` FROM `groups` WHERE `project` = $project");
+				while($result = mysql_fetch_object($_group)) {
+	    			$this->groups[] = $result;
+			    }
 			} else {
 				$project = 0;
 			}
@@ -49,7 +52,7 @@ class bo_project
 			$this->name = null;
 			$this->description = null;
 			// $this->record_structure = '[{"col_name":"record","title":"Record","type":"int","weight":0},{"col_name":"deleted","title":"Deleted","type":"timestamp","weight":1},{"col_name":"deleted_by","title":"Deleted By","type":"int","weight":2},{"col_name":"created","title":"Created","type":"timestamp","weight":3},{"col_name":"created_by","title":"Created By","type":"int","weight":4}]';
-			$this->record_structure = '[]';
+			$this->record_structure = array();
 			
 			$this->groups = array();
 
@@ -134,94 +137,72 @@ class bo_project
 		// }
 	}
 
-	public function setRecordStructure($new_rs) {
+	public function addRecordStructureColoumn($new_rs) {
 
-		$old_rs = $this->record_structure;
+		$errors = array();
 
-		print '<hr><pre>';
-		var_export( $new_rs );
-		print '</pre><hr>';
+		if(!is_string($new_rs['title']))
+			$errors[] = ERROR_RECORD_STRUCTURE_TITLE_NO_STRING;
 
-		print '<hr><pre>';
-		var_export( $old_rs );
-		print '</pre><hr>';
+		if($new_rs['title'] == '')
+			$errors[] = ERROR_RECORD_STRUCTURE_TITLE_EMPTY;
 
-		if( !is_array($new_rs) ) return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
-		// var_export($new_rs); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
-		foreach ($new_rs as $weight => $col) {
-			if(array_keys($col) != array ('col_name', 'title', 'type', 'length', 'decimal_places', 'weight') ) return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
+		if( !in_array($new_rs['type'], array('int','double','timestamp','boolean','text') ) )
+			$errors[] = ERROR_RECORD_STRUCTURE_TYPE_INVALID;
 
-			print 'Validate col_name<br>';
-			if(!is_string($col['col_name']) && !valid_int($col['col_name'])) {print '<hr>';var_export($col); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;}
+		if( $new_rs['type'] == 'text' && !valid_int($new_rs['length']) )
+			$errors[] = ERROR_RECORD_STRUCTURE_LENGTH_INVALID;
 
-			print 'Validate title<br>';
-			if(!is_string($col['title']) || $col['title'] == '') {print '<hr>';var_export($col); return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;}
+		if( $new_rs['type'] == 'double' && !valid_int($new_rs['dec_places']) )
+			$errors[] = ERROR_RECORD_STRUCTURE_DECPLACES_INVALID;
 
+		if(count($errors)) return $errors;
+		
+		$new_rs['decimal_places'] = $new_rs['dec_places'];
+		unset($new_rs['dec_places']);
+		$new_rs['weight'] = count($this->record_structure);
+
+		$max = 0;
+		foreach ($this->record_structure as $c) {
+			$tmp = intval( str_replace('param', '', $c->col_name) );
+			if($tmp > $max) $max = $tmp;
 		}
 
-		print 'DEBUG #1 <br>';
+		$new_rs['col_name'] = 'param'.($max+1);
 
-		// foreach ($old_rs as $weight => $col) {
-		// 	print 'Untersuche ' . $col->col_name . '<br>';
-		// 	if( isset($new_rs[$col->col_name]) ) {
-		// 		print 'existiert noch<br>';
-				
-		// 		if($new_rs[$col->col_name]['title'] == $col->title) {
-		// 			print 'Titel ---<br>';
-		// 		} else {
-		// 			print 'Titel +++<br>';
-		// 		}
+		switch ($new_rs['type']) {
+			case 'int':
+				// mysql_query("ALTER TABLE `data_project_{$this->project}` ADD `{$new_rs['col_name']}` INT NOT NULL ;");
+				break;
+			case 'double':
+				// mysql_query("ALTER TABLE `data_project_{$this->project}` ADD `{$new_rs['col_name']}` DOUBLE NOT NULL ;");
+				break;
+			case 'timestamp':
+				// mysql_query("ALTER TABLE `data_project_{$this->project}` ADD `{$new_rs['col_name']}` TIMESTAMP NOT NULL ;");
+				break;
+			case 'boolean':
+				// mysql_query("ALTER TABLE `data_project_{$this->project}` ADD `{$new_rs['col_name']}` BOOLEAN NOT NULL ;");
+				break;
+			case 'text':
+				// mysql_query("ALTER TABLE `data_project_{$this->project}` ADD `{$new_rs['col_name']}` VARCHAR({$new_rs['length']}) NOT NULL ;");
+				break;
+		}
 
-		// 		if($new_rs[$col->col_name]['type'] == $col->type) {
-		// 			print 'type ---<br>';
-		// 		} else {
-		// 			print 'type +++<br>';
-		// 		}
+		$this->record_structure[] = $new_rs;
 
-		// 		if($new_rs[$col->col_name]['weight'] == $col->weight) {
-		// 			print 'weight ---<br>';
-		// 		} else {
-		// 			print 'weight +++<br>';
-		// 		}
+		print '<pre>';
+		var_export($this->record_structure);
+		print '</pre>';
 
-		// 		if(
-		// 			isset($new_rs[$col->col_name]['length']) && !isset($col->length) ||
-		// 			!isset($new_rs[$col->col_name]['length']) && isset($col->length) ||
-		// 			isset($new_rs[$col->col_name]['length'], $col->length) && $new_rs[$col->col_name]['length'] != $col->length
-		// 		) {
-		// 			print 'length +++<br>';
-		// 		} else {
-		// 			print 'length ---<br>';
-		// 		}
+		$this->record_structure = json_encode($this->record_structure);
+		$this->record_structure = json_decode($this->record_structure);
 
-		// 		if(
-		// 			isset($new_rs[$col->col_name]['decimal_places']) && !isset($col->decimal_places) ||
-		// 			!isset($new_rs[$col->col_name]['decimal_places']) && isset($col->decimal_places) ||
-		// 			isset($new_rs[$col->col_name]['decimal_places'], $col->decimal_places) && $new_rs[$col->col_name]['decimal_places'] != $col->decimal_places
-		// 		) {
-		// 			print 'decimal_places +++<br>';
-		// 		} else {
-		// 			print 'decimal_places ---<br>';
-		// 		}
+		print '<hr><pre>';
+		var_export($this->record_structure);
+		print '</pre>';
 
-		// 		unset($new_rs[$col->col_name]);
-
-		// 	} else {
-		// 		print 'existiert nicht mehr';
-		// 	}
-
-		// 	print '<hr>';
-		// }
-
-		// foreach ($new_rs as $key => $value) {
-		// 	print 'new_rs[\''.$key.'\'] ist neu.<br>';
-		// }
-
-		return ERROR_PROJECT_EDIT_RECORD_STRUCTURE;
-
+		mysql_query('UPDATE `projects` SET `record_structure` = \''.mysql_real_escape_string(json_encode($this->record_structure)).'\'WHERE `project` = '.$this->project.' LIMIT 1;') or _die('Error while saving the project.', mysql_error());
 	}
-
-
 
 	public function getListOfChildProjects($all = false) {
 		global $current_user;
@@ -256,6 +237,14 @@ class bo_project
 		}
 	}
 
+
+	public function getListOfGroups(){
+		global $current_user;
+		if(!$current_user->access('view_project_metadata',$this->project) && !!$current_user->access('manage_groups',$this->project)) return ERROR_PROJECT_ACCESS_DENIED;
+
+		return $this->groups;
+	}
+
 	public function saveProject() {
 		global $current_user;
 		if($this->project == 0) { // new project, sql INSERT
@@ -265,7 +254,7 @@ class bo_project
 			$description = isset($this->description) ? "'".mysql_real_escape_string( $this->description )."'" : 'NULL';
 
 			// add project
-			mysql_query("INSERT INTO `projects` (`parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES ({$this->parent_project}, {$current_user->getUser()}, '$name', $description, '{$this->record_structure}')") or _die('Error while saving the project.', mysql_error());
+			mysql_query("INSERT INTO `projects` (`parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES ({$this->parent_project}, {$current_user->getUser()}, '$name', $description, '".json_encode($this->record_structure)."')") or _die('Error while saving the project.', mysql_error());
 			$this->project = mysql_insert_id();
 
 			// add group "project leader"

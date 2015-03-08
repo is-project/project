@@ -57,11 +57,11 @@ class vo {
 				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 			}
 
-			#if( $current_user->access('EDIT_GROUPSSSS',$current_project->getProject()) ) {
+			if( $current_user->access('manage_groups',$current_project->getProject()) ) {
 				$replace = array('manageGroups.php', '%active-project-groups%', 'Groups');
 				$projectOverview = str_replace($search, $replace, $link);
 				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
-			#}
+			}
 		}
 
 		$project_nav = str_replace('%links%', '', $project_nav);
@@ -98,6 +98,49 @@ class vo {
 
 		$this->html = str_replace($search, $replace, $this->html);
 
+	}
+
+	protected function buildTable($structure) {
+		$tb = '';
+
+		$buttons = '';
+
+		foreach ($structure['settings']['buttons'] as $button)
+			$buttons .= '<a href="'.$button['href'].'" class="button" id="'.$button['id'].'">'.$button['title'].'</a>';
+
+		$tb .= $buttons;
+
+		$tb .= '<table class="data">';
+		$tb .= '<thead><tr>';
+		$tb .= '<th width="10px"><input type="checkbox" id="checkall"></th>';
+		foreach ($structure['settings']['header'] as $cell) {
+			$tb .= '<th>';
+			$tb .= $cell['title'];
+			$tb .= '</th>';
+		}
+		$tb .= '</tr></thead>';
+
+		$tb .= '<tbody>';
+		$odd_even = 'odd';
+		foreach ($structure['content'] as $id => $row) {
+			$tb .= '<tr class="'.$odd_even.'">';
+			if($odd_even == 'odd') $odd_even = 'even';
+			else $odd_even = 'odd';
+			$tb .= '<td><input type="checkbox" id="'.$id.'"></td>';
+			foreach ($row as $cell) {
+				$tb .= '<td>';
+				$tb .= $cell;
+				$tb .= '</td>';
+			}
+			$tb .= '</tr>';
+		}
+		$tb .= '</tbody>';
+
+		$tb .= '</table>';
+		
+		$tb .= $buttons;
+
+		return $tb;
 	}
 
 	public function _print() {

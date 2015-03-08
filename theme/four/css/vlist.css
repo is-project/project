@@ -1,0 +1,160 @@
+/** Project: IT-Webapplication
+ *  Description: 
+ *
+ *  @creator       Thinkin-Tags v0.5.3
+ *  @framework     YAML v4.1.2
+ *  @file          vlist.css
+ */
+
+@media all {
+
+	.ym-vlist {
+		background: transparent;
+		border: 0 none;
+		list-style-type: none;
+		margin: 0 0 1.5em 0;
+	}
+
+	.ym-vlist ul {
+		border-bottom: 2px #ddd solid;
+		border-top: 2px #ddd solid;
+		list-style-type: none;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		width: 100%;
+	}
+
+	.ym-vlist ul ul {
+		border: 0 none;
+	}
+
+	.ym-vlist li {
+		background-color: #fff;
+		float: left;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+
+	.ym-vlist a,
+	.ym-vlist strong,
+	.ym-vlist span {
+		border-bottom: 1px #ddd solid;
+		display: block;
+		padding: 3px 0px 3px 10%;
+		text-decoration: none;
+	}
+
+	.ym-vlist a,
+	.ym-vlist a:visited {
+		color: #444;
+	}
+
+	.ym-vlist li span {
+		border-bottom: 1px #ddd solid;
+		display: block;
+		font-weight: bold;
+	}
+
+	.ym-vlist li.active {
+		background-color: #444;
+		color: #fff;
+	}
+
+	.ym-vlist li.active strong {
+		font-weight: bold;
+	}
+
+	.ym-vlist li a,
+	.ym-vlist li strong,
+	.ym-vlist li span {
+		padding-left: 10%;
+		width: 90%;
+	}
+
+	.ym-vlist li a:focus,
+	.ym-vlist li a:hover,
+	.ym-vlist li a:active {
+		background-color: #888;
+		color: #fff;
+		outline: 0 none;
+	}
+
+	.ym-vlist li ul li a,
+	.ym-vlist li ul li strong,
+	.ym-vlist li ul li span {
+		padding-left: 20%;
+		width: 80%;
+	}
+
+	.ym-vlist li ul li a,
+	.ym-vlist li ul li a:visited {
+		background-color: #f8f8f8;
+		color: #333;
+	}
+
+	.ym-vlist li ul li a:focus,
+	.ym-vlist li ul li a:hover,
+	.ym-vlist li ul li a:active {
+		background-color: #888;
+		color: #fff;
+	}
+
+	.ym-vlist li ul li ul li a,
+	.ym-vlist li ul li ul li strong,
+	.ym-vlist li ul li ul li span {
+		padding-left: 30%;
+		width: 70%;
+	}
+
+	.ym-vlist li ul li ul li a,
+	.ym-vlist li ul li ul li a:visited {
+		background-color: #f0f0f0;
+		color: #222;
+	}
+
+	.ym-vlist li ul li ul li a:focus,
+	.ym-vlist li ul li ul li a:hover,
+	.ym-vlist li ul li ul li a:active {
+		background-color: #888;
+		color: #fff;
+	}
+
+	.ym-vlist li ul li ul li ul li a,
+	.ym-vlist li ul li ul li ul li strong,
+	.ym-vlist li ul li ul li ul li span {
+		padding-left: 40%;
+		width: 60%;
+	}
+
+	.ym-vlist li ul li ul li ul li a,
+	.ym-vlist li ul li ul li ul li a:visited {
+		background-color: #e8e8e8;
+		color: #111;
+	}
+
+	.ym-vlist li ul li ul li ul li a:focus,
+	.ym-vlist li ul li ul li ul li a:hover,
+	.ym-vlist li ul li ul li ul li a:active {
+		background-color: #888;
+		color: #fff;
+	}
+
+	.ym-vtitle {
+		background-color: #fff;
+		border-top: 2px #ddd solid;
+		color: #444;
+		font-size: 100%;
+		font-weight: bold;
+		margin: 0;
+		padding: 3px 0px 3px 10%;
+		width: 90%;
+	}
+
+	.ym-vtitle + ul {
+		border-top: 4px #888 solid;
+	}
+
+}
+

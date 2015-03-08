@@ -13,6 +13,7 @@
 	<meta charset="utf-8"> 
 	<title>%title%</title>
 	<link rel="stylesheet" href="%path%/styles/styles.css">
+	<link rel="stylesheet" href="%path%/styles/table_data.css">
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 	%css-add%
 </head>
@@ -31,12 +32,15 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 	<script type="text/javascript"
-	  src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	  src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'>
 	  MathJax.Hub.Config({
 	  	tex2jax: { inlineMath: [ ['$','$'], ['\\(','\\)'] ], processEscapes: true },
-	  	"HTML-CSS": { scale: 120}
+	  	"HTML-CSS": { scale: 100}
 	  });
 	</script>
+
+	<script src="%path%/js/table_data.js"></script>
+
 	
 	%js-add%
 

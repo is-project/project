@@ -87,7 +87,7 @@ div.toast.error:hover {
 }
 
 #project-nav {
-	position: fixed;
+	/*position: fixed;*/
 }
 
 #project-nav a {

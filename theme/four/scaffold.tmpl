@@ -1,0 +1,114 @@
+<!-- 
+	%title%						site title
+	%css-add%					insert point for added CSS files
+	%js-add%					insert point for added JS files
+	%toast%						insert point for user messages
+	%area-X%					insert point for area X
+	%path%                      path of the active theme (without trailing slash)
+	%area-project_nav%			insert point for the navigation bar (only shown when the user chose a project)
+-->
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>%title%</title>
+	<meta name="description" content="">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="%path%/images/favicon.ico">
+
+  <link rel="stylesheet" href="%path%/styles/style.css">
+  <link rel="stylesheet" href="%path%/styles/styles.css">
+  <link rel="stylesheet" href="%path%/styles/custom.css">
+  <link rel="stylesheet" href="%path%/styles/navistyles.css">
+	%css-add%
+</head>
+<body>
+  <header class="is-header">
+
+    <div id="is-header-logo" class="leftfix">
+      <a href="/">
+        <img src="theme/two/images/logo-tu-fg.png"/>
+      </a>   
+    </div>        
+    <div class="right" id="login-box">
+          %area-login%       
+    </div> 
+    <div class="left" id="is-header-wave">
+    </div> 
+  </header>
+
+  <section class="is-top-gradient">
+  </section>
+
+  <section class="main">
+    <div class="is-left-navigation leftfix ">
+      %area-project_nav%
+    </div>
+
+    <div class="is-content">
+      <div class="infobox">
+        %toast% <!--  Warnungen / Login / Logout Infobox -->
+      </div>
+      <div class="pageconent">
+        %area-content%
+      </div>
+    </div>
+
+  </section>
+
+<div >
+  <hr>
+</div>
+
+<footer class="is-footer">
+  <div class="container row">
+    <div class="col col-3 is-footer-1">
+      <h4>Ersteller</h4>
+      <ul>
+        <li>Janek</li>
+        <li>Simon</li>
+        <li>Marcus</li>
+        <li>Armin</li>
+      </ul>
+    </div>
+    <div class="col col-3 is-footer-2">
+      <h4>Copyright</h4>
+    </div>
+    <div class="col col-3 is-footer-3">
+      <h4>Sponsoren</h4>
+      <ul>
+        <li>TU-Freiberg</li>
+        <li>Bosch</li>
+        <li>----</li>
+        <li>----</li>
+      </ul>
+    </div>
+    <div class="col col-3 is-footer-4">
+        <h4>Sontiges</h4>
+        <ul>
+          <li>TU-Freiberg</li>
+          <li>Bosch</li>
+          <li>----</li>
+          <li>----</li>
+        </ul>
+        <h4>Pay with</h4>
+        <ul>
+          <li>TU-Freiberg</li>
+          <li>Bosch</li>
+          <li>----</li>
+          <li>----</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery.min.js"><\/script>')</script>
+	<script src="%path%/js/modernizr.js"></script>
+  	<!--<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> -->
+  	<script src="%path%/js/naviscript.js"></script>
+  	<script src="%path%/js/default.js"></script>
+	%js-add%
+</body>
+</html>

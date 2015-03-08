@@ -372,6 +372,18 @@ input::-moz-focus-inner {
   text-decoration: none;
   color: #999;
   background-color: #ccc; }
+.flexible {
+  float: none;
+  width: auto;
+  overflow: hidden;
+}
+
+.leftfix {    
+    float: left; /* not needed, just for clarification */
+    /*background: #e8f000;*/
+    /* the next props are meant to keep this block independent from the other floated one */
+    /*overflow: hidden; */
+}
 
 .left, .checkbox input[type=checkbox],
 .checkbox input[type=radio] {

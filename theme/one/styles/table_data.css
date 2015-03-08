@@ -1,0 +1,84 @@
+table.data {
+	width: 100%;
+	font-size: 13px;
+	line-height: 15px;
+	margin: 0px 0px 10px;
+	background-color: #fff;
+	border-collapse: collapse;
+	border-color: #ccc #ddd #eee;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0px;
+}
+
+table.data thead th {
+	border-top-color: #ccc;
+	text-shadow: #fff 0px 1px 0px;
+	text-align: left;
+	font-weight: normal;
+	color: #666;
+	background: #eee;
+	border-width: 1px 0px;
+	border-style: solid;
+	border-color: #ddd;
+	padding: 5px;
+}
+
+table.data tbody tr {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	outline: 0px;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	line-height: inherit;
+	border-bottom: 1px solid #ccc;
+}
+
+table.data tbody tr:hover td {
+	background: #f0f8f4;
+}
+
+table.data tbody td {
+	vertical-align: middle;
+	border-width: 1px 0px;
+	border-style: solid;
+	border-color: #ddd;
+	padding: 5px;
+	margin: 0px;
+	border: 0px;
+	outline: 0px;
+	font-size: 100%;
+	background: transparent;
+	line-height: inherit;
+}
+
+a.button {
+	
+	margin: 0px 0px 10px 5px;
+	
+
+
+	text-decoration: none;
+	cursor: pointer;
+	padding: 5px 10px;
+	color: #333;
+	text-align: center;
+	font-weight: normal;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ddd #ddd #ccc;
+	border-radius: 3px;
+	background: #f4f4f4;
+	box-shadow: #ddd 0px 1px 1px;
+	outline: 0px;
+	display: inline-block;
+
+}
+
+a.button:hover {
+	border-color: #999 #999 #888;
+	background: #888;
+	color: #fff;
+}

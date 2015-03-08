@@ -48,7 +48,7 @@ if(isset($current_group) && $current_group->getGroup() > 0) {
 	
 	$metaData = $current_group->getGroupMetaData();
 
-	if( $current_user->access('edit_group_metadata', $current_group->getGroup()) )
+	if( $current_user->access('manage_groups', $current_group->getGroup()) )
 		$layout->addJS('settings', array('form-status' => 'edit'));
 	$layout->addJS('settings', array('form-values' => array(
 		'group' => $metaData['group'],
@@ -58,24 +58,23 @@ if(isset($current_group) && $current_group->getGroup() > 0) {
 		'project-description' => $metaData['description']
 		)));
 
-	$layout->showManageGroupsForm();
+	$layout->showManageGroupsForm($current_project->getListOfGroups());
 	$layout->_print();
 
 } else {	
 
 	$layout->setActiveMenuTrail('group-overview');	
 
-	$groups = $current_project->getListOfGroups('view_group_metadata', true);
-	$layout->showGroupsOverview( _parseGroupsView($groups) );
+	$groups = $current_project->getListOfGroups();
+	$layout->showGroupsOverview( $current_project->getListOfGroups() );
 	$layout->_print();
 
 }
 
 
-
 function submitAddEditGroupForm($layout) {
 	global $current_user;
-	if(!isset($_POST['group'], $_POST['project'], $_POST['name'])) {
+	if(!isset($_POST['group-name'])) {
 		$layout->toast('##Form Error##', 'error');
 		return -1;
 	}
@@ -112,10 +111,8 @@ function submitAddEditGroupForm($layout) {
 			$layout->addJS('settings', array('form-errors' => $errors));
 			$layout->addJS('settings', array('form-status' => 'edit'));
 			$layout->addJS('settings', array('form-values' => array(
+				'group-name' => $_POST['group-name'],
 				'group' => $_POST['group'],
-				'name' => $_POST['name'],
-				'project' => $_POST['project'],
-				'description' => $_POST['description']
 				)));
 		} else {
 			$group->saveGroup();
@@ -128,11 +125,11 @@ function submitAddEditGroupForm($layout) {
 	} else { // add
 		$errors = array();
 
-		$project = new bo_group();
+		$group = new bo_group(0);
 
 
 		// validate group name
-		switch( $group->setName($_POST['name']) ) {
+		switch( $group->setName($_POST['group-name']) ) {
 			case ERROR_INVALID_GROUP_NAME_EMPTY: 
 				$errors['name'] = '##Group Name cannot be empty.##';
 				break;
@@ -144,13 +141,7 @@ function submitAddEditGroupForm($layout) {
 				break;
 		}
 
-		// validate group description
-		switch( $group->setDescription($_POST['description']) ) {
-			case ERROR_PROJECT_ACCESS_DENIED: 
-				$errors['description'] = '##Access Denied.##';
-				break;
-		}
-
+		
 		if(count($errors)) {
 			foreach ($errors as $field => $error) {
 				$layout->toast($error, 'error');
@@ -159,9 +150,8 @@ function submitAddEditGroupForm($layout) {
 			$layout->addJS('settings', array('form-status' => 'add'));
 			$layout->addJS('settings', array('form-values' => array(
 				'project' => $_POST['project'],
-				'name' => $_POST['name'],
+				'group-name' => $_POST['group-name'],
 				'group' => $_POST['group'],
-				'description' => $_POST['description']
 				)));
 		} else {
 			$group->saveGroup();

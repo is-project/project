@@ -14,10 +14,10 @@ header, #is-header-logo, #is-header-wave {
 	/*height: 100%;*/
 }
 #is-header-logo {
-	width: 300px;
+	width: 285px;
   	/*background-image: url("../images/logo-tu-fg.png");*/
-    background-repeat: no-repeat;
-    background-position: right top;
+    /*background-repeat: no-repeat;*/
+    /*background-position: right top;*/
 }
 #is-header-wave {
   	background-image: url("../images/header.png");
