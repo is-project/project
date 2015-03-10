@@ -12,19 +12,14 @@ class vo_manageRecordStructure extends vo {
 	public function showManageRecordStructureForm($data) {
 
 		$this->addJS('manage_record_structure.js');
-		$this->addCSS('manage_record_structure.css');
-
-		#$this->addJS('settings', array('data' => $data));
+		#$this->addCSS('manage_record_structure.css');
 
 		$content = '';
-
-		// print '<pre>';
-		// var_export($data);
-		// print '</pre>';
 
 		// add / edit form
 
 		$content .= file_get_contents($this->path.'/manageRecordStructure/add_edit_record_structure_form.tmpl');
+		$content .= file_get_contents($this->path.'/manageRecordStructure/delete_record_structure_form.tmpl');
 
 		$rows = array();
 		foreach ($data as $row) {
@@ -33,20 +28,17 @@ class vo_manageRecordStructure extends vo {
 
 		$tb_content = array(
 			'settings' => array(
-				'order' => 'header', // none, header, sort
+				'order' => 'sort', // none, header, sort
 				'header' => array(
 								array(
 									'title' => 'Title',
-									'width' => '100px',
 									'wordWrap' => TRUE),
 								array(
 									'title' => 'Type'),
 								array(
-									'title' => 'Length',
-									'width' => '50px'),
+									'title' => 'Length'),
 								array(
 									'title' => 'Decimal Places',
-									'width' => '500px',
 									'wordWrap' => TRUE)
 							),
 				'buttons' => array(

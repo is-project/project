@@ -13,4 +13,29 @@ $(document).ready(function() {
 		$( 'table.data input#checkall' ).prop('checked', same&&checked);
 	});
 
+	var fixHelper = function(e, ui) {
+		ui.children().each(function() {
+			$(this).width($(this).width());
+		});
+		return ui;
+	};
+
+	$("table.data tbody").sortable({
+		helper: fixHelper,
+		handle : '.sortHandle',
+		update: function( event, ui ) {
+			$('.tipChangesNotSaved').show();
+		}
+    }).disableSelection();
+
+	$('a#orderButton').click(function() {
+		var order = new Array();
+		$('table.data tbody tr td:nth-child(1) input[type=checkbox]').each(function(){
+			order[order.length] = $(this).attr('id');
+		});
+		$('form#orderForm input#order').val( JSON.stringify(order) );
+
+		$( "form#orderForm" ).submit();
+	});
+
 });

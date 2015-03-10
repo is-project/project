@@ -90,7 +90,7 @@ class bo_user
 	}
 
 	public function getDescription() {
-		return $this->name;
+		return $this->description;
 	}
 
 	public function setEMail($_email) {
@@ -103,7 +103,7 @@ class bo_user
 	}
 
 	public function getEMail() {
-		return $this->name;
+		return $this->email;
 	}
 
 	public function setPassword($_password) {
@@ -157,9 +157,11 @@ class bo_user
 	public function getListOfCollections($project) {
 	    $collections = array();
 
-	    // TODO: add all collection IDs from this user in the given project to the $collections array, 
-	    $collections[] = 4;
-	    $collections[] = 7;
+	    $result = mysql_query("SELECT `collection` FROM `collections` WHERE `user` = {$this->user} AND `project` = $project");
+
+	    while($collection = mysql_fetch_object($result)) {
+	    	$collections[] = $collection->collection;
+	    }
 
 	    return $collections;
 	}

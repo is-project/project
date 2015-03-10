@@ -1,7 +1,10 @@
-<div id="add_edit_record_structure_form_dialog" title="Create new record coloumn" style="display:none;">
+<div id="add_edit_record_structure_form_dialog" title="Create / Edit record coloumn" style="display:none;">
 	<p class="error"></p>
  
 	<form id="add_edit_record_structure_form" action="?action=submitAddEditRecordStructureForm" method="post">
+
+		<input type="hidden" name="col" id="col" value="">
+
 		<label for="title">Title: </label>
 		<input type="text" name="title" id="title" value="">
 		<br>

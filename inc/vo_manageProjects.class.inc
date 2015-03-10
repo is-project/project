@@ -11,7 +11,7 @@ class vo_manageProjects extends vo {
 
 	private function buildProjectsTree($projects, $level = 0) {
 		
-		$html = $level ? '' : '<table class="projects">';
+		$html = $level ? '' : '<table id="ListProjects" class="projects data"><thead><tr><th>Project</th><th>Settings</th></tr></thead><tbody>';
 		$entry = file_get_contents($this->path.'/manageProjects/project_entry.tmpl');
 		$search = array('%project%', '%project-name%', '%project-description%', '%parent-project%', '%edit-access%', '%create-access%', '%delete-access%');
 
@@ -29,7 +29,7 @@ class vo_manageProjects extends vo {
 			if(count($value['children']))
 				$html .= $this->buildProjectsTree($value['children'], $level+1);
 		}
-		$html .= $level ? '' : '</table>';
+		$html .= $level ? '' : '</tbody></table>';
 
 		return $html;
 	}
@@ -38,19 +38,17 @@ class vo_manageProjects extends vo {
 		// $this->html = file_get_contents($this->path.'/scaffold.tmpl');
 		$this->title = 'Manage Projects';
 		$this->addJS('manage_projects.js');
-		$this->addCSS('manage_projects.css');
+		$this->addCSS('content/ManageProjects.css');
 
 		$projectListHtml = $this->buildProjectsTree($projects);
 
 		$projectForm = file_get_contents($this->path.'/manageProjects/add_edit_project_form.tmpl');
 
 		$content = '
-			<table>
-				<tr>
-					<td>'.$projectListHtml.'</td>
-					<td>'.$projectForm.'</td>
-				</tr>
-			</table>';
+            <div id="ManageProjectsContainer">
+                <div id="ManageProjectsList">'.$projectListHtml.'</div>
+                <div id="ManageProjectsForm">'.$projectForm.' </div>
+            </div>';
 
 		$this->setAreaContent('listOfProjects', $content);
 	}

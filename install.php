@@ -73,7 +73,9 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(1, 3),
 	(1, 4),
 	(1, 5),
-	(1, 6);");
+	(1, 6),
+	(1, 7),
+	(1, 8);");
 
 	if($test_data)
 		mysql_query("INSERT INTO `link_groups_permissions` (`group`, `permission`) VALUES
@@ -83,19 +85,25 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 		(4, 4),
 		(4, 5),
 		(4, 6),
+		(4, 7),
+		(4, 8),
 		(7, 1),
 		(7, 2),
 		(7, 3),
 		(7, 4),
 		(7, 5),
 		(7, 6),
+		(7, 7),
+		(7, 8),
 		(8, 1),
 		(10, 1),
 		(10, 2),
 		(10, 3),
 		(10, 4),
 		(10, 5),
-		(10, 6);");
+		(10, 6),
+		(10, 7),
+		(10, 8);");
 
 	#######################################
 
@@ -147,7 +155,9 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	(3, 'create_child_project', 'Create a new child/sub project'),
 	(4, 'delete_child_project', 'Delete a child/sub project'),
 	(5, 'edit_record_structure', 'Edit the record structure for all records containing to this project.'),
-	(6, 'manage_groups', 'Permission to view / edit / create / delete groups in a project. This includes also the user management for all groups in the given project.');");
+	(6, 'manage_groups', 'Permission to view / edit / create / delete groups in a project. This includes also the user management for all groups in the given project.'),
+	(7, 'view_records', 'View records in a project and manage them in collections'),
+	(8, 'edit_records', 'Add / Edit / Delete records in a project');");
 
 	#######################################
 
@@ -178,7 +188,7 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 		mysql_query('INSERT INTO `projects` (`project`, `parent_project`, `created_by`, `name`, `description`, `record_structure`) VALUES
 		(2, 1, 1, \'Physik\', \'Projekt für den Fachbereich Physik\', \'[]\'),
 		(3, 1, 1, \'Chemie\', \'Projekt für den Fachbereich Chemie\', \'[]\'),
-		(4, 2, 2, \'Pyromaterialien\', \'Untersuchngen zu Pyromaterialien im Fachbereich Physik\', \'[{"col_name":"param1","title":"Material","type":"text","weight":0,"length":50},{"col_name":"param2","title":"$ T2 ~~\\\\\\\\mbox{in}~~ \\\\\\\\frac{\\\\\\\\mu C}{m^2K} $","type":"double","weight":1,"decimal_places":3},{"col_name":"param3","title":"Ordnungszahl","type":"int","weight":2}]\');');
+		(4, 2, 2, \'Pyromaterialien\', \'Untersuchngen zu Pyromaterialien im Fachbereich Physik\', \'[{\"title\":\"Name\",\"type\":\"text\",\"length\":\"128\",\"decimal_places\":\"\",\"weight\":0,\"col_name\":\"param2\"},{\"title\":\"Ordnungszahl\",\"type\":\"int\",\"length\":\"\",\"decimal_places\":\"\",\"weight\":1,\"col_name\":\"param3\"},{\"title\":\"Hinzugef\\\\u00fcgt am\",\"type\":\"timestamp\",\"length\":\"\",\"decimal_places\":\"\",\"weight\":2,\"col_name\":\"param4\"},{\"title\":\"Dichte $\\\\\\\\rho~~in~~\\\\\\\\frac{g}{cm^3}$\",\"type\":\"double\",\"length\":\"\",\"dec_places\":\"3\",\"col_name\":\"param1\",\"weight\":3},{\"title\":\"Explosiv\",\"type\":\"boolean\",\"length\":\"\",\"decimal_places\":\"\",\"weight\":4,\"col_name\":\"param5\"}]\');');
 
 	#######################################
 
@@ -186,36 +196,56 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	## Table structure for table `data_project_n`
 	##
 	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_1` (
-		`entry` int(11) NOT NULL,
+		`entry` int(11) NOT NULL AUTO_INCREMENT,
 		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  `created_by` int(11) NOT NULL,
 		  `deleted` timestamp NULL DEFAULT NULL,
-		  `deleted_by` int(11) DEFAULT NULL
+		  `deleted_by` int(11) DEFAULT NULL,
+		  PRIMARY KEY (`entry`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 
-	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_2` (
-		`entry` int(11) NOT NULL,
-		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  `created_by` int(11) NOT NULL,
-		  `deleted` timestamp NULL DEFAULT NULL,
-		  `deleted_by` int(11) DEFAULT NULL
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+	if($test_data) {
+		mysql_query("CREATE TABLE IF NOT EXISTS `data_project_2` (
+			`entry` int(11) NOT NULL AUTO_INCREMENT,
+			  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `created_by` int(11) NOT NULL,
+			  `deleted` timestamp NULL DEFAULT NULL,
+			  `deleted_by` int(11) DEFAULT NULL,
+			  PRIMARY KEY (`entry`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 
-	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_3` (
-		`entry` int(11) NOT NULL,
-		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  `created_by` int(11) NOT NULL,
-		  `deleted` timestamp NULL DEFAULT NULL,
-		  `deleted_by` int(11) DEFAULT NULL
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+		mysql_query("CREATE TABLE IF NOT EXISTS `data_project_3` (
+			`entry` int(11) NOT NULL AUTO_INCREMENT,
+			  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `created_by` int(11) NOT NULL,
+			  `deleted` timestamp NULL DEFAULT NULL,
+			  `deleted_by` int(11) DEFAULT NULL,
+			  PRIMARY KEY (`entry`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 
-	mysql_query("CREATE TABLE IF NOT EXISTS `data_project_4` (
-		`entry` int(11) NOT NULL,
-		  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  `created_by` int(11) NOT NULL,
-		  `deleted` timestamp NULL DEFAULT NULL,
-		  `deleted_by` int(11) DEFAULT NULL
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+		mysql_query("CREATE TABLE IF NOT EXISTS `data_project_4` (
+			`entry` int(11) NOT NULL AUTO_INCREMENT,
+			  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `created_by` int(11) NOT NULL,
+			  `deleted` timestamp NULL DEFAULT NULL,
+			  `deleted_by` int(11) DEFAULT NULL,
+			  `param1` double NOT NULL,
+			  `param2` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+			  `param3` int(11) NOT NULL,
+			  `param4` timestamp NULL DEFAULT NULL,
+			  `param5` tinyint(1) NOT NULL,
+			  PRIMARY KEY (`entry`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+
+		##
+		## Daten für Tabelle `data_project_4`
+		##
+
+		mysql_query("INSERT INTO `data_project_4` (`entry`, `created`, `created_by`, `deleted`, `deleted_by`, `param1`, `param2`, `param3`, `param4`, `param5`) VALUES
+		(1, '2015-03-09 21:19:16', 1, NULL, NULL, 7.87, 'Eisen', 26, '2015-03-07 23:00:00', 0),
+		(2, '2015-03-09 21:20:21', 1, NULL, NULL, 0.971, 'Natrium', 11, '2015-03-01 23:00:00', 1),
+		(3, '2015-03-09 21:22:21', 1, NULL, NULL, 1.738, 'Magnesium', 12, '2015-03-03 23:00:00', 0);");
+	}
 
 	##
 	## Table structure for table `users`
@@ -225,13 +255,36 @@ if(isset($_GET['action']) && ($_GET['action'] == 'install' || $_GET['action'] ==
 	mysql_query("CREATE TABLE IF NOT EXISTS `users` (
 	  `user` int(11) NOT NULL AUTO_INCREMENT,
 	  `name` varchar(45) NOT NULL,
-	  `email` varchar(45) NOT NULL,
+	  `email` varchar(45) NOT NULL UNIQUE,
 	  `password` varchar(128) NOT NULL,
 	  `description` text,
 	  `valid_until` timestamp NULL DEFAULT NULL,
 	  PRIMARY KEY (`user`),
 	  UNIQUE KEY `name` (`name`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8;");
+
+	##
+	## Tabellenstruktur für Tabelle `collections`
+	##
+
+	mysql_query("DROP TABLE IF EXISTS `collections`;");
+	mysql_query("CREATE TABLE IF NOT EXISTS `collections` (
+	`collection` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(45) NOT NULL,
+	  `description` text NULL DEFAULT NULL,
+	  `user` int(11) NOT NULL,
+	  `project` int(11) NOT NULL,
+	  `records` text NOT NULL,
+	  PRIMARY KEY (`collection`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+	##
+	## Daten für Tabelle `collections`
+	##
+	if($test_data)
+		mysql_query("INSERT INTO `collections` (`collection`, `name`, `description`, `user`, `project`, `records`) VALUES
+		(1, 'hi', 'hoy', 1, 4, '[]'),
+		(2, 'Public', 'Öffentlich Einsichtige Datensätze', 1, 4, '[2,3]');");
 
 	##
 	## Dumping data for table `users`

@@ -22,6 +22,12 @@ if(isset($_GET['action'])) {
 		case 'submitAddEditRecordStructureForm':
 			submitAddEditRecordStructureForm($layout);
 			break;
+		case 'submitDeleteRecordStructureForm':
+			submitDeleteRecordStructureForm($layout);
+			break;
+		case 'submitOrderForm':
+			submitOrderForm($layout);
+			break;
 		
 		default:
 			$layout->toast('Wrong Action', 'error');
@@ -50,12 +56,12 @@ function submitAddEditRecordStructureForm($layout) {
 	global $current_user;
 	global $current_project;
 
-	if(!isset($_POST['title'], $_POST['type'], $_POST['length'], $_POST['dec_places'])) {
+	if(!isset($_POST['title'], $_POST['type'], $_POST['length'], $_POST['dec_places'], $_POST['col'])) {
 		$layout->toast('##Form Error##', 'error');
 		return -1;
 	}
 
-	$errors = $current_project->addRecordStructureColoumn($_POST);
+	$errors = $current_project->addEditRecordStructureColoumn($_POST);
 
 	if(count($errors)) {
 		$err_str = array();
@@ -69,6 +75,8 @@ function submitAddEditRecordStructureForm($layout) {
 			$err_str[] = '##Length must be an integer.##';
 		if(in_array(ERROR_RECORD_STRUCTURE_DECPLACES_INVALID, $errors))
 			$err_str[] = '##Decimal Places must be an integer.##';
+		if(in_array(ERROR_RECORD_STRUCTURE_COL_INVALID, $errors))
+			$err_str[] = '##Access Denied.##';
 
 		$layout->addJS('settings', array('form-errors' => $err_str));
 		$layout->addJS('settings', array('form-status' => 'add'));
@@ -76,25 +84,59 @@ function submitAddEditRecordStructureForm($layout) {
 			'title' => $_POST['title'],
 			'type' => $_POST['type'],
 			'length' => $_POST['length'],
-			'dec_places' => $_POST['dec_places']
+			'dec_places' => $_POST['dec_places'],
+			'col' => $_POST['col']
 			)));
 
 	} else {
 		$current_project->saveProject();
-		$layout->toast('##Record structure coloumn was added successfully.##');
+		if($_POST['col'] == '')
+			$layout->toast('##Record structure coloumn was added successfully.##');
+		else
+			$layout->toast('##Record structure coloumn was edited successfully.##');
 	}
-	
-	// switch( $project->setName($_POST['project-name']) ) {
-	// 	case ERROR_INVALID_PROJECT_NAME_EMPTY: 
-	// 		$errors['project-name'] = '##Project Name cannot be empty.##';
-	// 		break;
-	// 	case ERROR_INVALID_PROJECT_NAME_TO_LONG: 
-	// 		$errors['project-name'] = '##Project Name cannot be longer than 45 characters.##';
-	// 		break;
-	// 	case ERROR_PROJECT_ACCESS_DENIED: 
-	// 		$errors['project-name'] = '##Access Denied.##';
-	// 		break;
-	// }
+}
+
+function submitDeleteRecordStructureForm($layout) {
+	global $current_user;
+	global $current_project;
+
+	if(!isset($_POST['cols'])) {
+		$layout->toast('##Form Error##', 'error');
+		return -1;
+	}
+
+	$errors = $current_project->deleteRecordStructureColoumn($_POST);
+
+	if(count($errors)) {
+		$err_str = array();
+		if(in_array(ERROR_PROJECT_ACCESS_DENIED, $errors))
+			$err_str[] = '##Access Denied.##';
+	} else {
+		$current_project->saveProject();
+		$layout->toast('##Record structure coloumn(s) was/were deleted successfully.##');
+	}
+
+}
+
+function submitOrderForm($layout) {
+	global $current_user;
+	global $current_project;
+
+	if(!isset($_POST['order'])) {
+		$layout->toast('##Form Error##', 'error');
+		return -1;
+	}
+
+	$errors = $current_project->orderRecordStructureColoumn($_POST);
+
+	if(count($errors)) {
+		$layout->toast('##Error##');
+	} else {
+		$current_project->saveProject();
+		$layout->toast('##Record structure order was edited successfully.##');
+	}
+
 }
 
 ?>

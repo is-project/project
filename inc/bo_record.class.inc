@@ -14,9 +14,9 @@ class bo_record {
 
 	/* methods */
 
-	function __construct($record = 0) 
+	function __construct($project = 0, $record = 0) 
 	{
-		print 'Ich wurde angelegt, bin Record #'.$record;
+		// print 'Ich wurde angelegt, bin Record #'.$record;
 
 		if($record == 0) 
 		{
@@ -30,26 +30,32 @@ class bo_record {
 		} 
 		else 
 		{
-			$result = mysql_query('SELECT * FROM data_project_1 WHERE record = '.$record);
+			$rs = mysql_query("SELECT `record_structure` FROM `projects` WHERE `project` = $project;");
+			$rs = mysql_fetch_object($rs);
+			$rs = json_decode($rs->record_structure);
+
+			$result = mysql_query('SELECT * FROM data_project_4 WHERE entry = '.$record);
 			if (!$result) {
 				echo mysql_error();
 			}
 			
 			$fields = mysql_num_fields($result);
-			$row = mysql_fetch_array($result, MYSQL_BOTH);	
+			$row = mysql_fetch_object($result);
+
+
 			$this->userFields = $fields-5;	
 			
 			$this->record = $record;
-			$this->deleted = $row['deleted'];
-			$this->deletedBy = $row['deleted_by'];
-			$this->created = $row['created'];
-			$this->createdBy = $row['created_by'];
+			$this->deleted = $row->deleted;
+			$this->deletedBy = $row->deleted_by;
+			$this->created = $row->created;
+			$this->createdBy = $row->created_by;
 			$this->params = array();
-			for($i = 0; $i < ($this->userFields); $i++)
-			{
-				$keys = array_keys($row);
-				$this->params[] = $row[$i+1];
+
+			foreach ($rs as $param) {
+				$this->params[$param->col_name] = $row->{$param->col_name};
 			}
+
 		}
 	}
 

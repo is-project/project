@@ -40,25 +40,33 @@ class vo {
 		$link = file_get_contents($this->path.'/project_nav_entry.tmpl');
 
 		#<a href="%href%" class="%active%">##%title%##</a><br>
-		$search = array('%href%', '%active%', '%title%');
+		$search = array('%href%', '%active%', '%title%', '%sub-title%');
 
-		$replace = array('?project=-1', '%active-project-overview%', 'Project Overview');
+		$replace = array('manageProjects.php?project=-1', '%active-project-overview%', 'Projects', 'Overview over all projects');
 		$projectOverview = str_replace($search, $replace, $link);
 		$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 
 		if(isset($current_project) && $current_project->getProject() > 0) {
-			$replace = array('manageProjects.php', '%active-project-details%', 'Project Details');
+			$replace = array('manageProjects.php', '%active-project-details%', 'Project Details', 'Details for the current project');
 			$projectOverview = str_replace($search, $replace, $link);
 			$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 			
+			$replace = array('manageRecords.php', '%active-project-records%', 'Records', 'View records');
+			$projectOverview = str_replace($search, $replace, $link);
+			$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+
+			$replace = array('manageCollections.php', '%active-project-collections%', 'Collections', 'Collections of data records');
+			$projectOverview = str_replace($search, $replace, $link);
+			$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
+
 			if( $current_user->access('edit_record_structure', $current_project->getProject()) ) {
-				$replace = array('manageRecordStructure.php', '%active-project-record-structure%', 'Record Structure');
+				$replace = array('manageRecordStructure.php', '%active-project-record-structure%', 'Record Structure', 'ToDo: text');
 				$projectOverview = str_replace($search, $replace, $link);
 				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 			}
 
 			if( $current_user->access('manage_groups',$current_project->getProject()) ) {
-				$replace = array('manageGroups.php', '%active-project-groups%', 'Groups');
+				$replace = array('manageGroups.php', '%active-project-groups%', 'Groups', 'ToDo: text');
 				$projectOverview = str_replace($search, $replace, $link);
 				$project_nav = str_replace('%links%', $projectOverview.'%links%', $project_nav);
 			}
@@ -107,14 +115,29 @@ class vo {
 
 		foreach ($structure['settings']['buttons'] as $button)
 			$buttons .= '<a href="'.$button['href'].'" class="button" id="'.$button['id'].'">'.$button['title'].'</a>';
+		if($structure['settings']['order'] == 'sort') {
+			$buttons .= '<a href="javascript:void(0);" class="button" id="orderButton">Save order</a>';
+			$tb .= '<form id="orderForm" method="post" action="?action=submitOrderForm"><input type="hidden" name="order" id="order"></form>';
+		}
 
 		$tb .= $buttons;
 
+		if($structure['settings']['order'] == 'sort') {
+			$tb .= '<div class="tipChangesNotSaved">New order of this table is not saved yet.</div>';	
+		}
+
 		$tb .= '<table class="data">';
 		$tb .= '<thead><tr>';
-		$tb .= '<th width="10px"><input type="checkbox" id="checkall"></th>';
+		$tb .= '<th style="width: 24px;"><input type="checkbox" id="checkall"></th>';
+
+		if($structure['settings']['order'] == 'sort')
+			$tb .= '<th style="width: 24px;">&nbsp;</th>';
+
 		foreach ($structure['settings']['header'] as $cell) {
-			$tb .= '<th>';
+			if(isset($cell['width']))
+				$tb .= '<th width="'.$cell['width'].'">';
+			else
+				$tb .= '<th>';
 			$tb .= $cell['title'];
 			$tb .= '</th>';
 		}
@@ -127,6 +150,8 @@ class vo {
 			if($odd_even == 'odd') $odd_even = 'even';
 			else $odd_even = 'odd';
 			$tb .= '<td><input type="checkbox" id="'.$id.'"></td>';
+			if($structure['settings']['order'] == 'sort')
+				$tb .= '<td><div class="sortHandle">&nbsp;</div></td>';
 			foreach ($row as $cell) {
 				$tb .= '<td>';
 				$tb .= $cell;
@@ -137,6 +162,8 @@ class vo {
 		$tb .= '</tbody>';
 
 		$tb .= '</table>';
+		if($structure['settings']['order'] == 'sort')
+			$tb .= '<div class="tipChangesNotSaved">New order of this table is not saved yet.</div>';
 		
 		$tb .= $buttons;
 
@@ -148,9 +175,6 @@ class vo {
 
 		// replace title
 		$this->html = str_replace('%title%', $this->title, $this->html);
-
-		// replace path
-		$this->html = str_replace('%path%', $this->path, $this->html);
 
 		// replace toasts
 		$toast_html = '';
@@ -176,7 +200,11 @@ class vo {
 			$this->html = str_replace('%js-add%','<script src="'.ROOT.'theme/'.THEME.'/js/'.$js.'"></script>%js-add%',$this->html);
 		$this->html = str_replace('%js-add%','',$this->html);
 
-
+		global $current_project;
+		if(isset($current_project))
+			$this->setAreaContent('current-project',$current_project->getName());
+		else
+			$this->setAreaContent('current-project','-');
 		// replace areas
 		$search = array();
 		$replace = array();
@@ -189,6 +217,9 @@ class vo {
 		// delete all unused areas
 		$this->html = preg_replace('~%area-(.+?)%~', '', $this->html);
 
+		// replace path
+		$this->html = str_replace('%path%', $this->path, $this->html);
+		
 		// set active menu trail
 		if(isset($this->activeMenuTrail)) $this->html = str_replace("%active-{$this->activeMenuTrail}%", 'active', $this->html);
 		$this->html = preg_replace('~%active-(.+?)%~', '', $this->html);

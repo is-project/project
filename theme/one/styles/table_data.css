@@ -54,6 +54,22 @@ table.data tbody td {
 	line-height: inherit;
 }
 
+table.data .sortHandle {
+	margin-top: 4px;
+	height: 13px;
+	width: 13px;
+	background: url(draggable.png) no-repeat 0 0;
+	cursor: pointer;
+}
+table.data .sortHandle:hover {
+	background-position: 0 -20px;
+}
+
+.tipChangesNotSaved {
+	background: #fff4c0;
+	display: none;
+}
+
 a.button {
 	
 	margin: 0px 0px 10px 5px;
