@@ -1,0 +1,31 @@
+#ManageProjectsContainer {
+	width:100%;
+	min-height:500px;
+/*	background:#ccc;*/
+	display:-webkit-flex;
+	display:flex;
+/*    border: 0px;*/
+}
+
+#ManageProjectsList{
+/*    background:lightgray;*/
+    -webkit-flex: 1;
+    flex: 1;
+    max-width: 700px;
+    padding: 10px;
+}
+
+#ManageProjectsForm{
+/*     background:#a56363;*/
+    width:350px;
+    padding: 10px;
+}
+
+
+#add-edit-project-form {
+    
+}
+
+/*label { display: inline-block; width: 10em; }*/
+/*input, textarea { font: 0.86em/120% Tahoma, Arial, sans-serif; color: navy; }*/
+

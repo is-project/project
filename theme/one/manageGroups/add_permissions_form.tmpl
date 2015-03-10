@@ -1,0 +1,15 @@
+<div id="add_members_form_dialog" title="Add Member">
+	<p class="validateTips">All form fields are required.</p>
+ 
+		<label for="Permission">Permission: </label>
+		<select name="type" id="permission">
+		  %permission-list%
+		</select>
+
+		<input type="hidden" name="group" id="group" value="%group-id%">
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

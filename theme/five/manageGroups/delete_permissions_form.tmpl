@@ -1,0 +1,11 @@
+<div id="delete_permissions_form_dialog" title="Delete Permission(s)">
+	<p class="validateTips">Do you really want to delete the selected permission(s)?</p>
+ 
+	<form id="delete_permissions_form" action="?action=submitDeletePermissionsForm" method="post">
+		<input type="hidden" name="group" id="group" value="%group-id%">
+		<input type="hidden" name="rows" id="rows" value="" >
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

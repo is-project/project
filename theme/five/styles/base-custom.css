@@ -1,0 +1,10 @@
+body {
+    min-width: 900px;
+}
+
+h1 {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 3.5rem;
+    color: #eee;
+    text-shadow: 1px 1px 3px black;
+}

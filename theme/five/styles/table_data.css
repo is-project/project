@@ -1,0 +1,113 @@
+table.data {
+	width: 100%;
+	font-size: 13px;
+	line-height: 15px;
+	margin: 0px 0px 10px;
+	background-color: #fff;
+	border-collapse: collapse;
+	border-color: #ccc #ddd #eee;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0px;
+}
+
+table.data td:first-child input[type=checkbox],
+table.data th:first-child input[type=checkbox] {
+	display: block;
+}
+
+table.data thead th {
+	border-top-color: #ccc;
+	text-shadow: #fff 0px 1px 0px;
+	text-align: left;
+	font-weight: normal;
+	color: #666;
+	background: #eee;
+	border-width: 1px 0px;
+	border-style: solid;
+	border-color: #ddd;
+	padding: 5px;
+}
+
+table.data tbody tr {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	outline: 0px;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	line-height: inherit;
+	border-bottom: 1px solid #ccc;
+}
+
+table.data tbody tr:hover td {
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 30%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.1)), color-stop(30%,rgba(0,0,0,0.2)), color-stop(50%,rgba(0,0,0,0.2)), color-stop(70%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.2) 30%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2) 70%,rgba(0,0,0,0.1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.2) 30%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2) 70%,rgba(0,0,0,0.1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.2) 30%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2) 70%,rgba(0,0,0,0.1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.2) 30%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2) 70%,rgba(0,0,0,0.1) 100%);
+}
+
+table.data tbody td {
+	vertical-align: middle;
+	border-width: 1px 0px;
+	border-style: solid;
+	border-color: #ddd;
+	padding: 5px;
+	margin: 0px;
+	border: 0px;
+	outline: 0px;
+	font-size: 100%;
+	background: transparent;
+	line-height: inherit;
+}
+
+table.data .sortHandle {
+	margin-top: 4px;
+	height: 13px;
+	width: 13px;
+	background: url(draggable.png) no-repeat 0 0;
+	cursor: pointer;
+	margin: 0;
+}
+
+table.data .sortHandle:hover {
+	background-position: 0 -20px;
+}
+
+.tipChangesNotSaved {
+	background: #fff4c0;
+	display: none;
+}
+
+a.button {
+	font-size: small;
+	margin: 0px 0px 10px 5px;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 3px 3px;
+	color: #333;
+	text-align: center;
+	font-weight: normal;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ddd #ddd #ccc;
+	border-radius: 3px;
+	background: #f4f4f4;
+	box-shadow: #ddd 0px 1px 1px;
+	outline: 0px;
+	display: inline-block;
+
+}
+
+a{
+    font-weight: 600;
+}
+
+a.button:hover {
+	border-color: #999 #999 #888;
+	background: #888;
+	color: #fff;
+} 

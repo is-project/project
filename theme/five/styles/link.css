@@ -1,0 +1,32 @@
+
+@import url("base.css");
+@import url("base-custom.css");
+@import url("menu.css");
+@import url("menu/menu.css");
+@import url("style.css");
+@import url("forms.css");
+@import url("http://fonts.googleapis.com/css?family=Terminal+Dosis");
+@import url("fonts.css");
+/*@import url("font-awesome.css");*/
+/*@import url("conent/ManageProjects.css");*/
+
+
+/*@import url("styles.css");*/
+/*@import url("custom.css");*/
+
+/*
+
+<link rel="stylesheet" href="%path%/styles/style.css">
+<link rel="stylesheet" href="%path%/styles/styles.css">
+<link rel="stylesheet" href="%path%/styles/custom.css">
+<link rel="stylesheet" href="%path%/styles/navistyles.css">
+
+
+<link rel="stylesheet" href="/styles//base.css"> <!-- Sets basic values for all HTML tags-->
+<link rel="stylesheet" href="/styles/base-custom.css"> 
+<link rel="stylesheet" href="/styles/menu.css">
+<link rel="stylesheet" type="text/css" href="/styles/menu/style2.css" />
+<link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/styles/style.css">
+
+*/

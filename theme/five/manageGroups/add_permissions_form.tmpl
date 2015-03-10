@@ -1,0 +1,16 @@
+<div id="add_permissions_form_dialog" title="Add Permission">
+	<p class="validateTips">Please choose a permission.</p>
+ 
+ 	<form id="add_permissions_form" action="?action=submitAddPermissionsForm" method="post">
+		<label for="Permission">Permission: </label>
+		<select name="permission" id="permission">
+		  %permission-list%
+		</select>
+
+		<input type="hidden" name="group" id="group" value="%group-id%">
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

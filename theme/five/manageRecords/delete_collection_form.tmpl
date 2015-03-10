@@ -1,0 +1,12 @@
+<div id="delete_collection_form_dialog" title="Delete record coloumn" style="display:none;">
+	<p>Do you really want to delete the selected collections? This can not be undone.</p>
+ 
+	<form id="delete_collection_form" action="?action=submitDeleteCollectionForm" method="post">
+
+		<input type="hidden" name="collections" id="collections" value="">
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>

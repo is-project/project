@@ -1,0 +1,20 @@
+<div id="add_edit_collection_form_dialog" title="Create / Edit collection" style="display:none;">
+	<p class="error"></p>
+ 
+	<form id="add_edit_collection_form" action="?action=submitAddEditCollectionForm" method="post">
+
+		<input type="hidden" name="collection" id="collection" value="">
+
+		<label for="name">Name: </label>
+		<input type="text" name="name" id="name" value="">
+		<br>
+
+		<label for="description">Description: </label>
+		<textarea id="description" name="description"></textarea>
+		<br>
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>
