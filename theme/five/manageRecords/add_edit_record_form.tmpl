@@ -1,0 +1,14 @@
+<div id="add_edit_record_form_dialog" title="Create / Edit record" style="display: none;" >
+	<p class="error"></p>
+ 
+	<form id="add_edit_record_form" action="?action=submitAddEditRecordForm" method="post">
+
+		<input type="hidden" name="record" id="record" value="">
+
+		%fields%
+
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	</fieldset>
+	</form>
+</div>
