@@ -10,13 +10,17 @@ class bo_record {
 	private $createdBy;
 	private $project;
 	private $params;
-	private $userFields;
 
 	/* methods */
 
-	function __construct($project = 0, $record = 0) 
+	function __construct($project = 0, $record = 0, $formData = array()) 
 	{
-		// print 'Ich wurde angelegt, bin Record #'.$record;
+		
+		$rs = mysql_query("SELECT `record_structure` FROM `projects` WHERE `project` = $project;");
+		if(!$rs = mysql_fetch_object($rs)) return -901;
+		$rs = json_decode($rs->record_structure);
+
+		$this->project = $project;
 
 		if($record == 0) 
 		{
@@ -26,15 +30,13 @@ class bo_record {
 			$this->deletedBy = null;
 			$this->created = null;
 			$this->createdBy = null;
-			$this->params = null;
-		} 
-		else 
-		{
-			$rs = mysql_query("SELECT `record_structure` FROM `projects` WHERE `project` = $project;");
-			$rs = mysql_fetch_object($rs);
-			$rs = json_decode($rs->record_structure);
+			
+			$this->params = array();
+			$this->setParams($formData);
 
-			$result = mysql_query('SELECT * FROM data_project_4 WHERE entry = '.$record);
+		} else {
+
+			$result = mysql_query('SELECT * FROM data_project_'.$project.' WHERE entry = '.$record.' AND `deleted` IS NULL');
 			if (!$result) {
 				echo mysql_error();
 			}
@@ -42,8 +44,7 @@ class bo_record {
 			$fields = mysql_num_fields($result);
 			$row = mysql_fetch_object($result);
 
-
-			$this->userFields = $fields-5;	
+			if(!$row) return -900;
 			
 			$this->record = $record;
 			$this->deleted = $row->deleted;
@@ -65,31 +66,80 @@ class bo_record {
 		return $return;
 	}
 	
-	public function setParams($params)
+	public function setParams($formData)
 	{
-		if((count($params) !== $this->userFields)&&($this->record !== 0))
-			return PARAM_LIST_INVALID;
-		
-		$this->params = $params;
-		
-		if($this->record == 0)
-		{			
-			$this->created = time();
-			$this->createdBy = 1;
-		}
+		$rs = mysql_query("SELECT `record_structure` FROM `projects` WHERE `project` = {$this->project};");
+		$rs = mysql_fetch_object($rs);
+		$rs = json_decode($rs->record_structure);
 
-		return true;
+		$this->params = array();
+		foreach ($rs as $param) {
+			if(isset($formData[$param->col_name])) {
+				switch ($param->type) {
+					case 'int':
+						if(valid_int($formData[$param->col_name]))
+							$this->params[$param->col_name] = $formData[$param->col_name];
+						break;
+					case 'double':
+						if(is_numeric($formData[$param->col_name]))
+							$this->params[$param->col_name] = floatval($formData[$param->col_name]);
+						break;
+					case 'text':
+						if($formData[$param->col_name] != '')
+							$this->params[$param->col_name] = $formData[$param->col_name];
+						break;
+					case 'boolean':
+						$this->params[$param->col_name] = 1;
+						break;
+					case 'timestamp':
+						if(strtotime($formData[$param->col_name]))
+							$this->params[$param->col_name] = date("Y-m-d H:i:s",strtotime($formData[$param->col_name]));
+						break;
+				}
+			}
+
+			if(!isset($this->params[$param->col_name]))
+				$this->params[$param->col_name] = null;
+		}
 	}
 	
 	public function saveRecord()
 	{
-		if($this->record == 0) //Update
+		global $current_user;
+
+		if($this->record == 0) //Insert
 		{
+
+			$keys = array('`created_by`');
+			$vals = array($current_user->getUser());
+			foreach ($this->params as $key => $value) {
+				if(isset($value)) {
+					$keys[] = '`'.$key.'`';
+					$vals[] = "'".$value."'";
+				}
+			}
+
+			$keys = implode(',', $keys);
+			$vals = implode(',', $vals);
+
+			mysql_query("INSERT INTO `data_project_{$this->project}` ($keys) VALUES ($vals)");
 
 		}
-		else //Insert
+		else //Update
 		{
+			$updates = array();
+			foreach ($this->params as $key => $value) {
+				if(isset($value)) {
+					$updates[] = "`$key` = '$value'";
+				} else {
+					$updates[] = "`$key` = NULL";
+				}
+			}
 
+			$updates = implode(',', $updates);
+
+			mysql_query("UPDATE `data_project_{$this->project}` SET $updates WHERE `entry` = $this->record");
+			#UPDATE `is-project`.`data_project_4` SET `deleted` = NULL, `param2` = 'Schnaps2', `param4` = NULL, `param10` = NULL WHERE `data_project_4`.`entry` = 14;
 		}
 	
 		return true;
@@ -97,10 +147,12 @@ class bo_record {
 	
 	public function deleteRecord()
 	{
+		global $current_user;
 		if($this->record == 0)
 			return CANT_DELETE_RECORD;
 		$time=date("Y-m-d H:i:s",time()); 
-		$result = mysql_query('UPDATE data_project_1 SET deleted = "'.$time.'", deleted_by = 1 WHERE record = '.$this->record);
+		$user = $current_user->getuser();
+		$result = mysql_query('UPDATE `data_project_'.$this->project.'` SET `deleted` = "'.$time.'", `deleted_by` = '.$user.' WHERE entry = '.$this->record);
 		if (!$result) {
 			return mysql_error();
 		}

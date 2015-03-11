@@ -19,7 +19,8 @@
 
   <link rel="stylesheet" href="%path%/styles/link.css">
   <link rel="stylesheet" href="%path%/styles/table_data.css">
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/overcast/jquery-ui.css" />
+  <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" /> -->
+  <link rel="stylesheet" href="%path%/styles/jquery-ui/jquery-ui.css">
     <link href='http://fonts.googleapis.com/css?family=Fredericka+the+Great' rel='stylesheet' type='text/css'>
 
 	%css-add%
@@ -63,8 +64,12 @@
                     <div id="InfocontainnerCurrentProjectBoxOuter">
                         <div id="InfocontainnerCurrentProjectBox">
                                 ##Current Projekt##<br>
-                            <span id="CurrentProjectText">
-                                %area-current-project% 
+                            <span id="CurrentProjectText" class="jtextfill">            
+                                <div id="dynamicDiv">
+                                    <span id="dynamicSpan">
+                                        %area-current-project% 
+                                    </span>
+                                </div>
                             </span>
                         </div>
                     </div>
@@ -133,4 +138,20 @@
 
 	%js-add%
 </body>
-</html>
+
+<script type="text/javascript">
+    function shrink()
+    {
+    	var textSpan = document.getElementById("dynamicSpan");
+    	var textDiv = document.getElementById("dynamicDiv");
+
+    	textSpan.style.fontSize = 64;
+
+    	while(textSpan.offsetHeight > textDiv.offsetHeight)
+    	{
+    		textSpan.style.fontSize = parseInt(textSpan.style.fontSize) - 1;
+    	}
+    }
+</script>
+    
+    </html>

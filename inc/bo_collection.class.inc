@@ -29,10 +29,13 @@ class bo_collection {
 					$this->name = 'TODO: ProjectName';
 					$this->description = 'TODO: ProjectDesc';
 					$this->user = NULL;
+
 					$this->records = array();
-					// TODO: fill record array
-					for($i = rand(0,20); $i < 20; $i++)
-						$this->records[] = rand(1,100);
+					$result = mysql_query("SELECT `entry` FROM `data_project_{$this->project}`");
+					while ($entry = mysql_fetch_object($result)) {
+						$this->records[] = $entry->entry;
+					}
+
 				} else {
 
 					if(!$current_user->access('view_records',$project)) return ERROR_COLLECTION_ACCESS_DENIED;
@@ -80,6 +83,10 @@ class bo_collection {
 		}
 	}
 
+	public function getName() {
+		return $this->name;
+	}
+
 	public function setDescription($_description) {
 		if(1) { // TODO: validate $_description
 			$this->description = $_description;
@@ -90,7 +97,15 @@ class bo_collection {
 	}
 
 	public function getRecords() {
-		return count($this->records) ? $this->records : FALSE;
+		return $this->records;
+	}
+
+	public function getProject() {
+		return $this->project;
+	}
+
+	public function getCollection() {
+		return $this->collection;
 	}
 
 	public function linkRecord($record) {

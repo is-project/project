@@ -1,7 +1,7 @@
 <?php
 
 require_once 'inc/init.inc';
-require_once 'inc/vo.abstract.class.php';
+require_once 'inc/vo.abstract.class.inc';
 require_once 'inc/bo_user.class.inc';
 // require_once 'inc/bo_project.class.inc';
 

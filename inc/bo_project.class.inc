@@ -205,6 +205,8 @@ class bo_project
 		} else { // edit
 			$new_rs['col_name'] = $new_rs['col'];
 			unset($new_rs['col']);
+			$new_rs['decimal_places'] = $new_rs['dec_places'];
+			unset($new_rs['dec_places']);
 			
 			switch ($new_rs['type']) {
 				case 'int':

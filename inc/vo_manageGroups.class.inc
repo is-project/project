@@ -1,5 +1,5 @@
 <?php
-require_once 'vo.abstract.class.php';
+require_once 'vo.abstract.class.inc';
 
 class vo_manageGroups extends vo {
 

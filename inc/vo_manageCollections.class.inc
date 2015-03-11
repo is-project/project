@@ -1,5 +1,5 @@
 <?php
-require_once 'vo.abstract.class.php';
+require_once 'vo.abstract.class.inc';
 
 class vo_manageCollections extends vo {
 	function __construct() {
@@ -19,7 +19,7 @@ class vo_manageCollections extends vo {
 
 		$rows = array();
 		foreach ($data as $collection) {
-			$rows[$collection['collection']] = array($collection['name'], $collection['description'], $collection['num_records']);
+			$rows[$collection['collection']] = array('<a href="manageRecords.php?collection='.$collection['collection'].'">'.$collection['name'].'</a>', $collection['description'], $collection['num_records']);
 		}
 
 		$tb_content = array(
